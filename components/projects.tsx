@@ -7,7 +7,7 @@ export function Projects() {
     <Section id="projects" labelledBy="projects-heading">
       <SectionHeading
         id="projects-heading"
-        index="05"
+        index="06"
         eyebrow="Featured projects"
         title="Systems architected and delivered."
         lede="Multi-agent orchestration, enterprise copilots, observability, and an AI-native way of building. Outcomes stay with what the work itself shows."

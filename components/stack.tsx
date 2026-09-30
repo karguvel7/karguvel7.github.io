@@ -6,10 +6,10 @@ export function Stack() {
     <Section id="stack" labelledBy="stack-heading">
       <SectionHeading
         id="stack-heading"
-        index="06"
+        index="07"
         eyebrow="Technical stack"
         title="What the work is built with."
-        lede="The inventory behind the case studies. Flutter sits on the stack alongside the web, service, and cloud work."
+        lede="The case-study stack, plus the Innoart record: Angular 1–14, Three.js, Neo4j, MySQL, ClickHouse, OpenAPI, OAuth 2.0, Android, Xamarin Forms, and Cordova. Flutter remains with the mobile work."
       />
 
       <div className="mt-12">

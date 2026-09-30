@@ -1,4 +1,5 @@
 import { About } from "@/components/about";
+import { Experience } from "@/components/experience";
 import { Contact } from "@/components/contact";
 import { Expertise } from "@/components/expertise";
 import { GithubSection } from "@/components/github-section";
@@ -18,6 +19,7 @@ export default function HomePage() {
       <main id="main">
         <Hero />
         <About />
+        <Experience />
         <Expertise />
         <Systems />
         <Platform />

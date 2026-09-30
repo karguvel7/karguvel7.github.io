@@ -43,4 +43,4 @@ npm run build
 
 ## Content
 
-Editable copy lives in [`lib/content.ts`](lib/content.ts). Project cards are case studies. They do not link to invented repository URLs; the only GitHub link is [github.com/karguvel7](https://github.com/karguvel7).
+Editable copy lives in [`lib/content.ts`](lib/content.ts). Employment is one continuous role: Lead Software Engineer at Innoart Technologies (P) Ltd. since February 2017. Education, domains, and industry labels come from the résumé. Project cards are case studies and do not link to invented repository URLs; the only GitHub link is [github.com/karguvel7](https://github.com/karguvel7).

@@ -6,7 +6,7 @@ export function Platform() {
     <Section id="platform" labelledBy="platform-heading">
       <SectionHeading
         id="platform-heading"
-        index="04"
+        index="05"
         eyebrow="DevOps and cloud"
         title="The platform the AI systems run on."
         lede="Deployment, delivery, and operability are part of the same job as the agent layer — AWS, Azure, containers, pipelines, and the signals that tell you the system is healthy."

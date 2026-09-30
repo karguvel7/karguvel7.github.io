@@ -1,15 +1,20 @@
 /**
  * Portfolio copy.
  *
- * Facts come from the static Next.js export that was the entire `gh-pages`
- * branch (no application source existed). Do not add employers, metrics,
- * client names, or technologies that are not already represented here.
+ * Two sources, and nothing beyond them:
+ * - The static export that was the entire `gh-pages` branch.
+ * - User-confirmed employment, plus the résumé slide for Karguvel Kalisekar
+ *   (education, Innoart scope, skills, domains, industry labels).
+ * Do not add other employers, promotion dates, client names, or metrics.
  */
 
 export const site = {
   name: "Karguvel K",
+  fullName: "Karguvel Kalisekar",
   givenName: "Karguvel",
   handle: "karguvel7",
+  jobTitle: "Lead Software Engineer",
+  employer: "Innoart Technologies (P) Ltd.",
   url: "https://karguvel7.github.io",
   email: "karguvel7@gmail.com",
   emailSubject: "Hello from your portfolio",
@@ -23,7 +28,7 @@ export const site = {
   summary:
     "Agentic systems, enterprise copilots, and the cloud infrastructure and observability around them — from LLM orchestration to production operations.",
   description:
-    "AI Engineer building production-grade AI systems, cloud platforms and scalable enterprise applications. Agentic systems, Node.js, Angular, React, AWS, Azure, Docker, and observability.",
+    "Lead Software Engineer at Innoart Technologies. AI Engineer building production-grade AI systems, cloud platforms and scalable enterprise applications.",
 } as const;
 
 export const roles = [
@@ -58,7 +63,7 @@ export const arc = [
 
 export const primaryNav = [
   { href: "#about", label: "About" },
-  { href: "#expertise", label: "Expertise" },
+  { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
   { href: "#workflow", label: "Workflow" },
   { href: "#contact", label: "Contact" },
@@ -66,6 +71,8 @@ export const primaryNav = [
 
 export const mobileNav = [
   { href: "#about", label: "About" },
+  { href: "#experience", label: "Experience" },
+  { href: "#education", label: "Education" },
   { href: "#expertise", label: "Expertise" },
   { href: "#systems", label: "AI systems" },
   { href: "#platform", label: "Cloud and DevOps" },
@@ -77,20 +84,64 @@ export const mobileNav = [
 ] as const;
 
 export const about = {
-  lede: "AI and DevOps engineer working on production-grade AI applications, agentic systems, cloud infrastructure, and enterprise software architecture.",
+  lede: "Lead Software Engineer at Innoart Technologies (P) Ltd. since February 2017, building production AI applications, agentic systems, cloud infrastructure, and enterprise software.",
   paragraphs: [
     "I design and ship systems where AI, cloud, and software engineering meet — multi-agent platforms, enterprise copilots, and the DevOps pipelines that keep them reliable in production.",
+    "Since February 2017 I have worked continuously at Innoart Technologies (P) Ltd. The current title is Lead Software Engineer. That tenure is the enterprise foundation: digital transformation platforms, micro front-ends, microservices, and delivery across several industries. The current practice extends it into production AI systems, cloud platforms, and DevOps.",
     "The work spans agent orchestration, streaming LLM experiences, microservices on AWS and Azure, and observability that teams can act on.",
     "I use AI-native developer workflows — Cursor, Claude, and Spec Kit — to move from specification to implementation with clarity and speed.",
   ],
   facts: [
-    { label: "Based", value: "Chennai, India" },
-    { label: "Working mode", value: "Open to remote" },
-    { label: "Engagement", value: "AI and platform roles, and freelance" },
-    { label: "Practice", value: "Design, build, deploy, and operate" },
+    { label: "Role", value: "Lead Software Engineer" },
+    { label: "Employer", value: "Innoart Technologies (P) Ltd." },
+    { label: "Tenure", value: "February 2017 — present · 9+ years" },
+    { label: "Based", value: "Chennai, India · open to remote" },
   ],
   applicationStack:
     "Scalable applications with Node.js, Angular, React, AWS, Azure, Docker, CI/CD, microservices, and modern LLM and agent frameworks.",
+} as const;
+
+export const experience = {
+  title: "Lead Software Engineer",
+  employer: "Innoart Technologies (P) Ltd.",
+  dates: "February 2017 — Present",
+  tenure: "9+ years",
+  continuity: "Still employed there. One continuous tenure since February 2017.",
+  lede: "Lead Software Engineer at Innoart Technologies (P) Ltd. The enterprise record below is from that tenure. The AI, cloud, and DevOps work elsewhere on this page is the current shape of the same practice.",
+  scope: [
+    "Front-end and back-end development of an industry-agnostic Digital Transformation Platform.",
+    "Incident Management System and a Social Media Hub for a top educational organization.",
+    "Micro front-ends and microservices, including flexible web parts used to improve the user experience.",
+    "REST APIs documented with OpenAPI, with OAuth 2.0 for authentication and authorization.",
+    "Performance debugging, Agile delivery, and architecture review of newer technical options.",
+    "3D rendering with Three.js.",
+    "Work both with a team and independently, against product design requirements and scheduled deadlines.",
+  ],
+  domains: [
+    "Digital Transformation Platform",
+    "Human Capital Management",
+    "Digital Payments",
+    "Marketplace application",
+  ],
+  industries: [
+    "Semiconductors & Wireless Tech",
+    "EduTech",
+    "Manufacturing",
+    "Healthcare",
+    "E-Commerce",
+    "FinTech",
+    "Real Estate",
+  ],
+  education: [
+    {
+      credential: "Master of Computer Application",
+      school: "Anna University",
+    },
+    {
+      credential: "BSc Computer Science",
+      school: "Alagappa University",
+    },
+  ],
 } as const;
 
 export const expertise = [
@@ -109,7 +160,8 @@ export const expertise = [
   },
   {
     title: "Microservices and distributed systems",
-    detail: "Service boundaries, REST APIs, and event-driven systems.",
+    detail:
+      "Service boundaries, micro front-ends, REST APIs, and event-driven systems.",
   },
   {
     title: "Node.js and TypeScript",
@@ -117,7 +169,7 @@ export const expertise = [
   },
   {
     title: "Angular and React",
-    detail: "Application frontends, including agentic UI patterns.",
+    detail: "Angular 1–14 and React, including agentic UI and Three.js where the product needs it.",
   },
   {
     title: "Docker and Kubernetes",
@@ -128,9 +180,9 @@ export const expertise = [
     detail: "Logs, metrics, alerts, and audit events operators can act on.",
   },
   {
-    title: "MongoDB and PostgreSQL",
+    title: "Data stores",
     detail:
-      "Document and relational stores. Sharded MongoDB on the observability platform.",
+      "MongoDB, PostgreSQL, Neo4j, MySQL, and ClickHouse. Sharded MongoDB on the observability platform.",
   },
   {
     title: "Enterprise application architecture",
@@ -374,11 +426,11 @@ export const stack = [
   },
   {
     area: "Backend",
-    technologies: "Node.js, TypeScript, Python",
+    technologies: "Node.js, TypeScript, Python, MEAN",
   },
   {
     area: "Frontend",
-    technologies: "Angular, React",
+    technologies: "Angular 1–14, React, Three.js",
   },
   {
     area: "Cloud",
@@ -390,11 +442,11 @@ export const stack = [
   },
   {
     area: "Databases",
-    technologies: "MongoDB, PostgreSQL",
+    technologies: "MongoDB, PostgreSQL, Neo4j, MySQL, ClickHouse",
   },
   {
     area: "Architecture",
-    technologies: "Microservices, REST APIs, Event-driven systems",
+    technologies: "Microservices, micro front-ends, REST APIs, event-driven systems",
   },
   {
     area: "Observability",
@@ -406,11 +458,11 @@ export const stack = [
   },
   {
     area: "Mobile",
-    technologies: "Flutter",
+    technologies: "Flutter, Android, Xamarin Forms, Cordova",
   },
   {
     area: "APIs",
-    technologies: "REST, streaming APIs, AI integrations",
+    technologies: "REST, OpenAPI, OAuth 2.0, streaming APIs, AI integrations",
   },
 ] as const;
 

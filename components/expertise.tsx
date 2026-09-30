@@ -7,7 +7,7 @@ export function Expertise() {
     <Section id="expertise" labelledBy="expertise-heading">
       <SectionHeading
         id="expertise-heading"
-        index="02"
+        index="03"
         eyebrow="Engineering expertise"
         title="The layers, end to end."
         lede="AI systems, cloud platforms, DevOps, and enterprise architecture, treated as one system."

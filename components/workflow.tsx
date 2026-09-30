@@ -6,7 +6,7 @@ export function Workflow() {
     <Section id="workflow" labelledBy="workflow-heading">
       <SectionHeading
         id="workflow-heading"
-        index="07"
+        index="08"
         eyebrow="AI engineering workflow"
         title="Specification, then implementation."
         lede="Cursor, Claude, and Spec Kit are how I move from a written spec to code."

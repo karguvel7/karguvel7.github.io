@@ -6,7 +6,7 @@ export function GithubSection() {
     <Section id="github" labelledBy="github-heading">
       <SectionHeading
         id="github-heading"
-        index="08"
+        index="09"
         eyebrow="GitHub"
         title="Public code lives on the profile."
         lede="Case studies above are the write-up of the work. The GitHub link is the profile itself — no per-project repository URLs, star counts, or contribution graph."

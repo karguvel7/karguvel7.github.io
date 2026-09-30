@@ -6,7 +6,7 @@ export function Systems() {
     <Section id="systems" labelledBy="systems-heading">
       <SectionHeading
         id="systems-heading"
-        index="03"
+        index="04"
         eyebrow="AI and agentic systems"
         title="Application engineering for models, agents, and copilots."
         lede="The AI work is systems that call models, orchestrate agents, stream output, and sit inside real products."

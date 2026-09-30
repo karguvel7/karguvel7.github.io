@@ -51,7 +51,14 @@ export function Hero() {
           </a>
         </div>
 
-        <p className="mt-5 text-sm text-faint">
+        <p className="mt-5 text-sm text-muted">
+          {site.jobTitle} at {site.employer}
+          <span className="px-2 text-faint" aria-hidden="true">
+            ·
+          </span>
+          since February 2017
+        </p>
+        <p className="mt-2 text-sm text-faint">
           {site.availability}
           <span className="px-2" aria-hidden="true">
             ·

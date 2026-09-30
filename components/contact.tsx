@@ -6,7 +6,7 @@ export function Contact() {
     <Section id="contact" labelledBy="contact-heading">
       <SectionHeading
         id="contact-heading"
-        index="09"
+        index="10"
         eyebrow="Contact"
         title="A role, a freelance project, or a conversation."
         lede="Email is the fastest way to reach me. I typically reply within a couple of days."

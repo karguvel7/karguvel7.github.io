@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { site } from "@/lib/content";
+import { experience, site } from "@/lib/content";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,12 +55,20 @@ const jsonLd = {
   url: site.url,
   mainEntity: {
     "@type": "Person",
-    name: site.name,
-    alternateName: site.handle,
+    name: site.fullName,
+    alternateName: [site.name, site.handle],
     url: site.url,
     email: site.email,
-    jobTitle: "AI Engineer",
+    jobTitle: site.jobTitle,
     description: site.description,
+    worksFor: {
+      "@type": "Organization",
+      name: site.employer,
+    },
+    alumniOf: experience.education.map((item) => ({
+      "@type": "CollegeOrUniversity",
+      name: item.school,
+    })),
     address: {
       "@type": "PostalAddress",
       addressLocality: "Chennai",
