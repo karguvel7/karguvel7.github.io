@@ -45,22 +45,27 @@ export const arc = [
   {
     step: "AI",
     detail: "LLM applications, agents, orchestration",
+    href: "#systems",
   },
   {
     step: "Backend",
     detail: "Node.js, TypeScript, Python",
+    href: "#stack",
   },
   {
     step: "Cloud",
     detail: "AWS and Azure",
+    href: "#platform",
   },
   {
     step: "DevOps",
     detail: "Docker, CI/CD, Kubernetes",
+    href: "#platform",
   },
   {
     step: "Frontend",
     detail: "Angular and React",
+    href: "#projects",
   },
 ] as const;
 

@@ -1,5 +1,5 @@
-import { expertise, systemShape } from "@/lib/content";
-import { Pipeline } from "@/components/pipeline";
+import { expertise } from "@/lib/content";
+import { SystemFlowLive } from "@/components/system-flow-live";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Expertise() {
@@ -17,7 +17,7 @@ export function Expertise() {
         {expertise.map((item, index) => (
           <li
             key={item.title}
-            className="border-b border-line py-6 sm:px-6 sm:odd:border-r sm:odd:pl-0 sm:even:pr-0"
+            className="expertise-tile border-b border-line py-6 sm:px-6 sm:odd:border-r sm:odd:pl-0 sm:even:pr-0"
           >
             <p className="font-mono text-[11px] text-faint">
               {String(index + 1).padStart(2, "0")}
@@ -34,9 +34,7 @@ export function Expertise() {
           A system I work on moves through these stages. Each case study below lists only the
           stages that project documents.
         </p>
-        <div className="mt-5">
-          <Pipeline stages={systemShape} label="Typical system shape" />
-        </div>
+        <SystemFlowLive />
       </div>
     </Section>
   );

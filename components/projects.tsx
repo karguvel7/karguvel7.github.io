@@ -1,5 +1,5 @@
 import { caseStudyFields, projects, type CaseStudy } from "@/lib/content";
-import { Pipeline } from "@/components/pipeline";
+import { InteractivePipeline } from "@/components/interactive-pipeline";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Projects() {
@@ -24,7 +24,11 @@ export function Projects() {
 
 function CaseStudyArticle({ project, index }: { project: CaseStudy; index: number }) {
   return (
-    <article id={project.id} aria-labelledby={`${project.id}-title`} className="scroll-mt-24 py-12">
+    <article
+      id={project.id}
+      aria-labelledby={`${project.id}-title`}
+      className="interactive-panel scroll-mt-24 py-12"
+    >
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <p className="font-mono text-[11px] text-faint">{String(index + 1).padStart(2, "0")}</p>
@@ -45,7 +49,7 @@ function CaseStudyArticle({ project, index }: { project: CaseStudy; index: numbe
         </div>
 
         <div className="lg:col-span-8">
-          <Pipeline stages={project.pipeline} />
+          <InteractivePipeline stages={project.pipeline} />
           <dl className="mt-6 grid sm:grid-cols-2 sm:gap-x-8">
             {caseStudyFields.map((field) => (
               <div

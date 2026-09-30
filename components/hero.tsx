@@ -1,5 +1,8 @@
-import { arc, roles, site } from "@/lib/content";
+import { site } from "@/lib/content";
+import { HeroArcInteractive } from "@/components/hero-arc-interactive";
+import { MagneticLink } from "@/components/magnetic-link";
 import { ProfilePhoto } from "@/components/profile-photo";
+import { RoleRibbon } from "@/components/role-ribbon";
 
 export function Hero() {
   return (
@@ -15,18 +18,7 @@ export function Hero() {
               {site.location}
             </p>
 
-            <ul className="rise rise-delay-1 mt-6 flex flex-wrap gap-x-3 gap-y-2 text-sm text-muted">
-              {roles.map((role, index) => (
-                <li key={role} className="flex items-center gap-3">
-                  {index > 0 ? (
-                    <span aria-hidden="true" className="text-faint">
-                      /
-                    </span>
-                  ) : null}
-                  <span>{role}</span>
-                </li>
-              ))}
-            </ul>
+            <RoleRibbon />
 
             <h1
               id="hero-heading"
@@ -40,18 +32,18 @@ export function Hero() {
             </p>
 
             <div className="rise rise-delay-4 mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
+              <MagneticLink
                 href="#projects"
                 className="btn-primary inline-flex h-11 items-center justify-center bg-ink px-4 text-sm font-medium text-canvas hover:opacity-90"
               >
                 View the work
-              </a>
-              <a
+              </MagneticLink>
+              <MagneticLink
                 href={`mailto:${site.email}`}
                 className="btn-secondary inline-flex h-11 items-center justify-center border border-line px-4 text-sm text-ink"
               >
                 {site.email}
-              </a>
+              </MagneticLink>
             </div>
 
             <p className="rise rise-delay-4 mt-5 text-sm text-muted">
@@ -81,23 +73,7 @@ export function Hero() {
           <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">
             How the work is shaped
           </p>
-          <div className="arc-grid mt-4 overflow-hidden border border-line bg-line">
-            <div className="arc-flow" aria-hidden="true" />
-            <ol className="relative grid gap-px sm:grid-cols-2 lg:grid-cols-5">
-              {arc.map((item, index) => (
-                <li
-                  key={item.step}
-                  className="arc-cell border border-transparent bg-canvas px-4 py-4 sm:last:col-span-2 lg:last:col-span-1"
-                >
-                  <p className="font-mono text-[11px] text-faint">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <p className="mt-3 text-sm font-medium text-ink">{item.step}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted">{item.detail}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <HeroArcInteractive />
         </div>
       </div>
     </section>

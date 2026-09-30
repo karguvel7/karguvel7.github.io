@@ -14,7 +14,7 @@ export function Workflow() {
 
       <ol className="mt-12 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
         {workflowSteps.map((step, index) => (
-          <li key={step.title} className="bg-canvas p-5 sm:p-6">
+          <li key={step.title} className="expertise-tile bg-canvas p-5 sm:p-6">
             <p className="font-mono text-[11px] text-faint">{String(index + 1).padStart(2, "0")}</p>
             <h3 className="mt-4 text-base font-medium text-ink">{step.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted">{step.detail}</p>
