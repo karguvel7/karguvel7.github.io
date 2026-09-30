@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AmbientBackdrop } from "@/components/ambient-backdrop";
 import { experience, site } from "@/lib/content";
 import "./globals.css";
 
@@ -40,11 +41,20 @@ export const metadata: Metadata = {
     siteName: site.name,
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: site.profileImage,
+        width: 484,
+        height: 630,
+        alt: site.profileImageAlt,
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Karguvel K · AI Engineer",
     description: site.summary,
+    images: [site.profileImage],
   },
   robots: { index: true, follow: true },
 };
@@ -74,6 +84,7 @@ const jsonLd = {
       addressLocality: "Chennai",
       addressCountry: "IN",
     },
+    image: `${site.url}${site.profileImage}`,
     sameAs: [site.github, site.linkedin],
   },
 };
@@ -89,6 +100,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="relative min-h-full">
+        <AmbientBackdrop />
         <div className="grid-fade" aria-hidden="true" />
         <script
           type="application/ld+json"

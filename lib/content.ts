@@ -23,6 +23,9 @@ export const site = {
   rolesNote: "Open to AI and platform roles",
   github: "https://github.com/karguvel7",
   linkedin: "https://www.linkedin.com/in/karguvel-k-967975b8",
+  profileImage: "/karguvel-k.jpg",
+  profileImageAlt:
+    "Portrait of Karguvel K, Lead Software Engineer and AI engineer",
   headline:
     "AI Engineer building production-grade AI systems, cloud platforms and scalable enterprise applications.",
   summary:

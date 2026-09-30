@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { RevealOnView } from "@/components/reveal-on-view";
 
 export function Section({
   id,
@@ -15,7 +16,7 @@ export function Section({
       aria-labelledby={labelledBy}
       className="scroll-mt-20 border-t border-line py-20 sm:py-28"
     >
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">{children}</div>
+      <RevealOnView className="mx-auto w-full max-w-6xl px-5 sm:px-8">{children}</RevealOnView>
     </section>
   );
 }

@@ -3,8 +3,19 @@
 import { useEffect, useId, useState } from "react";
 import { mobileNav, primaryNav, site } from "@/lib/content";
 
+const sectionIds = [
+  "#top",
+  ...primaryNav.map((item) => item.href),
+  "#systems",
+  "#platform",
+  "#stack",
+  "#github",
+];
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeHref, setActiveHref] = useState("#top");
   const menuId = useId();
 
   useEffect(() => {
@@ -27,8 +38,40 @@ export function SiteHeader() {
     return () => media.removeEventListener("change", onChange);
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = sectionIds
+      .map((href) => document.querySelector(href))
+      .filter((node): node is HTMLElement => node instanceof HTMLElement);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target.id) {
+          setActiveHref(`#${visible.target.id}`);
+        }
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5] },
+    );
+
+    for (const section of sections) observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-canvas/85 backdrop-blur-md">
+    <header
+      className={`header-shell sticky top-0 z-40 border-b border-line bg-canvas/85 backdrop-blur-md ${scrolled ? "is-scrolled" : ""}`}
+    >
       <a href="#main" className="skip-link">
         Skip to content
       </a>
@@ -43,14 +86,14 @@ export function SiteHeader() {
             <a
               key={item.href}
               href={item.href}
-              className="text-sm text-muted transition-colors hover:text-ink"
+              className={`nav-link text-sm ${activeHref === item.href ? "is-active text-ink" : "text-muted hover:text-ink"}`}
             >
               {item.label}
             </a>
           ))}
           <a
             href={`mailto:${site.email}`}
-            className="border border-line px-3 py-1.5 text-sm text-ink transition-colors hover:border-faint"
+            className="btn-secondary border border-line px-3 py-1.5 text-sm text-ink"
           >
             Email
           </a>
@@ -58,7 +101,7 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center border border-line text-ink xl:hidden"
+          className="btn-secondary inline-flex h-11 w-11 items-center justify-center border border-line text-ink xl:hidden"
           aria-expanded={open}
           aria-controls={menuId}
           aria-label={open ? "Close menu" : "Open menu"}
@@ -74,7 +117,7 @@ export function SiteHeader() {
             <a
               key={item.href}
               href={item.href}
-              className="rounded-sm px-1 py-2.5 text-sm text-muted hover:text-ink"
+              className={`rounded-sm px-1 py-2.5 text-sm transition-colors ${activeHref === item.href ? "text-ink" : "text-muted hover:text-ink"}`}
               onClick={() => setOpen(false)}
             >
               {item.label}
@@ -82,7 +125,7 @@ export function SiteHeader() {
           ))}
           <a
             href={`mailto:${site.email}`}
-            className="mt-2 w-fit border border-line px-3 py-2 text-sm text-ink"
+            className="btn-secondary mt-2 w-fit border border-line px-3 py-2 text-sm text-ink"
             onClick={() => setOpen(false)}
           >
             Email {site.email}
