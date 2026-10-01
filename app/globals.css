@@ -1122,6 +1122,11 @@ html[data-theme="light"] .section-title-accent {
   min-height: 0;
 }
 
+.hero-cinema .mx-auto {
+  position: relative;
+  z-index: 1;
+}
+
 @media (min-width: 1024px) {
   .hero-cinema {
     min-height: min(88vh, 920px);
