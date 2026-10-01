@@ -1,5 +1,5 @@
 import { sectionAccent } from "@/lib/accents";
-import { mailtoHref, site } from "@/lib/content";
+import { contactCta, mailtoHref, site } from "@/lib/content";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Contact() {
@@ -8,21 +8,22 @@ export function Contact() {
     <Section id="contact" labelledBy="contact-heading" accent={accent}>
       <SectionHeading
         id="contact-heading"
-        index="10"
+        index="09"
         eyebrow="Contact"
         accent={accent}
-        title="A role, a freelance project, or a conversation."
-        lede="Email is the fastest way to reach me. I typically reply within a couple of days."
+        title={contactCta.headline}
+        lede={contactCta.subline}
       />
 
       <div
         data-accent={accent}
-        className="panel-accent-rail mt-12 grid gap-10 p-5 sm:p-8 lg:grid-cols-12"
+        className="panel-accent-rail contact-cta mt-12 grid gap-10 p-5 sm:p-8 lg:grid-cols-12"
       >
         <div className="lg:col-span-7">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Email</p>
           <a
             href={mailtoHref()}
-            className="break-words text-2xl font-medium tracking-[-0.03em] text-ink underline decoration-line underline-offset-4 hover:decoration-ink sm:text-3xl"
+            className="mt-3 break-words text-2xl font-medium tracking-[-0.03em] text-ink underline decoration-line underline-offset-4 hover:decoration-ink sm:text-3xl"
           >
             {site.email}
           </a>
@@ -34,7 +35,7 @@ export function Contact() {
             {site.availability}
           </p>
         </div>
-        <ul className="space-y-3 text-sm lg:col-span-5">
+        <ul className="space-y-4 text-sm lg:col-span-5">
           <li>
             <a
               href={site.github}
@@ -42,10 +43,8 @@ export function Contact() {
               target="_blank"
               rel="me noopener noreferrer"
             >
-              GitHub
-              <span className="sr-only"> (opens in a new tab)</span>
+              GitHub — github.com/{site.handle}
             </a>
-            <span className="mt-1 block text-muted">github.com/{site.handle}</span>
           </li>
           <li>
             <a
@@ -54,10 +53,8 @@ export function Contact() {
               target="_blank"
               rel="me noopener noreferrer"
             >
-              LinkedIn
-              <span className="sr-only"> (opens in a new tab)</span>
+              LinkedIn — karguvel-k
             </a>
-            <span className="mt-1 block text-muted">karguvel-k</span>
           </li>
         </ul>
       </div>

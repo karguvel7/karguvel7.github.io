@@ -11,9 +11,19 @@ export function About() {
         index="01"
         eyebrow="About"
         accent={accent}
-        title="Design, build, deploy, and operate production AI systems."
+        title="Engineering production AI, cloud, and enterprise systems."
         lede={about.lede}
       />
+
+      <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        {about.highlights.map((item) => (
+          <li key={item.label} data-accent={accent} className="stat-card glass-panel p-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">{item.label}</p>
+            <p className="mt-2 text-lg font-medium text-ink">{item.value}</p>
+            <p className="mt-2 text-xs leading-relaxed text-muted">{item.detail}</p>
+          </li>
+        ))}
+      </ul>
 
       <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="space-y-5 lg:col-span-7">

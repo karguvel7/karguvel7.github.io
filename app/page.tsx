@@ -1,16 +1,15 @@
 import { About } from "@/components/about";
-import { Experience } from "@/components/experience";
+import { ArchitectureStack } from "@/components/architecture-stack";
+import { BuildingWithAI } from "@/components/building-with-ai";
 import { Contact } from "@/components/contact";
-import { Expertise } from "@/components/expertise";
-import { GithubSection } from "@/components/github-section";
+import { EngineeringLab } from "@/components/engineering-lab";
+import { Experience } from "@/components/experience";
+import { GithubLab } from "@/components/github-lab";
 import { Hero } from "@/components/hero";
-import { Platform } from "@/components/platform";
-import { Projects } from "@/components/projects";
+import { ProjectGallery } from "@/components/project-gallery";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { Stack } from "@/components/stack";
-import { Systems } from "@/components/systems";
-import { Workflow } from "@/components/workflow";
+import { SkillsEcosystem } from "@/components/skills-ecosystem";
 
 export default function HomePage() {
   return (
@@ -19,14 +18,13 @@ export default function HomePage() {
       <main id="main">
         <Hero />
         <About />
+        <SkillsEcosystem />
+        <BuildingWithAI />
+        <ArchitectureStack />
+        <ProjectGallery />
         <Experience />
-        <Expertise />
-        <Systems />
-        <Platform />
-        <Projects />
-        <Stack />
-        <Workflow />
-        <GithubSection />
+        <EngineeringLab />
+        <GithubLab />
         <Contact />
       </main>
       <SiteFooter />

@@ -8,14 +8,15 @@ export function Experience() {
     <Section id="experience" labelledBy="experience-heading" accent={accent}>
       <SectionHeading
         id="experience-heading"
-        index="02"
-        eyebrow="Professional experience"
+        index="06"
+        eyebrow="Experience"
         accent={accent}
         title={`${experience.title} at ${experience.employer}`}
         lede={experience.lede}
       />
 
-      <article data-accent={accent} className="panel-accent-rail mt-12 p-5 sm:p-8">
+      <article data-accent={accent} className="experience-timeline panel-accent-rail mt-12 p-5 sm:p-8">
+        <div className="timeline-marker" aria-hidden="true" />
         <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
             <h3 className="text-xl font-medium tracking-[-0.02em] text-ink">{experience.title}</h3>
@@ -31,9 +32,9 @@ export function Experience() {
         </div>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">{experience.continuity}</p>
 
-        <ul className="mt-8 max-w-3xl space-y-3">
+        <ul className="mt-8 max-w-3xl space-y-4">
           {experience.scope.map((item) => (
-            <li key={item} className="border-t border-line pt-3 text-sm leading-relaxed text-muted">
+            <li key={item} className="timeline-item border-t border-line pt-4 text-sm leading-relaxed text-muted">
               {item}
             </li>
           ))}

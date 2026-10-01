@@ -27,7 +27,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Karguvel K · AI Engineer",
+    default: "Karguvel K · Lead Software Engineer · AI Systems",
     template: "%s · Karguvel K",
   },
   description: site.description,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   creator: site.name,
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Karguvel K · AI Engineer",
+    title: "Karguvel K · Lead Software Engineer · AI Systems",
     description: site.summary,
     url: site.url,
     siteName: site.name,
@@ -45,15 +45,15 @@ export const metadata: Metadata = {
     images: [
       {
         url: site.profileImage,
-        width: 484,
-        height: 630,
+        width: 968,
+        height: 1162,
         alt: site.profileImageAlt,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Karguvel K · AI Engineer",
+    title: "Karguvel K · Lead Software Engineer · AI Systems",
     description: site.summary,
     images: [site.profileImage],
   },

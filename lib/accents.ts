@@ -4,6 +4,9 @@ export type Accent = "cyan" | "violet" | "amber" | "emerald" | "neutral";
 
 export const sectionAccent: Record<string, Accent> = {
   about: "emerald",
+  skills: "cyan",
+  "building-with-ai": "violet",
+  architecture: "cyan",
   experience: "amber",
   expertise: "cyan",
   systems: "violet",
@@ -11,6 +14,7 @@ export const sectionAccent: Record<string, Accent> = {
   projects: "violet",
   stack: "cyan",
   workflow: "violet",
+  lab: "violet",
   github: "neutral",
   contact: "emerald",
 };

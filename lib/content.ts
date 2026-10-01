@@ -27,13 +27,16 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/karguvel-k-967975b8",
   profileImage: "/karguvel-k.jpg",
   profileImageAlt:
-    "Portrait of Karguvel K, Lead Software Engineer and AI engineer",
+    "Professional portrait of Karguvel K, Lead Software Engineer specializing in AI systems and cloud platforms",
   headline:
-    "AI Engineer building production-grade AI systems, cloud platforms and scalable enterprise applications.",
+    "Lead Software Engineer building intelligent, scalable systems.",
+  heroSupport:
+    "Full-stack engineer specializing in production AI applications, distributed systems, cloud platforms, and developer automation — from agent orchestration to observability.",
   summary:
     "Agentic systems, enterprise copilots, and the cloud infrastructure and observability around them — from LLM orchestration to production operations.",
   description:
-    "Lead Software Engineer at Innoart Technologies. AI Engineer building production-grade AI systems, cloud platforms and scalable enterprise applications.",
+    "Lead Software Engineer at Innoart Technologies. Building production AI systems, scalable applications, and modern cloud infrastructure.",
+  availabilityLabel: "Open to remote · AI & platform roles",
 } as const;
 
 export const roles = [
@@ -47,25 +50,25 @@ export const arc = [
   {
     step: "AI",
     detail: "LLM applications, agents, orchestration",
-    href: "#systems",
+    href: "#building-with-ai",
     accent: "violet" as const,
   },
   {
     step: "Backend",
     detail: "Node.js, TypeScript, Python",
-    href: "#stack",
+    href: "#skills",
     accent: "cyan" as const,
   },
   {
     step: "Cloud",
     detail: "AWS and Azure",
-    href: "#platform",
+    href: "#architecture",
     accent: "cyan" as const,
   },
   {
     step: "DevOps",
     detail: "Docker, CI/CD, Kubernetes",
-    href: "#platform",
+    href: "#architecture",
     accent: "cyan" as const,
   },
   {
@@ -78,25 +81,17 @@ export const arc = [
 
 export const primaryNav = [
   { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
+  { href: "#skills", label: "Skills" },
+  { href: "#building-with-ai", label: "AI systems" },
+  { href: "#architecture", label: "Architecture" },
   { href: "#projects", label: "Projects" },
-  { href: "#workflow", label: "Workflow" },
-  { href: "#contact", label: "Contact" },
-] as const;
-
-export const mobileNav = [
-  { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
-  { href: "#education", label: "Education" },
-  { href: "#expertise", label: "Expertise" },
-  { href: "#systems", label: "AI systems" },
-  { href: "#platform", label: "Cloud and DevOps" },
-  { href: "#projects", label: "Projects" },
-  { href: "#stack", label: "Stack" },
-  { href: "#workflow", label: "Workflow" },
+  { href: "#lab", label: "Lab" },
   { href: "#github", label: "GitHub" },
   { href: "#contact", label: "Contact" },
 ] as const;
+
+export const mobileNav = primaryNav;
 
 export const about = {
   lede: "Lead Software Engineer at Innoart Technologies (P) Ltd. since February 2017, building production AI applications, agentic systems, cloud infrastructure, and enterprise software.",
@@ -114,6 +109,118 @@ export const about = {
   ],
   applicationStack:
     "Scalable applications with Node.js, Angular, React, AWS, Azure, Docker, CI/CD, microservices, and modern LLM and agent frameworks.",
+  highlights: [
+    { label: "Experience", value: "9+ years", detail: "Continuous tenure at Innoart since February 2017" },
+    { label: "AI & LLM", value: "Production systems", detail: "Agents, copilots, streaming, tool calling" },
+    { label: "Cloud & DevOps", value: "AWS · Azure", detail: "Containers, CI/CD, observability" },
+    { label: "Full-stack", value: "Ship end-to-end", detail: "Angular, React, Node.js, TypeScript" },
+    { label: "Production focus", value: "Operate what you build", detail: "Logs, metrics, alerts, audit events" },
+  ],
+} as const;
+
+export const skillGroups = [
+  {
+    id: "frontend",
+    title: "Frontend",
+    accent: "emerald" as const,
+    items: ["Angular 1–14", "React", "Three.js", "AG-UI / agentic UI"],
+  },
+  {
+    id: "backend",
+    title: "Backend",
+    accent: "cyan" as const,
+    items: ["Node.js", "TypeScript", "Python", "REST & streaming APIs"],
+  },
+  {
+    id: "ai",
+    title: "AI / LLM",
+    accent: "violet" as const,
+    items: ["LLMs", "Agentic AI", "RAG", "Tool calling", "Multi-agent orchestration"],
+  },
+  {
+    id: "cloud",
+    title: "Cloud",
+    accent: "cyan" as const,
+    items: ["AWS", "Azure", "Microservices", "Event-driven systems"],
+  },
+  {
+    id: "devops",
+    title: "DevOps",
+    accent: "cyan" as const,
+    items: ["Docker", "Kubernetes", "CI/CD", "Git"],
+  },
+  {
+    id: "data",
+    title: "Databases",
+    accent: "amber" as const,
+    items: ["MongoDB", "PostgreSQL", "Neo4j", "MySQL", "ClickHouse"],
+  },
+  {
+    id: "architecture",
+    title: "Architecture",
+    accent: "violet" as const,
+    items: ["Micro front-ends", "OpenAPI", "OAuth 2.0", "Distributed systems"],
+  },
+  {
+    id: "devtools",
+    title: "Developer tools",
+    accent: "violet" as const,
+    items: ["Cursor", "Claude", "Spec Kit", "Spec-driven delivery"],
+  },
+] as const;
+
+export const aiFlowStages = [
+  { id: "user", label: "User", detail: "Product UI, copilots, voice" },
+  { id: "agent", label: "AI agent", detail: "Orchestration & reasoning" },
+  { id: "tools", label: "Tools", detail: "Function calling & workflows" },
+  { id: "apis", label: "APIs", detail: "REST, streaming, integrations" },
+  { id: "data", label: "Data", detail: "MongoDB, PostgreSQL, graph stores" },
+  { id: "services", label: "Services", detail: "Node.js microservices on cloud" },
+] as const;
+
+export const architectureLayers = [
+  { layer: "Frontend", detail: "Angular, React, agentic UI", accent: "emerald" as const },
+  { layer: "API gateway", detail: "REST, OpenAPI, OAuth 2.0, streaming APIs", accent: "cyan" as const },
+  { layer: "Backend services", detail: "Node.js, TypeScript, event-driven microservices", accent: "cyan" as const },
+  { layer: "AI / agent layer", detail: "LLMs, agents, tool calling, RAG", accent: "violet" as const },
+  { layer: "Data & integrations", detail: "MongoDB, PostgreSQL, Neo4j, external APIs", accent: "amber" as const },
+  { layer: "Cloud platform", detail: "AWS, Azure, Docker, Kubernetes", accent: "cyan" as const },
+  { layer: "Observability", detail: "Logs, metrics, alerts, audit events", accent: "amber" as const },
+] as const;
+
+export const projectCategories = [
+  "All",
+  "AI",
+  "Full-Stack",
+  "Cloud",
+  "DevOps",
+  "Automation",
+] as const;
+
+export type ProjectCategory = (typeof projectCategories)[number];
+
+export const engineeringLab = {
+  lede: "Experiments and practices that extend the case studies — updated as new work ships.",
+  items: [
+    {
+      title: "AI Developer Productivity",
+      detail: "Spec Kit, Cursor, and Claude in a repeatable spec-to-implementation loop.",
+      href: "#ai-developer-productivity",
+      tags: ["Automation", "DX"],
+    },
+    {
+      title: "Multi-agent orchestration",
+      detail: "Production patterns for agents, tools, and streaming in one workflow.",
+      href: "#multi-agent-orchestration",
+      tags: ["AI", "Agents"],
+    },
+  ],
+  note: "Add new lab entries here as experiments graduate from prototypes.",
+} as const;
+
+export const contactCta = {
+  headline: "Have a complex system to build?",
+  subline: "Let's build something intelligent — production AI, cloud platforms, and the operations layer around them.",
 } as const;
 
 export const experience = {
@@ -294,6 +401,7 @@ export type CaseStudy = {
   summary: string;
   pipeline: readonly string[];
   tags: readonly string[];
+  categories: readonly Exclude<ProjectCategory, "All">[];
   accent: Accent;
   problem: string;
   architecture: string;
@@ -317,6 +425,7 @@ export const projects: readonly CaseStudy[] = [
       "Workflow automation",
     ],
     tags: ["Agentic AI", "LLMs", "Orchestration", "Streaming"],
+    categories: ["AI", "Automation"],
     accent: "violet",
     problem:
       "Complex AI workflows need coordinated agents, tools, and streamed output in one system.",
@@ -344,6 +453,7 @@ export const projects: readonly CaseStudy[] = [
       "Backend AI",
     ],
     tags: ["React", "AG-UI", "Voice", "Healthcare AI"],
+    categories: ["AI", "Full-Stack"],
     accent: "violet",
     problem:
       "The assistant has to hold a conversation: streamed replies, voice input, and an agentic interface.",
@@ -372,6 +482,7 @@ export const projects: readonly CaseStudy[] = [
       "Observability",
     ],
     tags: ["Angular", "Node.js", "Azure", "Microservices"],
+    categories: ["AI", "Full-Stack", "Cloud"],
     accent: "cyan",
     problem:
       "Trade-finance work needs AI assistance inside an enterprise application: a client, services, a cloud deployment, and a way to operate it.",
@@ -400,6 +511,7 @@ export const projects: readonly CaseStudy[] = [
       "Logs, metrics, alerts",
     ],
     tags: ["Observability", "MongoDB", "Docker", "Audit"],
+    categories: ["Cloud", "DevOps"],
     accent: "amber",
     problem:
       "Distributed systems need service and entity tracking, an audit trail, and signals teams can act on — logs, metrics, and alerts.",
@@ -423,6 +535,7 @@ export const projects: readonly CaseStudy[] = [
       "Spec-driven, AI-assisted delivery — from specifications to implementation with Cursor, Claude, and Spec Kit.",
     pipeline: ["Specification", "Spec Kit", "Cursor and Claude", "Implementation"],
     tags: ["Cursor", "Claude", "Spec Kit", "DX"],
+    categories: ["Automation", "AI"],
     accent: "violet",
     problem:
       "Implementation drifts when specifications stay informal. Delivery needs a repeatable path from spec to code.",

@@ -3,14 +3,7 @@
 import { useEffect, useId, useState } from "react";
 import { mobileNav, primaryNav, site } from "@/lib/content";
 
-const sectionIds = [
-  "#top",
-  ...primaryNav.map((item) => item.href),
-  "#systems",
-  "#platform",
-  "#stack",
-  "#github",
-];
+const sectionIds = ["#top", ...primaryNav.map((item) => item.href)];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);

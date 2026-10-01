@@ -51,8 +51,8 @@ export function ProfilePhoto({
           <Image
             src={site.profileImage}
             alt={site.profileImageAlt}
-            width={484}
-            height={630}
+            width={968}
+            height={1162}
             priority={priority}
             sizes={sizes}
             className="profile-photo-image"
