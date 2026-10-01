@@ -41,10 +41,7 @@ export function HeroArcInteractive() {
                 onFocus={() => activate(index)}
                 aria-current={isActive ? "true" : undefined}
               >
-                <p className="font-mono text-[11px] text-faint">
-                  <span className="status-dot mr-2 inline-block align-middle" aria-hidden="true" />
-                  {String(index + 1).padStart(2, "0")}
-                </p>
+                <p className="font-mono text-[11px] text-faint">{String(index + 1).padStart(2, "0")}</p>
                 <p className="mt-3 text-sm font-medium text-ink">{item.step}</p>
                 <p className="mt-1 text-xs leading-relaxed text-muted">{item.detail}</p>
                 <span className="arc-cell-link mt-3 inline-flex font-mono text-[10px] uppercase tracking-[0.14em] text-faint">

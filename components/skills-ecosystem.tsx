@@ -34,7 +34,7 @@ export function SkillsEcosystem() {
                 aria-expanded={isActive}
               >
                 <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{group.title}</p>
-                <ul className={`mt-3 space-y-1.5 text-sm ${isActive ? "text-ink" : "text-muted"}`}>
+                <ul className={`mt-3 list-none space-y-1.5 pl-0 text-sm ${isActive ? "text-ink" : "text-muted"}`}>
                   {(isActive ? group.items : group.items.slice(0, 3)).map((item) => (
                     <li key={item}>{item}</li>
                   ))}
