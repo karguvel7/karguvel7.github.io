@@ -20,7 +20,7 @@ export function Contact() {
         className="panel-accent-rail contact-cta mt-12 grid gap-10 p-5 sm:p-8 lg:grid-cols-12"
       >
         <div className="lg:col-span-7">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Email</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Email</p>
           <a
             href={mailtoHref()}
             className="mt-3 break-words text-2xl font-medium tracking-[-0.03em] text-ink underline decoration-line underline-offset-4 hover:decoration-ink sm:text-3xl"

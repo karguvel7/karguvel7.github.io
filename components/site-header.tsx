@@ -64,7 +64,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`header-shell header-premium sticky top-0 z-40 border-b border-line/70 bg-canvas/70 backdrop-blur-xl ${scrolled ? "is-scrolled" : ""}`}
+      className={`header-shell header-premium sticky top-0 z-40 border-b border-line/40 bg-canvas/65 backdrop-blur-xl supports-[backdrop-filter]:bg-canvas/55 ${scrolled ? "is-scrolled" : ""}`}
     >
       <a href="#main" className="skip-link">
         Skip to content

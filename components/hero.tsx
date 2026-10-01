@@ -10,10 +10,10 @@ export function Hero() {
   return (
     <section id="top" className="hero-shell relative overflow-hidden" aria-labelledby="hero-heading">
       <div className="hero-aurora" aria-hidden="true" />
-      <div className="mx-auto w-full max-w-6xl px-5 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-24">
+      <div className="mx-auto w-full max-w-6xl px-5 pb-24 pt-20 sm:px-8 sm:pb-32 sm:pt-28 lg:pt-32">
         <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-12 xl:gap-14">
           <div className="lg:col-span-7">
-            <p className="rise hero-eyebrow font-mono text-[11px] uppercase tracking-[0.2em] text-faint">
+            <p className="rise hero-eyebrow font-mono text-[11px] uppercase tracking-[0.2em]">
               {site.fullName}
               <span className="px-2" aria-hidden="true">
                 ·
@@ -77,7 +77,7 @@ export function Hero() {
             <HeroAgentViz />
           </div>
 
-          <div className="rise rise-delay-2 mt-12 lg:col-span-5 lg:mt-0">
+          <div className="rise rise-delay-2 mt-14 lg:col-span-5 lg:mt-4 xl:mt-0">
             <div className="hero-portrait-wrap mx-auto max-w-[20rem] sm:max-w-xs lg:ml-auto lg:max-w-sm">
               <div className="portrait-halo" aria-hidden="true" />
               <ProfilePhoto priority sizes="(max-width: 640px) 20rem, 22rem" />

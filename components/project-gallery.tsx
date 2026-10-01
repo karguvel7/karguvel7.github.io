@@ -32,10 +32,10 @@ export function ProjectGallery() {
         lede="Multi-agent orchestration, enterprise copilots, observability, and AI-native delivery. Filter by layer — outcomes stay with what each case study describes."
       />
 
-      <div className="mt-10 flex flex-wrap gap-2 sm:gap-2.5" role="tablist" aria-label="Project categories">
+      <div className="mt-12 flex flex-wrap gap-2 sm:gap-2.5" role="tablist" aria-label="Project categories">
         {projectCategories.map((category) => {
           const selected = filter === category;
-          const accent =
+          const chipAccent =
             category === "All"
               ? "neutral"
               : category === "AI" || category === "Automation"
@@ -51,7 +51,7 @@ export function ProjectGallery() {
               type="button"
               role="tab"
               aria-selected={selected}
-              data-accent={accent}
+              data-accent={chipAccent}
               className={`project-filter ${selected ? "is-active" : ""}`}
               onClick={() => setFilter(category)}
             >
@@ -61,9 +61,13 @@ export function ProjectGallery() {
         })}
       </div>
 
-      <div className="projects-stage mt-10 space-y-8">
-        {filtered.map((project, index) => (
-          <CaseStudyCard key={project.id} project={project} index={index} />
+      <div className="projects-stage mt-12 space-y-10 sm:space-y-12">
+        {filtered.map((project) => (
+          <CaseStudyCard
+            key={project.id}
+            project={project}
+            displayIndex={projects.findIndex((p) => p.id === project.id)}
+          />
         ))}
         {filtered.length === 0 ? (
           <p className="text-sm text-muted">No projects in this category yet.</p>
@@ -73,50 +77,69 @@ export function ProjectGallery() {
   );
 }
 
-function CaseStudyCard({ project, index }: { project: CaseStudy; index: number }) {
+function CaseStudyCard({
+  project,
+  displayIndex,
+}: {
+  project: CaseStudy;
+  displayIndex: number;
+}) {
+  const sequence = String(displayIndex + 1).padStart(2, "0");
+
   return (
     <article
       id={project.id}
       data-accent={project.accent}
       aria-labelledby={`${project.id}-title`}
-      className="project-card diagram-surface scroll-mt-24 p-6 sm:p-9"
+      className="project-card project-showcase diagram-surface scroll-mt-24 p-6 sm:p-10"
     >
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="font-mono text-[11px] text-faint">{String(index + 1).padStart(2, "0")}</p>
-          <h3
-            id={`${project.id}-title`}
-            className="mt-2 text-2xl font-medium tracking-[-0.03em] text-balance text-ink"
-          >
-            {project.title}
-          </h3>
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex min-w-0 flex-1 gap-5 sm:gap-8">
+          <p className="project-showcase-index shrink-0" aria-hidden="true">
+            {sequence}
+          </p>
+          <div className="min-w-0 flex-1">
+            <ul className="flex flex-wrap gap-2" aria-label="Categories">
+              {project.categories.map((cat) => (
+                <li key={cat} data-accent={project.accent} className="tag-chip">
+                  {cat}
+                </li>
+              ))}
+            </ul>
+            <h3
+              id={`${project.id}-title`}
+              className="mt-4 text-balance font-display text-2xl font-semibold tracking-[-0.035em] text-ink sm:text-[1.75rem]"
+            >
+              {project.title}
+            </h3>
+          </div>
         </div>
-        <ul className="flex flex-wrap gap-2" aria-label="Categories">
-          {project.categories.map((cat) => (
-            <li key={cat} data-accent={project.accent} className="tag-chip">
-              {cat}
-            </li>
-          ))}
-        </ul>
       </div>
 
-      <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted">{project.summary}</p>
+      <p className="project-showcase-summary mt-6 max-w-3xl text-muted">{project.summary}</p>
 
-      <div className="mt-6">
+      <div className="mt-8">
         <InteractivePipeline stages={project.pipeline} accent={project.accent} />
       </div>
 
-      <dl className="mt-8 grid gap-4 sm:grid-cols-2">
-        {caseStudyFields.map((field) => (
-          <div
-            key={field.key}
-            className={field.key === "outcome" ? "sm:col-span-2 border-t border-line pt-4" : "border-t border-line pt-4"}
-          >
-            <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-faint">{field.label}</dt>
-            <dd className="mt-2 text-sm leading-relaxed text-muted">{project[field.key]}</dd>
-          </div>
-        ))}
-      </dl>
+      <details className="case-study-details mt-8">
+        <summary>Full case study</summary>
+        <dl className="grid gap-6 pb-2 pt-2 sm:grid-cols-2">
+          {caseStudyFields.map((field) => (
+            <div
+              key={field.key}
+              className={
+                field.key === "outcome"
+                  ? "sm:col-span-2 border-t border-line/80 pt-5"
+                  : "border-t border-line/80 pt-5"
+              }
+            >
+              <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{field.label}</dt>
+              <dd className="mt-2.5 text-sm leading-relaxed text-muted">{project[field.key]}</dd>
+            </div>
+          ))}
+        </dl>
+      </details>
     </article>
   );
 }

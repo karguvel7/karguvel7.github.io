@@ -61,7 +61,7 @@ export function ProfilePhoto({
       </div>
       <figcaption className="mt-4 space-y-1">
         <p className="text-sm font-medium text-ink">{site.name}</p>
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-faint">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted profile-photo-caption-muted">
           {site.jobTitle}
         </p>
       </figcaption>
