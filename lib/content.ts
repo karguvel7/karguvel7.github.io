@@ -188,6 +188,101 @@ export const architectureLayers = [
   { layer: "Observability", detail: "Logs, metrics, alerts, audit events", accent: "amber" as const },
 ] as const;
 
+/** Layer copy aligned to skill group ids (architectureLayers only — no new prose). */
+export function skillGroupLayerDetail(groupId: (typeof skillGroups)[number]["id"]): string | null {
+  const byTitle: Record<(typeof skillGroups)[number]["id"], string | undefined> = {
+    frontend: architectureLayers.find((l) => l.layer === "Frontend")?.detail,
+    backend: architectureLayers.find((l) => l.layer === "Backend services")?.detail,
+    ai: architectureLayers.find((l) => l.layer === "AI / agent layer")?.detail,
+    cloud: architectureLayers.find((l) => l.layer === "Cloud platform")?.detail,
+    data: architectureLayers.find((l) => l.layer === "Data & integrations")?.detail,
+    devops: undefined,
+    architecture: architectureLayers.find((l) => l.layer === "API gateway")?.detail,
+    devtools: undefined,
+  };
+  return byTitle[groupId] ?? null;
+}
+
+function layoutRing(count: number, cx: number, cy: number, rx: number, ry: number) {
+  return Array.from({ length: count }, (_, index) => {
+    const angle = (index / count) * Math.PI * 2 - Math.PI / 2;
+    return {
+      x: cx + rx * Math.cos(angle),
+      y: cy + ry * Math.sin(angle),
+    };
+  });
+}
+
+const heroFlowLayout = [
+  { id: "user", x: 10, y: 40 },
+  { id: "agent", x: 30, y: 22 },
+  { id: "tools", x: 52, y: 18 },
+  { id: "apis", x: 72, y: 34 },
+  { id: "data", x: 62, y: 58 },
+  { id: "services", x: 28, y: 58 },
+] as const;
+
+export const heroAgentTopology = {
+  viewBox: "0 0 100 76",
+  nodes: aiFlowStages.map((stage) => {
+    const layout = heroFlowLayout.find((slot) => slot.id === stage.id);
+    const accentById: Record<(typeof aiFlowStages)[number]["id"], Accent> = {
+      user: "emerald",
+      agent: "violet",
+      tools: "violet",
+      apis: "cyan",
+      data: "amber",
+      services: "cyan",
+    };
+    return {
+      id: stage.id,
+      label: stage.label,
+      detail: stage.detail,
+      accent: accentById[stage.id],
+      x: layout?.x ?? 50,
+      y: layout?.y ?? 38,
+    };
+  }),
+  edges: [
+    { from: "user", to: "agent" },
+    { from: "agent", to: "tools" },
+    { from: "tools", to: "apis" },
+    { from: "apis", to: "data" },
+    { from: "apis", to: "services" },
+    { from: "data", to: "services" },
+    { from: "agent", to: "apis" },
+    { from: "tools", to: "data" },
+    { from: "services", to: "user" },
+  ],
+} as const;
+
+const skillRing = layoutRing(skillGroups.length, 50, 52, 38, 34);
+
+export const skillsEcosystemTopology = {
+  viewBox: "0 0 100 100",
+  nodes: skillGroups.map((group, index) => ({
+    id: group.id,
+    label: group.title,
+    accent: group.accent,
+    items: group.items,
+    layerDetail: skillGroupLayerDetail(group.id),
+    x: skillRing[index]?.x ?? 50,
+    y: skillRing[index]?.y ?? 52,
+  })),
+  edges: [
+    { from: "frontend", to: "backend" },
+    { from: "frontend", to: "architecture" },
+    { from: "backend", to: "ai" },
+    { from: "backend", to: "cloud" },
+    { from: "backend", to: "data" },
+    { from: "ai", to: "devtools" },
+    { from: "cloud", to: "devops" },
+    { from: "architecture", to: "backend" },
+    { from: "data", to: "ai" },
+    { from: "devops", to: "cloud" },
+  ],
+} as const;
+
 export const projectCategories = [
   "All",
   "AI",

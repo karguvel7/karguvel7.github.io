@@ -1,14 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { sectionAccent } from "@/lib/accents";
-import { skillGroups } from "@/lib/content";
-import { RevealStagger } from "@/components/reveal-stagger";
+import { skillGroups, skillsEcosystemTopology } from "@/lib/content";
+import { InteractiveTopology } from "@/components/interactive-topology";
 import { Section, SectionHeading } from "@/components/section";
 
 export function SkillsEcosystem() {
   const accent = sectionAccent.skills;
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(skillGroups[0]?.id ?? null);
+
+  const selectedNode = useMemo(
+    () => skillsEcosystemTopology.nodes.find((node) => node.id === selectedId) ?? null,
+    [selectedId],
+  );
+
+  const topologyNodes = useMemo(
+    () =>
+      skillsEcosystemTopology.nodes.map((node) => ({
+        id: node.id,
+        label: node.label,
+        x: node.x,
+        y: node.y,
+        accent: node.accent,
+        detail: node.layerDetail ?? undefined,
+      })),
+    [],
+  );
 
   return (
     <Section id="skills" labelledBy="skills-heading" accent={accent}>
@@ -21,57 +39,58 @@ export function SkillsEcosystem() {
         lede="Frontend through AI, cloud, DevOps, and architecture — grouped the way the work actually ships."
       />
 
-      <RevealStagger
-        asGrid
-        className="skills-grid mt-10 grid auto-rows-fr grid-cols-1 gap-3 min-[480px]:grid-cols-2 min-[480px]:gap-4 lg:grid-cols-4"
-      >
-        {skillGroups.map((group, index) => {
-          const isActive = activeId === group.id;
-          const visibleItems = isActive ? group.items : group.items.slice(0, 3);
-          const hiddenCount = group.items.length - visibleItems.length;
+      <div className="skills-topology mt-10 diagram-surface p-0">
+        <div className="diagram-surface-header">
+          <span className="diagram-status" data-accent={accent}>
+            Skills topology
+          </span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Select a node</span>
+        </div>
 
-          return (
-            <li key={group.id} className="h-full min-h-0">
-              <button
-                type="button"
-                data-accent={group.accent}
-                className={`skill-card skill-orbit diagram-surface flex h-full min-h-[11.5rem] w-full flex-col p-0 text-left ${isActive ? "is-active" : ""}`}
-                onClick={() => setActiveId(isActive ? null : group.id)}
-                aria-expanded={isActive}
-              >
-                <div className="skill-card-head flex items-start justify-between gap-3 border-b border-line/50 px-5 py-4">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{group.title}</p>
-                  <span className="skill-card-seq shrink-0 font-mono text-[11px] tabular-nums text-faint" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
+        <InteractiveTopology
+          viewBox={skillsEcosystemTopology.viewBox}
+          nodes={topologyNodes}
+          edges={skillsEcosystemTopology.edges}
+          ariaLabel="Skills ecosystem topology map"
+          variant="skills"
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          hint="Drag to rearrange · pan empty space · tap a node for details"
+        />
 
-                <div className="flex flex-1 flex-col px-5 py-4">
-                  <ul className={`skill-card-list list-none space-y-0 pl-0 text-sm ${isActive ? "text-ink" : "text-muted"}`}>
-                    {visibleItems.map((item) => (
-                      <li key={item} className="skill-card-item border-b border-line/35 py-2.5 last:border-b-0">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {hiddenCount > 0 && !isActive ? (
-                    <p className="skill-card-more mt-auto pt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
-                      +{hiddenCount} more
-                    </p>
-                  ) : null}
-
-                  {isActive && group.items.length > 3 ? (
-                    <p className="skill-card-more mt-auto pt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
-                      Show less
-                    </p>
+        <div className="skills-topology-detail" data-accent={selectedNode?.accent ?? accent}>
+          {selectedNode ? (
+            <>
+              <div className="skills-topology-detail-head flex items-start justify-between gap-4 border-b border-line/45 px-5 py-4 sm:px-6">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{selectedNode.label}</p>
+                  {selectedNode.layerDetail ? (
+                    <p className="mt-2 max-w-2xl text-sm text-muted">{selectedNode.layerDetail}</p>
                   ) : null}
                 </div>
-              </button>
-            </li>
-          );
-        })}
-      </RevealStagger>
+                <button
+                  type="button"
+                  className="skills-topology-close font-mono text-[10px] uppercase tracking-[0.12em] text-faint"
+                  onClick={() => setSelectedId(null)}
+                >
+                  Clear
+                </button>
+              </div>
+              <ul className="skills-topology-items list-none space-y-0 px-5 py-3 sm:px-6">
+                {selectedNode.items.map((item) => (
+                  <li key={item} className="skill-card-item border-b border-line/35 py-2.5 text-sm text-ink last:border-b-0">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p className="px-5 py-6 text-sm text-muted sm:px-6">
+              Choose a node in the map to see stack details from the résumé groups.
+            </p>
+          )}
+        </div>
+      </div>
     </Section>
   );
 }

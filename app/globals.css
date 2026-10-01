@@ -2504,6 +2504,159 @@ html[data-theme="light"] .hero-aurora {
   filter: drop-shadow(0 0 8px rgb(var(--accent-blue-rgb) / 0.55));
 }
 
+.topology-shell {
+  touch-action: pan-y;
+  padding: 0 0.75rem 0.85rem;
+}
+
+.topology-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0 0.25rem 0.5rem;
+}
+
+.topology-reset {
+  height: 2rem;
+  padding: 0 0.65rem;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.topology-canvas {
+  display: block;
+  width: 100%;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.topology-canvas.is-dragging {
+  touch-action: none;
+  cursor: grabbing;
+}
+
+.topology-canvas-hero {
+  height: 10rem;
+}
+
+@media (min-width: 640px) {
+  .topology-canvas-hero {
+    height: 11rem;
+  }
+}
+
+.topology-canvas-skills {
+  height: min(62vw, 22rem);
+}
+
+.topology-pan-surface {
+  fill: transparent;
+  cursor: grab;
+}
+
+.topology-canvas.is-dragging .topology-pan-surface {
+  cursor: grabbing;
+}
+
+.topology-edge.is-highlight {
+  stroke: rgb(var(--accent-cyan-rgb) / 0.55);
+  stroke-width: 0.58;
+}
+
+.topology-node-group {
+  cursor: grab;
+  outline: none;
+}
+
+.topology-node-group:focus-visible .hero-viz-node {
+  stroke: rgb(var(--accent-blue-rgb) / 0.55);
+  stroke-width: 0.45;
+}
+
+.topology-node-group.is-selected .hero-viz-label {
+  fill: rgb(var(--theme-viz-label) / 1);
+}
+
+.topology-node-hit {
+  pointer-events: all;
+}
+
+.topology-detail {
+  margin: 0 1rem 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgb(var(--accent-rgb, var(--accent-cyan-rgb)) / 0.18);
+  background: color-mix(in srgb, var(--theme-canvas-elevated) 92%, rgb(var(--accent-rgb, var(--accent-cyan-rgb)) / 0.04));
+}
+
+.topology-detail-inline[data-accent] {
+  --accent-rgb: var(--accent-cyan-rgb);
+}
+
+.topology-detail-inline[data-accent="violet"] {
+  --accent-rgb: var(--accent-violet-rgb);
+}
+
+.topology-detail-inline[data-accent="emerald"] {
+  --accent-rgb: var(--accent-emerald-rgb);
+}
+
+.topology-detail-inline[data-accent="amber"] {
+  --accent-rgb: var(--accent-amber-rgb);
+}
+
+.topology-detail-placeholder {
+  margin: 0 1rem 1rem;
+  padding: 0 0.25rem;
+}
+
+.skills-topology-detail {
+  border-top: 1px solid rgb(var(--theme-chrome-border) / 0.12);
+}
+
+.skills-topology-detail[data-accent] {
+  --accent-rgb: var(--accent-cyan-rgb);
+}
+
+.skills-topology-detail[data-accent="violet"] {
+  --accent-rgb: var(--accent-violet-rgb);
+}
+
+.skills-topology-detail[data-accent="emerald"] {
+  --accent-rgb: var(--accent-emerald-rgb);
+}
+
+.skills-topology-detail[data-accent="amber"] {
+  --accent-rgb: var(--accent-amber-rgb);
+}
+
+.skills-topology-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.skills-topology-close:hover,
+.skills-topology-close:focus-visible {
+  color: var(--color-ink);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hero-viz-node.is-active {
   stroke: rgb(var(--accent-blue-rgb) / 0.35);
   stroke-width: 0.35;
