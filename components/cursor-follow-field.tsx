@@ -18,8 +18,17 @@ type FollowerSpec = {
   size: number;
 };
 
-/** Keep orbit off the pointer hotspot so clicks stay reliable. */
+type BodyState = {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  el: HTMLDivElement;
+};
+
 const ORBIT_CLEARANCE_PX = 118;
+const GRAVITY_STRENGTH = 0.0018;
+const DUST_COUNT = 10;
 
 const FOLLOWERS: FollowerSpec[] = [
   {
@@ -100,20 +109,23 @@ const FOLLOWERS: FollowerSpec[] = [
   },
 ];
 
-type BodyState = {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  el: HTMLDivElement;
-};
-
-const GRAVITY_STRENGTH = 0.0018;
+const DUST_SPECS = Array.from({ length: DUST_COUNT }, (_, index) => ({
+  mass: 0.65 + index * 0.08,
+  stiffness: 0.018 + index * 0.0015,
+  damping: 0.88 + index * 0.004,
+  orbitRadius: 120 + index * 22,
+  orbitSpeed: 0.35 + index * 0.04 * (index % 2 === 0 ? 1 : -1),
+  phase: index * 0.85,
+  size: 2 + (index % 3),
+}));
 
 export function CursorFollowField() {
   const fieldRef = useRef<HTMLDivElement>(null);
   const bodiesRef = useRef<BodyState[]>([]);
+  const dustRef = useRef<BodyState[]>([]);
   const targetRef = useRef({ x: 0, y: 0 });
+  const activityRef = useRef(0);
+  const twinkleRef = useRef(0);
   const rafRef = useRef(0);
   const timeRef = useRef(0);
 
@@ -133,11 +145,18 @@ export function CursorFollowField() {
       return { x, y, vx: 0, vy: 0, el };
     });
 
+    const dustNodes = field.querySelectorAll<HTMLDivElement>("[data-cursor-dust]");
+    dustRef.current = DUST_SPECS.map((spec, index) => {
+      const el = dustNodes[index];
+      const x = window.innerWidth / 2;
+      const y = window.innerHeight / 3;
+      return { x, y, vx: 0, vy: 0, el };
+    });
+
     targetRef.current = { x: window.innerWidth / 2, y: window.innerHeight / 3 };
 
-    const onMove = (event: PointerEvent) => {
-      targetRef.current.x = event.clientX;
-      targetRef.current.y = event.clientY;
+    const onMove = () => {
+      activityRef.current = 1;
       field.dataset.active = "true";
     };
 
@@ -152,22 +171,40 @@ export function CursorFollowField() {
       last = now;
       timeRef.current += dt * 0.009;
 
+      activityRef.current *= field.dataset.active === "true" ? 0.978 : 0.9;
+      if (activityRef.current < 0.02) activityRef.current = 0;
+
+      twinkleRef.current += dt * (0.12 + activityRef.current * 0.12);
+      const twinkle = 0.5 + Math.sin(twinkleRef.current) * 0.5;
+      const activity = activityRef.current;
+
       const { x: tx, y: ty } = targetRef.current;
       const root = document.documentElement;
       root.style.setProperty("--pointer-x", `${tx}px`);
       root.style.setProperty("--pointer-y", `${ty}px`);
+      root.style.setProperty("--cursor-activity", activity.toFixed(3));
+      root.style.setProperty("--cursor-star-twinkle", (activity * twinkle).toFixed(3));
+      root.style.setProperty("--dust-swirl-rotate", `${timeRef.current * 18}deg`);
 
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
-      root.style.setProperty("--grid-parallax-x", `${(tx - cx) * 0.005}px`);
-      root.style.setProperty("--grid-parallax-y", `${(ty - cy) * 0.005}px`);
+      const px = tx - cx;
+      const py = ty - cy;
+      root.style.setProperty("--grid-parallax-x", `${px * 0.005}px`);
+      root.style.setProperty("--grid-parallax-y", `${py * 0.005}px`);
+      root.style.setProperty("--milky-parallax-x", `${px * 0.018}px`);
+      root.style.setProperty("--milky-parallax-y", `${py * 0.014}px`);
+      root.style.setProperty("--stars-parallax-x", `${px * 0.008}px`);
+      root.style.setProperty("--stars-parallax-y", `${py * 0.006}px`);
 
-      FOLLOWERS.forEach((spec, index) => {
-        const body = bodiesRef.current[index];
-        if (!body?.el) return;
-
+      const simulate = (
+        spec: { mass: number; stiffness: number; damping: number; orbitRadius: number; orbitSpeed: number; phase: number; size: number },
+        body: BodyState,
+        clearance: number,
+        gravity: number,
+      ) => {
         const t = timeRef.current * spec.orbitSpeed + spec.phase;
-        const orbit = ORBIT_CLEARANCE_PX + spec.orbitRadius;
+        const orbit = clearance + spec.orbitRadius;
         const anchorX = tx + Math.cos(t) * orbit;
         const anchorY = ty + Math.sin(t * 0.92) * orbit * 0.88;
 
@@ -177,8 +214,8 @@ export function CursorFollowField() {
         const gx = tx - body.x;
         const gy = ty - body.y;
         const dist = Math.hypot(gx, gy) || 1;
-        if (dist > ORBIT_CLEARANCE_PX * 0.55) {
-          const pull = (GRAVITY_STRENGTH * dist) / spec.mass;
+        if (dist > clearance * 0.5) {
+          const pull = (gravity * dist) / spec.mass;
           ax += (gx / dist) * pull * dist;
           ay += (gy / dist) * pull * dist;
         }
@@ -190,18 +227,36 @@ export function CursorFollowField() {
 
         const half = spec.size / 2;
         body.el.style.transform = `translate3d(${body.x - half}px, ${body.y - half}px, 0)`;
+      };
+
+      FOLLOWERS.forEach((spec, index) => {
+        const body = bodiesRef.current[index];
+        if (!body?.el) return;
+        simulate(spec, body, ORBIT_CLEARANCE_PX, GRAVITY_STRENGTH);
+      });
+
+      DUST_SPECS.forEach((spec, index) => {
+        const body = dustRef.current[index];
+        if (!body?.el) return;
+        simulate(spec, body, 80, GRAVITY_STRENGTH * 1.4);
       });
 
       rafRef.current = requestAnimationFrame(tick);
     };
 
+    const onMovePointer = (event: PointerEvent) => {
+      targetRef.current.x = event.clientX;
+      targetRef.current.y = event.clientY;
+      onMove();
+    };
+
     rafRef.current = requestAnimationFrame(tick);
-    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointermove", onMovePointer, { passive: true });
     document.documentElement.addEventListener("pointerleave", onLeave);
 
     return () => {
       cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointermove", onMovePointer);
       document.documentElement.removeEventListener("pointerleave", onLeave);
     };
   }, []);
@@ -214,6 +269,14 @@ export function CursorFollowField() {
       data-active="idle"
       inert
     >
+      {DUST_SPECS.map((spec, index) => (
+        <div
+          key={`dust-${index}`}
+          data-cursor-dust
+          className="cursor-dust-mote"
+          style={{ width: spec.size, height: spec.size }}
+        />
+      ))}
       {FOLLOWERS.map((spec) => (
         <div
           key={spec.id}

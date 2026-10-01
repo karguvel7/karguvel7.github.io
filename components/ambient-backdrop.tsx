@@ -2,7 +2,42 @@ export function AmbientBackdrop() {
   return (
     <div className="ambient-backdrop galaxy-backdrop" aria-hidden="true">
       <div className="galaxy-deep" />
-      <div className="galaxy-milky-way" />
+      <div className="galaxy-photo-stack">
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative SVG photo layers */}
+        <img
+          src="/galaxy/stars-dark.svg"
+          alt=""
+          className="galaxy-photo galaxy-photo-stars galaxy-theme-dark"
+          decoding="async"
+          fetchPriority="low"
+        />
+        <img
+          src="/galaxy/stars-light.svg"
+          alt=""
+          className="galaxy-photo galaxy-photo-stars galaxy-theme-light"
+          decoding="async"
+          fetchPriority="low"
+        />
+        <img
+          src="/galaxy/milky-dark.svg"
+          alt=""
+          className="galaxy-photo galaxy-photo-milky galaxy-theme-dark"
+          decoding="async"
+          fetchPriority="low"
+        />
+        <img
+          src="/galaxy/milky-light.svg"
+          alt=""
+          className="galaxy-photo galaxy-photo-milky galaxy-theme-light"
+          decoding="async"
+          fetchPriority="low"
+        />
+      </div>
+      <div className="galaxy-pointer-interaction" aria-hidden="true">
+        <div className="galaxy-pointer-starlift galaxy-theme-dark" />
+        <div className="galaxy-pointer-starlift galaxy-theme-light" />
+        <div className="galaxy-pointer-dust-swirl" />
+      </div>
       <div className="galaxy-nebula-band galaxy-nebula-band-far" />
       <div className="galaxy-nebula-band galaxy-nebula-band-mid" />
       <div className="galaxy-nebula-band galaxy-nebula-band-near" />
@@ -10,13 +45,6 @@ export function AmbientBackdrop() {
       <div className="galaxy-nebula galaxy-nebula-b" />
       <div className="galaxy-nebula galaxy-nebula-c" />
       <div className="galaxy-nebula galaxy-nebula-d" />
-      <div className="galaxy-starfield galaxy-starfield-a" />
-      <div className="galaxy-starfield galaxy-starfield-b" />
-      <div className="galaxy-starfield galaxy-starfield-c" />
-      <div className="galaxy-starfield galaxy-starfield-d" />
-      <div className="galaxy-starfield galaxy-starfield-bright" />
-      <div className="galaxy-starfield galaxy-star-twinkle galaxy-star-twinkle-a" />
-      <div className="galaxy-starfield galaxy-star-twinkle galaxy-star-twinkle-b" />
       <div className="galaxy-cursor-well" />
       <div className="galaxy-content-veil" />
       <div className="ambient-orb ambient-orb-a" />
