@@ -27,4 +27,4 @@ export function readStoredPreference(): ThemePreference {
 }
 
 /** Inline boot script — must run before first paint (static export safe). */
-export const themeInitScript = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var p=localStorage.getItem(k)||"system";var d=p==="dark"||(p==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var r=document.documentElement;r.dataset.themePreference=p;r.dataset.theme=d?"dark":"light";r.style.colorScheme=d?"dark":"light";}catch(e){document.documentElement.dataset.theme="dark";}})();`;
+export const themeInitScript = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};function apply(){var p=localStorage.getItem(k)||"system";var d=p==="dark"||(p==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var r=document.documentElement;r.dataset.themePreference=p;r.dataset.theme=d?"dark":"light";r.style.colorScheme=d?"dark":"light";}apply();document.addEventListener("DOMContentLoaded",apply);if(typeof requestAnimationFrame==="function"){requestAnimationFrame(function(){apply();requestAnimationFrame(apply);});}}catch(e){document.documentElement.dataset.theme="dark";}})();`;

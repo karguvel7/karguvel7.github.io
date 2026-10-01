@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import { AmbientBackdrop } from "@/components/ambient-backdrop";
 import { MotionShell } from "@/components/motion-shell";
+import { ThemeBootstrap } from "@/components/theme-bootstrap";
 import { experience, site } from "@/lib/content";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
@@ -115,6 +116,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="relative min-h-full min-w-0 overflow-x-clip theme-craft-v2">
+        <ThemeBootstrap />
         <MotionShell>
           <AmbientBackdrop />
           <div className="grid-fade" aria-hidden="true" />

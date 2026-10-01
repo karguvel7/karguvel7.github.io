@@ -40,9 +40,9 @@ export function HeroAgentViz() {
       <svg viewBox="0 0 100 76" className="diagram-canvas mt-2 h-40 w-full sm:h-44" role="presentation">
         <defs>
           <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgb(46 232 228)" stopOpacity="0.15" />
-            <stop offset="50%" stopColor="rgb(196 165 255)" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="rgb(46 232 228)" stopOpacity="0.15" />
+            <stop offset="0%" stopColor="rgb(var(--accent-cyan-rgb))" stopOpacity="0.2" />
+            <stop offset="50%" stopColor="rgb(var(--accent-violet-rgb))" stopOpacity="0.45" />
+            <stop offset="100%" stopColor="rgb(var(--accent-cyan-rgb))" stopOpacity="0.2" />
           </linearGradient>
           <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="1.2" result="blur" />
@@ -53,7 +53,12 @@ export function HeroAgentViz() {
           </filter>
         </defs>
         <pattern id="diagGrid" width="8" height="8" patternUnits="userSpaceOnUse">
-          <path d="M 8 0 L 0 0 0 8" fill="none" stroke="rgb(255 255 255 / 0.04)" strokeWidth="0.25" />
+          <path
+            d="M 8 0 L 0 0 0 8"
+            fill="none"
+            className="hero-viz-grid-line"
+            strokeWidth="0.25"
+          />
         </pattern>
         <rect width="100" height="76" fill="url(#diagGrid)" />
         {edges.map(([a, b], index) => {
