@@ -20,7 +20,7 @@ export function SkillsEcosystem() {
         lede="Frontend through AI, cloud, DevOps, and architecture — grouped the way the work actually ships."
       />
 
-      <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="skills-grid mt-12 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-4">
         {skillGroups.map((group) => {
           const isActive = activeId === group.id;
           return (

@@ -30,9 +30,9 @@ export function BuildingWithAI() {
         lede="Multi-agent orchestration, streaming, voice, tool calling, RAG, and agentic workflows — the same patterns documented in the case studies below."
       />
 
-      <div className="diagram-surface mt-12 overflow-x-auto p-5 sm:p-7">
+      <div className="diagram-surface mt-12 p-5 sm:p-7">
         <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-faint">Agent flow</p>
-        <ol className="ai-flow mt-4 flex min-w-[36rem] items-stretch gap-1">
+        <ol className="ai-flow mt-4 flex flex-col gap-2 md:flex-row md:items-stretch md:gap-1">
           {aiFlowStages.map((stage, index) => {
             const stageAccent = flowAccents[index] ?? "violet";
             const isActive = index === active;

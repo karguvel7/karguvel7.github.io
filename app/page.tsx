@@ -15,7 +15,7 @@ export default function HomePage() {
   return (
     <>
       <SiteHeader />
-      <main id="main">
+      <main id="main" className="page-shell min-w-0 overflow-x-clip">
         <Hero />
         <About />
         <SkillsEcosystem />

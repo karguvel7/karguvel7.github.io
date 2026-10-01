@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { mobileNav, primaryNav, site } from "@/lib/content";
 
 const sectionIds = ["#top", ...primaryNav.map((item) => item.href)];
@@ -74,7 +75,7 @@ export function SiteHeader() {
           <span className="text-faint"> K</span>
         </a>
 
-        <nav className="hidden items-center gap-6 xl:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-5 xl:flex" aria-label="Primary">
           {primaryNav.map((item) => (
             <a
               key={item.href}
@@ -84,6 +85,7 @@ export function SiteHeader() {
               {item.label}
             </a>
           ))}
+          <ThemeToggle />
           <a
             href={`mailto:${site.email}`}
             className="btn-secondary btn-secondary-accent border border-line px-3 py-1.5 text-sm text-ink"
@@ -92,16 +94,19 @@ export function SiteHeader() {
           </a>
         </nav>
 
-        <button
-          type="button"
-          className="btn-secondary inline-flex h-11 w-11 items-center justify-center border border-line text-ink xl:hidden"
-          aria-expanded={open}
-          aria-controls={menuId}
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((value) => !value)}
-        >
-          <MenuIcon open={open} />
-        </button>
+        <div className="site-header-actions flex items-center gap-2 xl:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="btn-secondary inline-flex h-11 w-11 shrink-0 items-center justify-center border border-line text-ink"
+            aria-expanded={open}
+            aria-controls={menuId}
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((value) => !value)}
+          >
+            <MenuIcon open={open} />
+          </button>
+        </div>
       </div>
 
       <div id={menuId} hidden={!open} className="border-t border-line xl:hidden">
@@ -110,7 +115,7 @@ export function SiteHeader() {
             <a
               key={item.href}
               href={item.href}
-              className={`rounded-sm px-1 py-2.5 text-sm transition-colors ${activeHref === item.href ? "text-ink" : "text-muted hover:text-ink"}`}
+              className={`rounded-sm px-2 py-2.5 text-sm transition-colors ${activeHref === item.href ? "text-ink" : "text-muted hover:text-ink"}`}
               onClick={() => setOpen(false)}
             >
               {item.label}
@@ -118,10 +123,10 @@ export function SiteHeader() {
           ))}
           <a
             href={`mailto:${site.email}`}
-            className="btn-secondary mt-2 w-fit border border-line px-3 py-2 text-sm text-ink"
+            className="btn-secondary mt-2 w-full max-w-full border border-line px-3 py-2.5 text-sm text-ink sm:w-fit"
             onClick={() => setOpen(false)}
           >
-            Email {site.email}
+            Email
           </a>
         </nav>
       </div>

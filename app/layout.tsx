@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AmbientBackdrop } from "@/components/ambient-backdrop";
 import { MotionShell } from "@/components/motion-shell";
 import { experience, site } from "@/lib/content";
+import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,8 +19,11 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#07080a",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f6f8" },
+    { media: "(prefers-color-scheme: dark)", color: "#07080a" },
+  ],
+  colorScheme: "dark light",
   width: "device-width",
   initialScale: 1,
 };
@@ -99,8 +103,12 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="relative min-h-full theme-craft-v2">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="relative min-h-full min-w-0 overflow-x-clip theme-craft-v2">
         <MotionShell>
           <AmbientBackdrop />
           <div className="grid-fade" aria-hidden="true" />

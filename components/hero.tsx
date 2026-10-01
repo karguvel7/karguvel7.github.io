@@ -35,7 +35,7 @@ export function Hero() {
               <AvailabilityPill />
             </div>
 
-            <div className="rise rise-delay-4 mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="rise rise-delay-4 hero-cta-row mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <MagneticLink
                 href="#projects"
                 className="btn-primary btn-primary-accent btn-lift inline-flex h-12 items-center justify-center px-6 text-sm font-medium"

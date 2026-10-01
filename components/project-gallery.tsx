@@ -32,7 +32,7 @@ export function ProjectGallery() {
         lede="Multi-agent orchestration, enterprise copilots, observability, and AI-native delivery. Filter by layer — outcomes stay with what each case study describes."
       />
 
-      <div className="mt-10 flex flex-wrap gap-2.5" role="tablist" aria-label="Project categories">
+      <div className="mt-10 flex flex-wrap gap-2 sm:gap-2.5" role="tablist" aria-label="Project categories">
         {projectCategories.map((category) => {
           const selected = filter === category;
           const accent =

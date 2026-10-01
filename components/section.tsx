@@ -41,7 +41,7 @@ export function SectionHeading({
   accent?: Accent;
 }) {
   return (
-    <div className="section-heading grid gap-4 lg:grid-cols-12 lg:gap-8" data-accent={accent}>
+    <div className="section-heading grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-8" data-accent={accent}>
       <p className="section-heading-meta font-mono text-[11px] uppercase tracking-[0.16em] text-faint lg:col-span-3">
         <span className="section-heading-index text-muted">{index}</span>
         <span className="px-2" aria-hidden="true">
