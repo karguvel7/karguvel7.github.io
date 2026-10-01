@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
 import type { Accent } from "@/lib/accents";
-import { RevealOnView } from "@/components/reveal-on-view";
-
 export function Section({
   id,
   labelledBy,
@@ -18,11 +16,17 @@ export function Section({
       id={id}
       aria-labelledby={labelledBy}
       data-accent={accent}
+      data-scene=""
       className="section-shell border-t border-line/50 py-12 sm:py-14 lg:py-16"
     >
-      <RevealOnView variant="blur-up" className="mx-auto w-full max-w-6xl px-5 sm:px-8">
-        {children}
-      </RevealOnView>
+      <span className="scene-beam" aria-hidden="true">
+        <span className="scene-beam-head" />
+      </span>
+      <span className="scene-rail" aria-hidden="true">
+        <span className="scene-rail-fill" />
+        <span className="scene-rail-head" />
+      </span>
+      <div className="scene-body mx-auto w-full max-w-6xl px-5 sm:px-8">{children}</div>
     </section>
   );
 }

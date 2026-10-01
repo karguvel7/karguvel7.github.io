@@ -1,6 +1,5 @@
 import { sectionAccent } from "@/lib/accents";
 import { about } from "@/lib/content";
-import { RevealStagger } from "@/components/reveal-stagger";
 import { Section, SectionHeading } from "@/components/section";
 
 export function About() {
@@ -16,8 +15,7 @@ export function About() {
         lede={about.lede}
       />
 
-      <RevealStagger
-        asGrid
+      <ul
         className="about-highlights mt-10 grid auto-rows-fr grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-5 lg:gap-4"
       >
         {about.highlights.map((item, index) => (
@@ -39,7 +37,7 @@ export function About() {
             </article>
           </li>
         ))}
-      </RevealStagger>
+      </ul>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:gap-10">
         <div className="space-y-5 lg:col-span-7">

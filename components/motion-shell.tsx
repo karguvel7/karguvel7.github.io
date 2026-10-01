@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { CursorFollowField } from "@/components/cursor-follow-field";
+import { ScrollChoreographer } from "@/components/scroll-choreographer";
 
 export function MotionShell({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -29,6 +30,7 @@ export function MotionShell({ children }: { children: ReactNode }) {
   return (
     <>
       <CursorFollowField />
+      <ScrollChoreographer />
       {children}
     </>
   );

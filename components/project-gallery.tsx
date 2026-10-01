@@ -10,7 +10,6 @@ import {
   type ProjectCategory,
 } from "@/lib/content";
 import { InteractivePipeline } from "@/components/interactive-pipeline";
-import { RevealOnView } from "@/components/reveal-on-view";
 import { Section, SectionHeading } from "@/components/section";
 
 export function ProjectGallery() {
@@ -63,13 +62,12 @@ export function ProjectGallery() {
       </div>
 
       <div className="projects-stage mt-8 space-y-6 sm:mt-10 sm:space-y-8" key={filter}>
-        {filtered.map((project, index) => (
-          <RevealOnView key={project.id} variant="blur-up" delayMs={index * 90}>
-            <CaseStudyCard
-              project={project}
-              displayIndex={projects.findIndex((p) => p.id === project.id)}
-            />
-          </RevealOnView>
+        {filtered.map((project) => (
+          <CaseStudyCard
+            key={project.id}
+            project={project}
+            displayIndex={projects.findIndex((p) => p.id === project.id)}
+          />
         ))}
         {filtered.length === 0 ? (
           <p className="text-sm text-muted">No projects in this category yet.</p>
