@@ -75,7 +75,7 @@ export function Hero() {
               <span className="px-2 text-muted/70" aria-hidden="true">
                 ·
               </span>
-              since February 2017
+              with the company since February 2017
             </p>
 
             <div className="hidden md:block">

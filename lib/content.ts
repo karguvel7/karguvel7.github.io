@@ -15,8 +15,8 @@ export const site = {
   fullName: "Karguvel Kalisekar",
   givenName: "Karguvel",
   handle: "karguvel7",
-  jobTitle: "Lead Software Engineer",
-  employer: "Innoart Technologies (P) Ltd.",
+  jobTitle: "AI Architect",
+  employer: "Innoart Technologies Private Limited",
   url: "https://karguvel7.github.io",
   email: "karguvel7@gmail.com",
   emailSubject: "Hello from your portfolio",
@@ -27,15 +27,15 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/karguvel-k-967975b8",
   profileImage: "/karguvel-k-portrait-v2.jpg",
   profileImageAlt:
-    "Professional portrait of Karguvel K, Lead Software Engineer specializing in AI systems and cloud platforms",
+    "Professional portrait of Karguvel K, AI Architect specializing in AI systems and cloud platforms",
   headline:
-    "Lead Software Engineer building intelligent, scalable systems.",
+    "AI Architect building intelligent, scalable systems.",
   heroSupport:
     "Full-stack engineer specializing in production AI applications, distributed systems, cloud platforms, and developer automation — from agent orchestration to observability.",
   summary:
     "Agentic systems, enterprise copilots, and the cloud infrastructure and observability around them — from LLM orchestration to production operations.",
   description:
-    "Lead Software Engineer at Innoart Technologies. Building production AI systems, scalable applications, and modern cloud infrastructure.",
+    "AI Architect at Innoart Technologies. Building production AI systems, scalable applications, and modern cloud infrastructure.",
   availabilityLabel: "Open to remote · AI & platform roles",
 } as const;
 
@@ -94,16 +94,16 @@ export const primaryNav = [
 export const mobileNav = primaryNav;
 
 export const about = {
-  lede: "Lead Software Engineer at Innoart Technologies (P) Ltd. since February 2017, building production AI applications, agentic systems, cloud infrastructure, and enterprise software.",
+  lede: "AI Architect at Innoart Technologies Private Limited, with the company continuously since February 2017, building production AI applications, agentic systems, cloud infrastructure, and enterprise software.",
   paragraphs: [
     "I design and ship systems where AI, cloud, and software engineering meet — multi-agent platforms, enterprise copilots, and the DevOps pipelines that keep them reliable in production.",
-    "Since February 2017 I have worked continuously at Innoart Technologies (P) Ltd. The current title is Lead Software Engineer. That tenure is the enterprise foundation: digital transformation platforms, micro front-ends, microservices, and delivery across several industries. The current practice extends it into production AI systems, cloud platforms, and DevOps.",
+    "Since February 2017 I have worked continuously at Innoart Technologies Private Limited, progressing from Trainee Software Engineer to the current title, AI Architect. That tenure is the enterprise foundation: digital transformation platforms, micro front-ends, microservices, and delivery across several industries. The current practice extends it into production AI systems, cloud platforms, and DevOps.",
     "The work spans agent orchestration, streaming LLM experiences, microservices on AWS and Azure, and observability that teams can act on.",
     "I use AI-native developer workflows — Cursor, Claude, and Spec Kit — to move from specification to implementation with clarity and speed.",
   ],
   facts: [
-    { label: "Role", value: "Lead Software Engineer" },
-    { label: "Employer", value: "Innoart Technologies (P) Ltd." },
+    { label: "Role", value: "AI Architect" },
+    { label: "Employer", value: "Innoart Technologies Private Limited" },
     { label: "Tenure", value: "February 2017 — present · 9+ years" },
     { label: "Based", value: "Chennai, India · open to remote" },
   ],
@@ -317,12 +317,20 @@ export const contactCta = {
 } as const;
 
 export const experience = {
-  title: "Lead Software Engineer",
-  employer: "Innoart Technologies (P) Ltd.",
+  title: "AI Architect",
+  employer: "Innoart Technologies Private Limited",
   dates: "February 2017 — Present",
   tenure: "9+ years",
-  continuity: "Still employed there. One continuous tenure since February 2017.",
-  lede: "Lead Software Engineer at Innoart Technologies (P) Ltd. The enterprise record below is from that tenure. The AI, cloud, and DevOps work elsewhere on this page is the current shape of the same practice.",
+  continuity: "Still employed there. One continuous tenure since February 2017, across five roles.",
+  lede: "AI Architect at Innoart Technologies Private Limited, the latest of five roles in one continuous tenure since February 2017. The enterprise record below is from that tenure. The AI, cloud, and DevOps work elsewhere on this page is the current shape of the same practice.",
+  /** Newest first. End months follow from the next role's effective-from date. */
+  roles: [
+    { title: "AI Architect", effectiveFrom: "2026-09-01", dates: "Sep 2026 — Present", current: true },
+    { title: "Lead Software Engineering", effectiveFrom: "2022-02-01", dates: "Feb 2022 — Aug 2026", current: false },
+    { title: "Senior Software Engineer", effectiveFrom: "2020-02-01", dates: "Feb 2020 — Jan 2022", current: false },
+    { title: "Software Engineer", effectiveFrom: "2018-02-01", dates: "Feb 2018 — Jan 2020", current: false },
+    { title: "Trainee Software Engineer", effectiveFrom: "2017-02-01", dates: "Feb 2017 — Jan 2018", current: false },
+  ],
   scope: [
     "Front-end and back-end development of an industry-agnostic Digital Transformation Platform.",
     "Incident Management System and a Social Media Hub for a top educational organization.",

@@ -19,10 +19,10 @@ export function Experience() {
         <div className="timeline-marker" aria-hidden="true" />
         <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
-            <h3 className="text-xl font-medium tracking-[-0.02em] text-ink">{experience.title}</h3>
-            <p className="mt-1 text-sm text-muted">{experience.employer}</p>
+            <h3 className="text-xl font-medium tracking-[-0.02em] text-ink">{experience.employer}</h3>
+            <p className="mt-1 text-sm text-muted">Current role · {experience.title}</p>
           </div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-faint">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
             {experience.dates}
             <span className="px-2" aria-hidden="true">
               ·
@@ -32,7 +32,26 @@ export function Experience() {
         </div>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">{experience.continuity}</p>
 
-        <ul className="mt-8 max-w-3xl space-y-4">
+        <h3 className="mt-8 font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Career ladder</h3>
+        <ol className="career-ladder mt-4" aria-label={`Roles at ${experience.employer}`}>
+          {experience.roles.map((role) => (
+            <li key={role.title} className={`career-step ${role.current ? "is-current" : ""}`}>
+              <span className="career-step-marker" aria-hidden="true" />
+              <div className="career-step-body">
+                <p className="career-step-title text-sm font-medium text-ink sm:text-base">
+                  {role.title}
+                  {role.current ? <span className="career-step-badge font-mono">Current</span> : null}
+                </p>
+                <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+                  <time dateTime={role.effectiveFrom}>{role.dates}</time>
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <h3 className="mt-10 font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Scope across the tenure</h3>
+        <ul className="mt-4 max-w-3xl space-y-4">
           {experience.scope.map((item) => (
             <li key={item} className="timeline-item border-t border-line pt-4 text-sm leading-relaxed text-muted">
               {item}
