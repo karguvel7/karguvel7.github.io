@@ -62,7 +62,7 @@ export function ProjectGallery() {
         })}
       </div>
 
-      <div className="projects-stage mt-12 space-y-10 sm:space-y-12" key={filter}>
+      <div className="projects-stage mt-8 space-y-6 sm:mt-10 sm:space-y-8" key={filter}>
         {filtered.map((project, index) => (
           <RevealOnView key={project.id} variant="blur-up" delayMs={index * 90}>
             <CaseStudyCard

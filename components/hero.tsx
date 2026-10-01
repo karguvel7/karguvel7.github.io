@@ -13,7 +13,7 @@ export function Hero() {
       <div className="hero-cinema-vignette" aria-hidden="true" />
       <HeroAmbientMesh />
       <div className="hero-aurora" aria-hidden="true" />
-      <div className="mx-auto w-full max-w-6xl px-5 pb-20 pt-16 sm:px-8 sm:pb-26 sm:pt-20 lg:pb-28 lg:pt-20">
+      <div className="mx-auto w-full max-w-6xl px-5 pb-10 pt-16 sm:px-8 sm:pb-14 sm:pt-20 lg:pb-14 lg:pt-20">
         <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-12 xl:gap-14">
           <div className="lg:col-span-7">
             <p className="rise hero-eyebrow font-mono text-[11px] uppercase tracking-[0.2em]">

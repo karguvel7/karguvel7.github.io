@@ -18,7 +18,7 @@ export function Section({
       id={id}
       aria-labelledby={labelledBy}
       data-accent={accent}
-      className="section-shell border-t border-line/50 py-24 sm:py-28 lg:py-32"
+      className="section-shell border-t border-line/50 py-12 sm:py-14 lg:py-16"
     >
       <RevealOnView variant="blur-up" className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         {children}
