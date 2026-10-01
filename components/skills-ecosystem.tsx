@@ -1,19 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { sectionAccent } from "@/lib/accents";
-import { skillGroups, skillsEcosystemTopology } from "@/lib/content";
+import { skillsEcosystemTopology } from "@/lib/content";
 import { InteractiveTopology } from "@/components/interactive-topology";
 import { Section, SectionHeading } from "@/components/section";
 
 export function SkillsEcosystem() {
   const accent = sectionAccent.skills;
-  const [selectedId, setSelectedId] = useState<string | null>(skillGroups[0]?.id ?? null);
-
-  const selectedNode = useMemo(
-    () => skillsEcosystemTopology.nodes.find((node) => node.id === selectedId) ?? null,
-    [selectedId],
-  );
+  const uid = useId().replace(/:/g, "");
+  const [selectedId, setSelectedId] = useState<string | null>(skillsEcosystemTopology.nodes[0]?.id ?? null);
+  const [hoverId, setHoverId] = useState<string | null>(null);
+  const cardRefs = useRef(new Map<string, HTMLLIElement>());
 
   const topologyNodes = useMemo(
     () =>
@@ -28,6 +26,28 @@ export function SkillsEcosystem() {
     [],
   );
 
+  const toggle = useCallback((id: string) => {
+    setSelectedId((current) => (current === id ? null : id));
+  }, []);
+
+  const selectFromMap = useCallback((id: string | null) => {
+    setSelectedId(id);
+    if (!id || window.matchMedia("(min-width: 1024px)").matches) return;
+    const card = cardRefs.current.get(id);
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    if (rect.top < 80 || rect.bottom > window.innerHeight) {
+      card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  }, []);
+
+  const onCardKeyDown = (event: KeyboardEvent<HTMLButtonElement>, id: string) => {
+    if (event.key === "Escape" && selectedId === id) {
+      event.preventDefault();
+      setSelectedId(null);
+    }
+  };
+
   return (
     <Section id="skills" labelledBy="skills-heading" accent={accent}>
       <SectionHeading
@@ -39,57 +59,89 @@ export function SkillsEcosystem() {
         lede="Frontend through AI, cloud, DevOps, and architecture — grouped the way the work actually ships."
       />
 
-      <div className="skills-topology mt-10 diagram-surface p-0">
-        <div className="diagram-surface-header">
-          <span className="diagram-status" data-accent={accent}>
-            Skills topology
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Select a node</span>
+      <div className="skills-layout mt-10 grid items-start gap-5 lg:grid-cols-12 lg:gap-6">
+        <div className="skills-topology diagram-surface p-0 lg:col-span-7">
+          <div className="diagram-surface-header">
+            <span className="diagram-status" data-accent={accent}>
+              Skills topology
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+              {skillsEcosystemTopology.nodes.length} groups
+            </span>
+          </div>
+
+          <InteractiveTopology
+            viewBox={skillsEcosystemTopology.viewBox}
+            nodes={topologyNodes}
+            edges={skillsEcosystemTopology.edges}
+            ariaLabel="Skills ecosystem topology map"
+            variant="skills"
+            selectedId={selectedId}
+            onSelect={selectFromMap}
+            externalHoverId={hoverId}
+            hint="Drag nodes · pan empty space · tap a node for details"
+          />
         </div>
 
-        <InteractiveTopology
-          viewBox={skillsEcosystemTopology.viewBox}
-          nodes={topologyNodes}
-          edges={skillsEcosystemTopology.edges}
-          ariaLabel="Skills ecosystem topology map"
-          variant="skills"
-          selectedId={selectedId}
-          onSelect={setSelectedId}
-          hint="Drag to rearrange · pan empty space · tap a node for details"
-        />
-
-        <div className="skills-topology-detail" data-accent={selectedNode?.accent ?? accent}>
-          {selectedNode ? (
-            <>
-              <div className="skills-topology-detail-head flex items-start justify-between gap-4 border-b border-line/45 px-5 py-4 sm:px-6">
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{selectedNode.label}</p>
-                  {selectedNode.layerDetail ? (
-                    <p className="mt-2 max-w-2xl text-sm text-muted">{selectedNode.layerDetail}</p>
-                  ) : null}
-                </div>
+        <ul className="skills-cards grid list-none gap-2.5 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1" role="list">
+          {skillsEcosystemTopology.nodes.map((node, index) => {
+            const open = selectedId === node.id;
+            const panelId = `${uid}-skill-${node.id}`;
+            const buttonId = `${panelId}-toggle`;
+            return (
+              <li
+                key={node.id}
+                ref={(el) => {
+                  if (el) cardRefs.current.set(node.id, el);
+                  else cardRefs.current.delete(node.id);
+                }}
+                className={`skill-card ${open ? "is-open" : ""} ${hoverId === node.id ? "is-linked" : ""}`}
+                data-accent={node.accent}
+                onPointerEnter={() => setHoverId(node.id)}
+                onPointerLeave={() => setHoverId((current) => (current === node.id ? null : current))}
+              >
                 <button
+                  id={buttonId}
                   type="button"
-                  className="skills-topology-close font-mono text-[10px] uppercase tracking-[0.12em] text-faint"
-                  onClick={() => setSelectedId(null)}
+                  className="skill-card-toggle"
+                  aria-expanded={open}
+                  aria-controls={panelId}
+                  onClick={() => toggle(node.id)}
+                  onKeyDown={(event) => onCardKeyDown(event, node.id)}
+                  onFocus={() => setHoverId(node.id)}
+                  onBlur={() => setHoverId((current) => (current === node.id ? null : current))}
                 >
-                  Clear
+                  <span className="skill-card-index font-mono text-[10px] tabular-nums" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="skill-card-title text-sm font-medium text-ink">{node.label}</span>
+                  <span className="skill-card-count font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
+                    {node.items.length} skills
+                  </span>
+                  <span className="skill-card-chevron" aria-hidden="true" />
                 </button>
-              </div>
-              <ul className="skills-topology-items list-none space-y-0 px-5 py-3 sm:px-6">
-                {selectedNode.items.map((item) => (
-                  <li key={item} className="skill-card-item border-b border-line/35 py-2.5 text-sm text-ink last:border-b-0">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <p className="px-5 py-6 text-sm text-muted sm:px-6">
-              Choose a node in the map to see stack details from the résumé groups.
-            </p>
-          )}
-        </div>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  className="skill-card-panel"
+                  inert={!open}
+                >
+                  <div className="skill-card-panel-inner">
+                    {node.layerDetail ? <p className="skill-card-detail text-sm text-muted">{node.layerDetail}</p> : null}
+                    <ul className="skill-card-items flex flex-wrap gap-1.5" role="list">
+                      {node.items.map((item) => (
+                        <li key={item} className="tag-chip">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </Section>
   );

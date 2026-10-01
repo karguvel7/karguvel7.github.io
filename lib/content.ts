@@ -203,16 +203,6 @@ export function skillGroupLayerDetail(groupId: (typeof skillGroups)[number]["id"
   return byTitle[groupId] ?? null;
 }
 
-function layoutRing(count: number, cx: number, cy: number, rx: number, ry: number) {
-  return Array.from({ length: count }, (_, index) => {
-    const angle = (index / count) * Math.PI * 2 - Math.PI / 2;
-    return {
-      x: cx + rx * Math.cos(angle),
-      y: cy + ry * Math.sin(angle),
-    };
-  });
-}
-
 const heroFlowLayout = [
   { id: "user", x: 10, y: 40 },
   { id: "agent", x: 30, y: 22 },
@@ -256,18 +246,27 @@ export const heroAgentTopology = {
   ],
 } as const;
 
-const skillRing = layoutRing(skillGroups.length, 50, 52, 38, 34);
+const skillLayout: Record<(typeof skillGroups)[number]["id"], { x: number; y: number }> = {
+  frontend: { x: 20, y: 18 },
+  architecture: { x: 60, y: 14 },
+  devtools: { x: 100, y: 18 },
+  backend: { x: 34, y: 48 },
+  ai: { x: 86, y: 48 },
+  cloud: { x: 20, y: 80 },
+  devops: { x: 56, y: 84 },
+  data: { x: 96, y: 78 },
+};
 
 export const skillsEcosystemTopology = {
-  viewBox: "0 0 100 100",
-  nodes: skillGroups.map((group, index) => ({
+  viewBox: "0 0 120 100",
+  nodes: skillGroups.map((group) => ({
     id: group.id,
     label: group.title,
     accent: group.accent,
     items: group.items,
     layerDetail: skillGroupLayerDetail(group.id),
-    x: skillRing[index]?.x ?? 50,
-    y: skillRing[index]?.y ?? 52,
+    x: skillLayout[group.id].x,
+    y: skillLayout[group.id].y,
   })),
   edges: [
     { from: "frontend", to: "backend" },
@@ -279,7 +278,6 @@ export const skillsEcosystemTopology = {
     { from: "cloud", to: "devops" },
     { from: "architecture", to: "backend" },
     { from: "data", to: "ai" },
-    { from: "devops", to: "cloud" },
   ],
 } as const;
 

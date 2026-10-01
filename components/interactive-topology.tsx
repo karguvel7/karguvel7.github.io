@@ -32,6 +32,8 @@ type InteractiveTopologyProps = {
   hint?: string;
   selectedId?: string | null;
   onSelect?: (id: string | null) => void;
+  /** Highlight driven from outside the map (e.g. hovering a linked card). */
+  externalHoverId?: string | null;
   variant?: "hero" | "skills";
   showPulse?: boolean;
   footer?: ReactNode;
@@ -39,7 +41,20 @@ type InteractiveTopologyProps = {
 
 type Point = { x: number; y: number };
 
-type DragMode = "none" | "pan" | "node";
+type DragState = {
+  mode: "none" | "pan" | "node";
+  pointerId: number;
+  startClient: Point;
+  startPan: Point;
+  nodeId?: string;
+  startNode?: Point;
+  moved: boolean;
+};
+
+const DRAG_THRESHOLD_PX = 5;
+const NODE_RADIUS = 4.2;
+const NODE_RADIUS_ACTIVE = 5.4;
+const EDGE_GAP = 1.4;
 
 function parseViewBox(viewBox: string) {
   const parts = viewBox.split(/\s+/).map(Number);
@@ -55,6 +70,18 @@ function edgeKey(from: string, to: string) {
   return `${from}::${to}`;
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+const IDLE_DRAG: DragState = {
+  mode: "none",
+  pointerId: -1,
+  startClient: { x: 0, y: 0 },
+  startPan: { x: 0, y: 0 },
+  moved: false,
+};
+
 export function InteractiveTopology({
   viewBox,
   nodes,
@@ -63,42 +90,37 @@ export function InteractiveTopology({
   hint = "Drag nodes or pan the canvas. Arrow keys move focus; Enter selects.",
   selectedId: selectedIdProp,
   onSelect,
+  externalHoverId = null,
   variant = "hero",
   showPulse = false,
   footer,
 }: InteractiveTopologyProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const liveRef = useRef<HTMLDivElement>(null);
+  const nodeRefs = useRef(new Map<string, SVGGElement>());
   const titleId = useId();
   const descId = useId();
   const uid = useId().replace(/:/g, "");
   const gridPatternId = `topologyDiagGrid-${uid}`;
   const edgeGradId = `topologyEdgeGrad-${uid}`;
-  const nodeGlowId = `topologyNodeGlow-${uid}`;
 
-  const [positions, setPositions] = useState<Record<string, Point>>(() =>
-    Object.fromEntries(nodes.map((node) => [node.id, { x: node.x, y: node.y }])),
+  const initialPositions = useMemo(
+    () => Object.fromEntries(nodes.map((node) => [node.id, { x: node.x, y: node.y }])),
+    [nodes],
   );
+  const [positions, setPositions] = useState<Record<string, Point>>(initialPositions);
   const [pan, setPan] = useState<Point>({ x: 0, y: 0 });
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [internalSelected, setInternalSelected] = useState<string | null>(null);
   const [pulseIndex, setPulseIndex] = useState(0);
-  const [dragging, setDragging] = useState(false);
-
-  const dragRef = useRef<{
-    mode: DragMode;
-    pointerId: number;
-    startClient: Point;
-    startPan: Point;
-    nodeId?: string;
-    startNode?: Point;
-    scrollLock?: boolean;
-    moved?: boolean;
-  }>({ mode: "none", pointerId: -1, startClient: { x: 0, y: 0 }, startPan: { x: 0, y: 0 } });
+  const [dragMode, setDragMode] = useState<DragState["mode"]>("none");
+  const [grabbedId, setGrabbedId] = useState<string | null>(null);
+  const dragRef = useRef<DragState>(IDLE_DRAG);
 
   const selectedId = selectedIdProp !== undefined ? selectedIdProp : internalSelected;
-  const highlightId = hoverId ?? focusId ?? selectedId;
+  const highlightId = hoverId ?? externalHoverId ?? focusId ?? selectedId;
+  const vb = useMemo(() => parseViewBox(viewBox), [viewBox]);
 
   const setSelected = useCallback(
     (id: string | null) => {
@@ -107,27 +129,32 @@ export function InteractiveTopology({
       const node = nodes.find((n) => n.id === id);
       if (liveRef.current) {
         liveRef.current.textContent = node
-          ? `${node.label}${node.detail ? ` — ${node.detail}` : ""}`
+          ? `${node.label} selected${node.detail ? ` — ${node.detail}` : ""}`
           : "Selection cleared";
       }
     },
     [nodes, onSelect],
   );
 
-  const vb = useMemo(() => parseViewBox(viewBox), [viewBox]);
-
   const connectedEdges = useMemo(() => {
-    if (!highlightId) return new Set<string>();
     const set = new Set<string>();
+    if (!highlightId) return set;
     edges.forEach((edge) => {
-      if (edge.from === highlightId || edge.to === highlightId) {
-        set.add(edgeKey(edge.from, edge.to));
-      }
+      if (edge.from === highlightId || edge.to === highlightId) set.add(edgeKey(edge.from, edge.to));
     });
     return set;
   }, [edges, highlightId]);
 
-  const dragMovedRef = useRef(false);
+  const connectedNodes = useMemo(() => {
+    const set = new Set<string>();
+    if (!highlightId) return set;
+    set.add(highlightId);
+    edges.forEach((edge) => {
+      if (edge.from === highlightId) set.add(edge.to);
+      if (edge.to === highlightId) set.add(edge.from);
+    });
+    return set;
+  }, [edges, highlightId]);
 
   useEffect(() => {
     if (!showPulse || document.documentElement.dataset.motion !== "on") return;
@@ -135,135 +162,121 @@ export function InteractiveTopology({
     return () => window.clearInterval(timer);
   }, [edges.length, showPulse]);
 
-  const endDrag = useCallback(() => {
-    const svg = svgRef.current;
-    if (svg && dragRef.current.pointerId >= 0) {
-      try {
-        svg.releasePointerCapture(dragRef.current.pointerId);
-      } catch {
-        /* already released */
-      }
-    }
-    dragRef.current = {
-      mode: "none",
-      pointerId: -1,
-      startClient: { x: 0, y: 0 },
-      startPan: { x: 0, y: 0 },
-    };
-    setDragging(false);
+  /** Converts a client-space delta into viewBox units, honouring preserveAspectRatio letterboxing. */
+  const toViewBoxDelta = useCallback((dxClient: number, dyClient: number): Point => {
+    const matrix = svgRef.current?.getScreenCTM();
+    if (!matrix || matrix.a === 0 || matrix.d === 0) return { x: 0, y: 0 };
+    return { x: dxClient / matrix.a, y: dyClient / matrix.d };
   }, []);
 
-  const onPanSurfaceDown = (event: ReactPointerEvent<SVGRectElement>) => {
-    if (event.button !== 0) return;
-    const svg = svgRef.current;
-    if (!svg) return;
-    dragMovedRef.current = false;
-    dragRef.current = {
-      mode: "pan",
-      pointerId: event.pointerId,
-      startClient: { x: event.clientX, y: event.clientY },
-      startPan: { ...pan },
-      scrollLock: false,
-      moved: false,
-    };
-    svg.setPointerCapture(event.pointerId);
-    setDragging(true);
-    event.preventDefault();
-  };
+  const endDrag = useCallback(
+    (event?: ReactPointerEvent<SVGSVGElement>) => {
+      const drag = dragRef.current;
+      if (drag.mode === "none") return;
+      if (event && drag.pointerId !== event.pointerId) return;
+      const svg = svgRef.current;
+      if (svg?.hasPointerCapture?.(drag.pointerId)) svg.releasePointerCapture(drag.pointerId);
 
-  const onNodeDown = (nodeId: string, event: ReactPointerEvent<SVGGElement>) => {
+      const wasTap = !drag.moved && event?.type === "pointerup";
+      const tappedNode = drag.mode === "node" ? drag.nodeId : undefined;
+      dragRef.current = IDLE_DRAG;
+      setDragMode("none");
+      setGrabbedId(null);
+
+      if (wasTap && tappedNode) setSelected(selectedId === tappedNode ? null : tappedNode);
+    },
+    [selectedId, setSelected],
+  );
+
+  const beginDrag = (
+    mode: "pan" | "node",
+    event: ReactPointerEvent<SVGElement>,
+    nodeId?: string,
+  ) => {
     if (event.button !== 0) return;
     const svg = svgRef.current;
     if (!svg) return;
-    const pos = positions[nodeId];
-    if (!pos) return;
-    dragMovedRef.current = false;
     dragRef.current = {
-      mode: "node",
+      mode,
       pointerId: event.pointerId,
       startClient: { x: event.clientX, y: event.clientY },
       startPan: { ...pan },
       nodeId,
-      startNode: { ...pos },
+      startNode: nodeId ? { ...positions[nodeId] } : undefined,
       moved: false,
     };
     svg.setPointerCapture(event.pointerId);
-    setDragging(true);
-    event.stopPropagation();
-    event.preventDefault();
+    setDragMode(mode);
+    setGrabbedId(nodeId ?? null);
+    if (mode === "node") {
+      event.stopPropagation();
+      event.preventDefault();
+    }
   };
 
   const onPointerMove = (event: ReactPointerEvent<SVGSVGElement>) => {
     const drag = dragRef.current;
     if (drag.mode === "none" || drag.pointerId !== event.pointerId) return;
 
-    const dx = event.clientX - drag.startClient.x;
-    const dy = event.clientY - drag.startClient.y;
-    if (Math.hypot(dx, dy) > 4) dragMovedRef.current = true;
+    const dxClient = event.clientX - drag.startClient.x;
+    const dyClient = event.clientY - drag.startClient.y;
+    if (!drag.moved && Math.hypot(dxClient, dyClient) < DRAG_THRESHOLD_PX) return;
+    drag.moved = true;
+    const delta = toViewBoxDelta(dxClient, dyClient);
 
     if (drag.mode === "pan") {
-      if (!drag.scrollLock && Math.abs(dy) > Math.abs(dx) * 1.2 && Math.abs(dy) > 8) {
-        endDrag();
-        return;
-      }
-      drag.scrollLock = true;
-      const svg = svgRef.current;
-      if (!svg) return;
-      const scaleX = vb.width / svg.clientWidth;
-      const scaleY = vb.height / svg.clientHeight;
+      const limitX = vb.width * 0.22;
+      const limitY = vb.height * 0.22;
       setPan({
-        x: drag.startPan.x + dx * scaleX,
-        y: drag.startPan.y + dy * scaleY,
+        x: clamp(drag.startPan.x + delta.x, -limitX, limitX),
+        y: clamp(drag.startPan.y + delta.y, -limitY, limitY),
       });
       return;
     }
 
     if (drag.mode === "node" && drag.nodeId && drag.startNode) {
-      const svg = svgRef.current;
-      if (!svg) return;
-      const scaleX = vb.width / svg.clientWidth;
-      const scaleY = vb.height / svg.clientHeight;
+      const margin = 7;
+      const id = drag.nodeId;
+      const start = drag.startNode;
       setPositions((prev) => ({
         ...prev,
-        [drag.nodeId!]: {
-          x: drag.startNode!.x + dx * scaleX,
-          y: drag.startNode!.y + dy * scaleY,
+        [id]: {
+          x: clamp(start.x + delta.x, vb.minX + margin - pan.x, vb.minX + vb.width - margin - pan.x),
+          y: clamp(start.y + delta.y, vb.minY + margin - pan.y, vb.minY + vb.height - margin * 1.6 - pan.y),
         },
       }));
     }
+  };
+
+  const focusNodeAt = (index: number) => {
+    const next = nodes[(index + nodes.length) % nodes.length];
+    nodeRefs.current.get(next.id)?.focus();
   };
 
   const onKeyDown = (event: KeyboardEvent<SVGGElement>, nodeId: string, index: number) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       setSelected(selectedId === nodeId ? null : nodeId);
-      return;
-    }
-    if (event.key === "Escape") {
+    } else if (event.key === "Escape") {
       event.preventDefault();
       setSelected(null);
-      return;
-    }
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+    } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
       event.preventDefault();
-      const next = nodes[(index + 1) % nodes.length];
-      document.getElementById(`topology-node-${next.id}`)?.focus();
-      return;
-    }
-    if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      focusNodeAt(index + 1);
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
       event.preventDefault();
-      const prev = nodes[(index - 1 + nodes.length) % nodes.length];
-      document.getElementById(`topology-node-${prev.id}`)?.focus();
+      focusNodeAt(index - 1);
     }
   };
 
   const resetLayout = () => {
     setPan({ x: 0, y: 0 });
-    setPositions(Object.fromEntries(nodes.map((node) => [node.id, { x: node.x, y: node.y }])));
+    setPositions(initialPositions);
     setSelected(null);
   };
 
   const heightClass = variant === "skills" ? "topology-canvas-skills" : "topology-canvas-hero";
+  const radiusOf = (id: string) => (selectedId === id || highlightId === id ? NODE_RADIUS_ACTIVE : NODE_RADIUS);
 
   return (
     <div className={`topology-shell topology-shell-${variant}`}>
@@ -277,13 +290,17 @@ export function InteractiveTopology({
       <svg
         ref={svgRef}
         viewBox={viewBox}
-        className={`diagram-canvas topology-canvas ${heightClass} ${dragging ? "is-dragging" : ""}`}
-        role="img"
+        preserveAspectRatio="xMidYMid meet"
+        className={`diagram-canvas topology-canvas ${heightClass} ${dragMode !== "none" ? "is-dragging" : ""} ${
+          highlightId ? "has-highlight" : ""
+        }`}
+        role="group"
         aria-labelledby={titleId}
         aria-describedby={descId}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
+        onLostPointerCapture={endDrag}
       >
         <title id={titleId}>{ariaLabel}</title>
         <desc id={descId}>{hint}</desc>
@@ -293,107 +310,104 @@ export function InteractiveTopology({
             <stop offset="50%" stopColor="rgb(var(--accent-violet-rgb))" stopOpacity="0.45" />
             <stop offset="100%" stopColor="rgb(var(--accent-cyan-rgb))" stopOpacity="0.2" />
           </linearGradient>
-          <filter id={nodeGlowId} x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1.2" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
           <pattern id={gridPatternId} width="8" height="8" patternUnits="userSpaceOnUse">
             <path d="M 8 0 L 0 0 0 8" fill="none" className="hero-viz-grid-line" strokeWidth="0.25" />
           </pattern>
         </defs>
 
-        <g transform={`translate(${pan.x} ${pan.y})`}>
+        <rect
+          className="topology-pan-surface"
+          x={vb.minX - vb.width}
+          y={vb.minY - vb.height}
+          width={vb.width * 3}
+          height={vb.height * 3}
+          onPointerDown={(event) => beginDrag("pan", event)}
+        />
+
+        <g transform={`translate(${pan.x} ${pan.y})`} className="topology-world">
           <rect
-            className="topology-pan-surface"
-            x={vb.minX}
-            y={vb.minY}
-            width={vb.width}
-            height={vb.height}
-            onPointerDown={onPanSurfaceDown}
-          />
-          <rect
-            x={vb.minX}
-            y={vb.minY}
-            width={vb.width}
-            height={vb.height}
+            x={vb.minX - vb.width}
+            y={vb.minY - vb.height}
+            width={vb.width * 3}
+            height={vb.height * 3}
             fill={`url(#${gridPatternId})`}
             pointerEvents="none"
           />
 
-          {edges.map((edge, index) => {
-            const from = positions[edge.from];
-            const to = positions[edge.to];
-            if (!from || !to) return null;
-            const key = edgeKey(edge.from, edge.to);
-            const highlighted = connectedEdges.has(key);
-            const pulseActive = showPulse && index === pulseIndex && !dragging;
-            return (
-              <g key={key}>
-                <line
-                  x1={from.x}
-                  y1={from.y}
-                  x2={to.x}
-                  y2={to.y}
-                  className={`hero-viz-edge topology-edge ${highlighted ? "is-highlight" : ""} ${pulseActive ? "is-active" : ""}`}
-                  stroke={pulseActive ? `url(#${edgeGradId})` : undefined}
-                />
-                {pulseActive ? (
-                  <circle r="1.2" className="hero-viz-packet">
-                    <animateMotion
-                      dur="1.4s"
-                      repeatCount="1"
-                      path={`M ${from.x} ${from.y} L ${to.x} ${to.y}`}
-                    />
-                  </circle>
-                ) : null}
-              </g>
-            );
-          })}
+          <g className="topology-edges" pointerEvents="none">
+            {edges.map((edge, index) => {
+              const from = positions[edge.from];
+              const to = positions[edge.to];
+              if (!from || !to) return null;
+              const dist = Math.hypot(to.x - from.x, to.y - from.y) || 1;
+              const ux = (to.x - from.x) / dist;
+              const uy = (to.y - from.y) / dist;
+              const startGap = radiusOf(edge.from) + EDGE_GAP;
+              const endGap = radiusOf(edge.to) + EDGE_GAP;
+              if (dist <= startGap + endGap) return null;
+              const x1 = from.x + ux * startGap;
+              const y1 = from.y + uy * startGap;
+              const x2 = to.x - ux * endGap;
+              const y2 = to.y - uy * endGap;
+              const key = edgeKey(edge.from, edge.to);
+              const highlighted = connectedEdges.has(key);
+              const pulseActive = showPulse && index === pulseIndex && dragMode === "none";
+              return (
+                <g key={key}>
+                  <line
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    className={`hero-viz-edge topology-edge ${highlighted ? "is-highlight" : ""} ${pulseActive ? "is-active" : ""}`}
+                    stroke={pulseActive ? `url(#${edgeGradId})` : undefined}
+                  />
+                  {pulseActive ? (
+                    <circle r="1.1" className="hero-viz-packet">
+                      <animateMotion dur="1.4s" repeatCount="1" path={`M ${x1} ${y1} L ${x2} ${y2}`} />
+                    </circle>
+                  ) : null}
+                </g>
+              );
+            })}
+          </g>
 
           {nodes.map((node, index) => {
             const pos = positions[node.id] ?? { x: node.x, y: node.y };
             const isSelected = selectedId === node.id;
             const isHot = highlightId === node.id;
-            const radius = isSelected || isHot ? 5.4 : 4.2;
+            const isLinked = connectedNodes.has(node.id);
+            const radius = radiusOf(node.id);
             return (
               <g
                 key={node.id}
-                id={`topology-node-${node.id}`}
-                className={`topology-node-group ${isSelected ? "is-selected" : ""} ${isHot ? "is-hot" : ""}`}
+                ref={(el) => {
+                  if (el) nodeRefs.current.set(node.id, el);
+                  else nodeRefs.current.delete(node.id);
+                }}
+                data-node-id={node.id}
+                className={`topology-node-group ${isSelected ? "is-selected" : ""} ${isHot ? "is-hot" : ""} ${
+                  isLinked ? "is-linked" : ""
+                } ${grabbedId === node.id ? "is-grabbed" : ""}`}
                 transform={`translate(${pos.x} ${pos.y})`}
                 role="button"
                 tabIndex={0}
                 aria-pressed={isSelected}
                 aria-label={`${node.label}${node.detail ? `, ${node.detail}` : ""}`}
-                onPointerDown={(event) => onNodeDown(node.id, event)}
+                onPointerDown={(event) => beginDrag("node", event, node.id)}
                 onPointerEnter={() => setHoverId(node.id)}
                 onPointerLeave={() => setHoverId((current) => (current === node.id ? null : current))}
                 onFocus={() => setFocusId(node.id)}
                 onBlur={() => setFocusId((current) => (current === node.id ? null : current))}
                 onKeyDown={(event) => onKeyDown(event, node.id, index)}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  if (dragMovedRef.current) {
-                    dragMovedRef.current = false;
-                    return;
-                  }
-                  setSelected(isSelected ? null : node.id);
-                }}
-                filter={`url(#${nodeGlowId})`}
               >
-                <circle
-                  r={radius + 6}
-                  className="topology-node-hit"
-                  fill="transparent"
-                />
+                <circle r={radius + 5} className="topology-node-hit" />
+                <circle r={radius + 2.2} className="topology-node-ring" />
                 <circle
                   r={radius}
                   className={`hero-viz-node hero-viz-node-${node.accent} ${isSelected || isHot ? "is-active" : ""}`}
                 />
-                <text y={12} textAnchor="middle" className="hero-viz-label">
+                <text y={radius + 5.2} textAnchor="middle" className="hero-viz-label topology-label">
                   {node.label}
                 </text>
               </g>
