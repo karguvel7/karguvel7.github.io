@@ -1524,15 +1524,25 @@ html[data-theme="light"] .diagram-surface,
 html[data-theme="light"] .glass-panel {
   background:
     linear-gradient(
-      155deg,
-      rgb(var(--theme-chrome-fill) / 0.04) 38%,
-      transparent 100%
-    ),
-    rgb(var(--accent-blue-rgb) / 0.03);
+      165deg,
+      color-mix(in srgb, var(--theme-canvas-elevated) 94%, rgb(var(--accent-blue-rgb) / 0.06)),
+      var(--theme-canvas-elevated)
+    );
+  border-color: rgb(var(--theme-line) / 0.65);
   box-shadow:
-    0 1px 0 rgb(var(--theme-chrome-fill) / 0.45) inset,
-    0 16px 40px rgb(var(--theme-surface-shadow) / 0.08),
-    0 0 0 1px rgb(var(--theme-chrome-border) / 0.12);
+    0 1px 0 rgb(var(--theme-chrome-fill) / 0.08) inset,
+    0 12px 32px rgb(var(--theme-surface-shadow) / 0.06),
+    0 0 0 1px rgb(var(--theme-line) / 0.35);
+}
+
+html[data-theme="light"] .diagram-surface::before {
+  opacity: 0.45;
+}
+
+html[data-theme="light"] .role-chip,
+html[data-theme="light"] .project-filter {
+  background: color-mix(in srgb, var(--theme-canvas-elevated) 88%, rgb(var(--theme-chrome-fill) / 0.06));
+  border-color: rgb(var(--theme-line) / 0.75);
 }
 
 html[data-theme="light"] .header-premium.is-scrolled,
