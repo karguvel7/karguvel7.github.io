@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://karguvel7.github.io
+Sitemap: https://karguvel7.github.io/sitemap.xml
