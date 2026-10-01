@@ -35,12 +35,14 @@ export function HeroArcInteractive() {
             <li key={item.step} className="relative">
               <a
                 href={item.href}
+                data-accent={item.accent}
                 className={`arc-cell block h-full border border-transparent bg-canvas px-4 py-4 transition-[transform,background,border-color,box-shadow] sm:last:col-span-2 lg:last:col-span-1 ${isActive ? "arc-cell-active" : ""}`}
                 onPointerEnter={() => activate(index)}
                 onFocus={() => activate(index)}
                 aria-current={isActive ? "true" : undefined}
               >
                 <p className="font-mono text-[11px] text-faint">
+                  <span className="status-dot mr-2 inline-block align-middle" aria-hidden="true" />
                   {String(index + 1).padStart(2, "0")}
                 </p>
                 <p className="mt-3 text-sm font-medium text-ink">{item.step}</p>

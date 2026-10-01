@@ -1,18 +1,24 @@
+import { sectionAccent } from "@/lib/accents";
 import { mailtoHref, site } from "@/lib/content";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Contact() {
+  const accent = sectionAccent.contact;
   return (
-    <Section id="contact" labelledBy="contact-heading">
+    <Section id="contact" labelledBy="contact-heading" accent={accent}>
       <SectionHeading
         id="contact-heading"
         index="10"
         eyebrow="Contact"
+        accent={accent}
         title="A role, a freelance project, or a conversation."
         lede="Email is the fastest way to reach me. I typically reply within a couple of days."
       />
 
-      <div className="mt-12 grid gap-10 border border-line p-5 sm:p-8 lg:grid-cols-12">
+      <div
+        data-accent={accent}
+        className="panel-accent-rail mt-12 grid gap-10 p-5 sm:p-8 lg:grid-cols-12"
+      >
         <div className="lg:col-span-7">
           <a
             href={mailtoHref()}

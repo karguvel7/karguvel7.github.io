@@ -34,13 +34,13 @@ export function Hero() {
             <div className="rise rise-delay-4 mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <MagneticLink
                 href="#projects"
-                className="btn-primary inline-flex h-11 items-center justify-center bg-ink px-4 text-sm font-medium text-canvas hover:opacity-90"
+                className="btn-primary btn-primary-accent inline-flex h-11 items-center justify-center px-4 text-sm font-medium hover:opacity-95"
               >
                 View the work
               </MagneticLink>
               <MagneticLink
                 href={`mailto:${site.email}`}
-                className="btn-secondary inline-flex h-11 items-center justify-center border border-line px-4 text-sm text-ink"
+                className="btn-secondary btn-secondary-accent inline-flex h-11 items-center justify-center border border-line px-4 text-sm text-ink"
               >
                 {site.email}
               </MagneticLink>

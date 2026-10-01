@@ -1,14 +1,17 @@
+import { sectionAccent } from "@/lib/accents";
 import { caseStudyFields, projects, type CaseStudy } from "@/lib/content";
 import { InteractivePipeline } from "@/components/interactive-pipeline";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Projects() {
+  const accent = sectionAccent.projects;
   return (
-    <Section id="projects" labelledBy="projects-heading">
+    <Section id="projects" labelledBy="projects-heading" accent={accent}>
       <SectionHeading
         id="projects-heading"
         index="06"
         eyebrow="Featured projects"
+        accent={accent}
         title="Systems architected and delivered."
         lede="Multi-agent orchestration, enterprise copilots, observability, and an AI-native way of building. Outcomes stay with what the work itself shows."
       />
@@ -27,6 +30,7 @@ function CaseStudyArticle({ project, index }: { project: CaseStudy; index: numbe
     <article
       id={project.id}
       aria-labelledby={`${project.id}-title`}
+      data-accent={project.accent}
       className="interactive-panel scroll-mt-24 py-12"
     >
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
@@ -39,9 +43,9 @@ function CaseStudyArticle({ project, index }: { project: CaseStudy; index: numbe
             {project.title}
           </h3>
           <p className="mt-3 text-sm leading-relaxed text-muted">{project.summary}</p>
-          <ul className="mt-5 flex flex-wrap gap-x-3 gap-y-1" aria-label="Technologies">
+          <ul className="mt-5 flex flex-wrap gap-2" aria-label="Technologies">
             {project.tags.map((tag) => (
-              <li key={tag} className="font-mono text-[11px] uppercase tracking-[0.12em] text-faint">
+              <li key={tag} data-accent={project.accent} className="tag-chip">
                 {tag}
               </li>
             ))}
@@ -49,7 +53,7 @@ function CaseStudyArticle({ project, index }: { project: CaseStudy; index: numbe
         </div>
 
         <div className="lg:col-span-8">
-          <InteractivePipeline stages={project.pipeline} />
+          <InteractivePipeline stages={project.pipeline} accent={project.accent} />
           <dl className="mt-6 grid sm:grid-cols-2 sm:gap-x-8">
             {caseStudyFields.map((field) => (
               <div

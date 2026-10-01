@@ -1,13 +1,16 @@
+import { sectionAccent, stackRowAccent } from "@/lib/accents";
 import { stack } from "@/lib/content";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Stack() {
+  const accent = sectionAccent.stack;
   return (
-    <Section id="stack" labelledBy="stack-heading">
+    <Section id="stack" labelledBy="stack-heading" accent={accent}>
       <SectionHeading
         id="stack-heading"
         index="07"
         eyebrow="Technical stack"
+        accent={accent}
         title="What the work is built with."
         lede="The case-study stack, plus the Innoart record: Angular 1–14, Three.js, Neo4j, MySQL, ClickHouse, OpenAPI, OAuth 2.0, Android, Xamarin Forms, and Cordova. Flutter remains with the mobile work."
       />
@@ -32,14 +35,17 @@ export function Stack() {
             </tr>
           </thead>
           <tbody>
-            {stack.map((row) => (
-              <tr key={row.area} className="border-b border-line">
-                <th scope="row" className="w-[38%] py-3.5 pr-4 align-top font-medium text-ink sm:w-40 sm:pr-6">
-                  {row.area}
-                </th>
-                <td className="py-3.5 align-top text-muted">{row.technologies}</td>
-              </tr>
-            ))}
+            {stack.map((row) => {
+              const rowAccent = stackRowAccent[row.area] ?? "neutral";
+              return (
+                <tr key={row.area} data-accent={rowAccent} className="stack-row border-b border-line">
+                  <th scope="row" className="w-[38%] py-3.5 pr-4 align-top font-medium text-ink sm:w-40 sm:pr-6">
+                    {row.area}
+                  </th>
+                  <td className="py-3.5 align-top text-muted">{row.technologies}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

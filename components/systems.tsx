@@ -1,13 +1,16 @@
+import { sectionAccent } from "@/lib/accents";
 import { aiCapabilities, aiInPractice } from "@/lib/content";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Systems() {
+  const accent = sectionAccent.systems;
   return (
-    <Section id="systems" labelledBy="systems-heading">
+    <Section id="systems" labelledBy="systems-heading" accent={accent}>
       <SectionHeading
         id="systems-heading"
         index="04"
         eyebrow="AI and agentic systems"
+        accent={accent}
         title="Application engineering for models, agents, and copilots."
         lede="The AI work is systems that call models, orchestrate agents, stream output, and sit inside real products."
       />
@@ -22,7 +25,7 @@ export function Systems() {
           ))}
         </ul>
 
-        <div className="lg:col-span-5">
+        <div data-accent={accent} className="panel-accent-rail lg:col-span-5 p-5 sm:p-6">
           <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">
             In the work
           </h3>

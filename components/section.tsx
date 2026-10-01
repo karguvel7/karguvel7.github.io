@@ -1,20 +1,24 @@
 import type { ReactNode } from "react";
+import type { Accent } from "@/lib/accents";
 import { RevealOnView } from "@/components/reveal-on-view";
 
 export function Section({
   id,
   labelledBy,
+  accent = "neutral",
   children,
 }: {
   id: string;
   labelledBy: string;
+  accent?: Accent;
   children: ReactNode;
 }) {
   return (
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className="scroll-mt-20 border-t border-line py-20 sm:py-28"
+      data-accent={accent}
+      className="section-shell scroll-mt-20 border-t border-line py-20 sm:py-28"
     >
       <RevealOnView className="mx-auto w-full max-w-6xl px-5 sm:px-8">{children}</RevealOnView>
     </section>
@@ -27,17 +31,19 @@ export function SectionHeading({
   eyebrow,
   title,
   lede,
+  accent = "neutral",
 }: {
   id: string;
   index: string;
   eyebrow: string;
   title: string;
   lede?: string;
+  accent?: Accent;
 }) {
   return (
-    <div className="grid gap-4 lg:grid-cols-12 lg:gap-8">
-      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint lg:col-span-3">
-        <span className="text-muted">{index}</span>
+    <div className="section-heading grid gap-4 lg:grid-cols-12 lg:gap-8" data-accent={accent}>
+      <p className="section-heading-meta font-mono text-[11px] uppercase tracking-[0.16em] text-faint lg:col-span-3">
+        <span className="section-heading-index text-muted">{index}</span>
         <span className="px-2" aria-hidden="true">
           /
         </span>

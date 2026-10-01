@@ -1,13 +1,16 @@
+import { sectionAccent } from "@/lib/accents";
 import { about } from "@/lib/content";
 import { Section, SectionHeading } from "@/components/section";
 
 export function About() {
+  const accent = sectionAccent.about;
   return (
-    <Section id="about" labelledBy="about-heading">
+    <Section id="about" labelledBy="about-heading" accent={accent}>
       <SectionHeading
         id="about-heading"
         index="01"
         eyebrow="About"
+        accent={accent}
         title="Design, build, deploy, and operate production AI systems."
         lede={about.lede}
       />
@@ -22,7 +25,10 @@ export function About() {
           <p className="max-w-2xl text-base leading-relaxed text-muted">{about.applicationStack}</p>
         </div>
 
-        <dl className="border-t border-line lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-8">
+        <dl
+          data-accent={accent}
+          className="panel-accent-rail border-t border-line lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-8"
+        >
           {about.facts.map((fact) => (
             <div key={fact.label} className="border-b border-line py-4">
               <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">

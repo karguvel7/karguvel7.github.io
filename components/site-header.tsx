@@ -93,7 +93,7 @@ export function SiteHeader() {
           ))}
           <a
             href={`mailto:${site.email}`}
-            className="btn-secondary border border-line px-3 py-1.5 text-sm text-ink"
+            className="btn-secondary btn-secondary-accent border border-line px-3 py-1.5 text-sm text-ink"
           >
             Email
           </a>

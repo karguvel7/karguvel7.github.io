@@ -8,6 +8,8 @@
  * Do not add other employers, promotion dates, client names, or metrics.
  */
 
+import type { Accent } from "@/lib/accents";
+
 export const site = {
   name: "Karguvel K",
   fullName: "Karguvel Kalisekar",
@@ -46,26 +48,31 @@ export const arc = [
     step: "AI",
     detail: "LLM applications, agents, orchestration",
     href: "#systems",
+    accent: "violet" as const,
   },
   {
     step: "Backend",
     detail: "Node.js, TypeScript, Python",
     href: "#stack",
+    accent: "cyan" as const,
   },
   {
     step: "Cloud",
     detail: "AWS and Azure",
     href: "#platform",
+    accent: "cyan" as const,
   },
   {
     step: "DevOps",
     detail: "Docker, CI/CD, Kubernetes",
     href: "#platform",
+    accent: "cyan" as const,
   },
   {
     step: "Frontend",
     detail: "Angular and React",
     href: "#projects",
+    accent: "emerald" as const,
   },
 ] as const;
 
@@ -287,6 +294,7 @@ export type CaseStudy = {
   summary: string;
   pipeline: readonly string[];
   tags: readonly string[];
+  accent: Accent;
   problem: string;
   architecture: string;
   technologies: string;
@@ -309,6 +317,7 @@ export const projects: readonly CaseStudy[] = [
       "Workflow automation",
     ],
     tags: ["Agentic AI", "LLMs", "Orchestration", "Streaming"],
+    accent: "violet",
     problem:
       "Complex AI workflows need coordinated agents, tools, and streamed output in one system.",
     architecture:
@@ -335,6 +344,7 @@ export const projects: readonly CaseStudy[] = [
       "Backend AI",
     ],
     tags: ["React", "AG-UI", "Voice", "Healthcare AI"],
+    accent: "violet",
     problem:
       "The assistant has to hold a conversation: streamed replies, voice input, and an agentic interface.",
     architecture:
@@ -362,6 +372,7 @@ export const projects: readonly CaseStudy[] = [
       "Observability",
     ],
     tags: ["Angular", "Node.js", "Azure", "Microservices"],
+    accent: "cyan",
     problem:
       "Trade-finance work needs AI assistance inside an enterprise application: a client, services, a cloud deployment, and a way to operate it.",
     architecture:
@@ -389,6 +400,7 @@ export const projects: readonly CaseStudy[] = [
       "Logs, metrics, alerts",
     ],
     tags: ["Observability", "MongoDB", "Docker", "Audit"],
+    accent: "amber",
     problem:
       "Distributed systems need service and entity tracking, an audit trail, and signals teams can act on — logs, metrics, and alerts.",
     architecture:
@@ -411,6 +423,7 @@ export const projects: readonly CaseStudy[] = [
       "Spec-driven, AI-assisted delivery — from specifications to implementation with Cursor, Claude, and Spec Kit.",
     pipeline: ["Specification", "Spec Kit", "Cursor and Claude", "Implementation"],
     tags: ["Cursor", "Claude", "Spec Kit", "DX"],
+    accent: "violet",
     problem:
       "Implementation drifts when specifications stay informal. Delivery needs a repeatable path from spec to code.",
     architecture:

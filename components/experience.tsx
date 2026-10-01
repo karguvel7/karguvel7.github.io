@@ -1,18 +1,21 @@
+import { sectionAccent } from "@/lib/accents";
 import { experience } from "@/lib/content";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Experience() {
+  const accent = sectionAccent.experience;
   return (
-    <Section id="experience" labelledBy="experience-heading">
+    <Section id="experience" labelledBy="experience-heading" accent={accent}>
       <SectionHeading
         id="experience-heading"
         index="02"
         eyebrow="Professional experience"
+        accent={accent}
         title={`${experience.title} at ${experience.employer}`}
         lede={experience.lede}
       />
 
-      <article className="mt-12 border border-line p-5 sm:p-8">
+      <article data-accent={accent} className="panel-accent-rail mt-12 p-5 sm:p-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
             <h3 className="text-xl font-medium tracking-[-0.02em] text-ink">{experience.title}</h3>
@@ -57,7 +60,8 @@ export function Experience() {
               {experience.industries.map((industry) => (
                 <li
                   key={industry}
-                  className="border border-line px-2.5 py-1 font-mono text-[11px] tracking-wide text-muted"
+                  data-accent="amber"
+                  className="layer-badge font-mono text-[11px] tracking-wide"
                 >
                   {industry}
                 </li>
