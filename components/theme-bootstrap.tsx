@@ -3,6 +3,10 @@
 import { useLayoutEffect } from "react";
 import { applyTheme, readStoredPreference } from "@/lib/theme";
 
+if (typeof document !== "undefined") {
+  applyTheme(readStoredPreference());
+}
+
 /** Re-apply theme after React hydrates (inline script attrs are stripped from <html>). */
 export function ThemeBootstrap() {
   useLayoutEffect(() => {

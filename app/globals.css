@@ -41,6 +41,22 @@ html {
   --theme-chrome-fill: 248 250 252;
   --theme-viz-label: 180 188 200;
   --theme-viz-grid: 248 250 252;
+  --theme-glass-bg:
+    linear-gradient(
+      155deg,
+      rgb(var(--theme-chrome-fill) / 0.08) 0%,
+      rgb(var(--theme-chrome-fill) / 0.03) 38%,
+      rgb(var(--theme-surface-shadow) / 0.16) 100%
+    ),
+    rgb(var(--accent-violet-rgb) / 0.04);
+  --theme-glass-border-color: rgb(var(--theme-chrome-border) / 0.14);
+  --theme-glass-shadow:
+    0 1px 0 rgb(var(--theme-chrome-fill) / 0.08) inset,
+    0 24px 48px rgb(var(--theme-surface-shadow) / 0.12),
+    0 0 0 1px rgb(var(--theme-chrome-border) / 0.06);
+  --theme-glass-ring-opacity: 1;
+  --theme-panel-bg: rgb(var(--theme-chrome-fill) / 0.04);
+  --theme-panel-border: rgb(var(--theme-chrome-border) / 0.12);
   scroll-padding-top: 5rem;
   color-scheme: dark;
 }
@@ -49,8 +65,8 @@ html[data-theme="light"] {
   --theme-canvas: #eef1f6;
   --theme-canvas-elevated: #ffffff;
   --theme-ink: #0b1220;
-  --theme-muted: #475569;
-  --theme-faint: #556275;
+  --theme-muted: #3d4a5c;
+  --theme-faint: #4a586a;
   --theme-line: #cbd5e1;
   --theme-accent-blue: #2563eb;
   --theme-accent-cyan: #0284c7;
@@ -70,7 +86,16 @@ html[data-theme="light"] {
   --theme-chrome-border: 15 23 42;
   --theme-chrome-fill: 15 23 42;
   --theme-viz-label: 71 85 105;
-  --theme-viz-grid: 15 23 42;
+  --theme-viz-grid: 148 163 184;
+  --theme-glass-bg: var(--theme-canvas-elevated);
+  --theme-glass-border-color: rgb(var(--theme-line) / 0.55);
+  --theme-glass-shadow:
+    0 1px 0 rgb(var(--theme-chrome-fill) / 0.04) inset,
+    0 10px 28px rgb(var(--theme-surface-shadow) / 0.05),
+    0 0 0 1px rgb(var(--theme-line) / 0.28);
+  --theme-glass-ring-opacity: 0.32;
+  --theme-panel-bg: var(--theme-canvas-elevated);
+  --theme-panel-border: rgb(var(--theme-line) / 0.65);
   color-scheme: light;
 }
 
@@ -419,6 +444,7 @@ body.theme-craft-v2 {
 }
 
 .pipeline-stage {
+  border-color: rgb(var(--theme-chrome-border) / 0.2);
   transition:
     border-color 0.25s ease,
     color 0.25s ease,
@@ -595,8 +621,8 @@ html[data-theme="light"] .section-shell::before {
 
 .panel-accent-rail {
   position: relative;
-  border: 1px solid rgb(var(--theme-chrome-border) / 0.12);
-  background: rgb(var(--theme-chrome-fill) / 0.04);
+  border: 1px solid var(--theme-panel-border);
+  background: var(--theme-panel-bg);
 }
 
 .panel-accent-rail::before {
@@ -983,20 +1009,11 @@ html[data-theme="light"] .section-shell::before {
   position: relative;
   isolation: isolate;
   border-radius: 0.75rem;
-  border: 1px solid rgb(var(--theme-chrome-border) / 0.14);
-  background:
-    linear-gradient(
-      155deg,
-      rgb(var(--theme-chrome-fill) / 0.08) 0%,
-      rgb(var(--theme-chrome-fill) / 0.03) 38%,
-      rgb(var(--theme-surface-shadow) / 0.04) 100%
-    ),
-    rgb(var(--accent-violet-rgb) / 0.04);
+  border: 1px solid var(--theme-glass-border-color);
+  background: var(--theme-glass-bg);
   backdrop-filter: blur(var(--surface-blur, 14px));
-  box-shadow:
-    0 1px 0 rgb(var(--theme-chrome-fill) / 0.08) inset,
-    0 24px 48px rgb(var(--theme-surface-shadow) / 0.12),
-    0 0 0 1px rgb(var(--theme-chrome-border) / 0.06);
+  box-shadow: var(--theme-glass-shadow);
+  color: var(--color-ink);
 }
 
 .diagram-surface::before {
@@ -1005,6 +1022,7 @@ html[data-theme="light"] .section-shell::before {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
+  opacity: var(--theme-glass-ring-opacity);
   background: linear-gradient(
     135deg,
     rgb(var(--accent-violet-rgb) / 0.35),
@@ -1266,7 +1284,7 @@ html[data-theme="light"] .section-shell::after {
 }
 
 html[data-theme="light"] .project-showcase-index {
-  color: rgb(var(--accent-rgb) / 0.28);
+  color: rgb(var(--accent-rgb) / 0.32);
 }
 
 .project-showcase-summary {
@@ -1319,14 +1337,122 @@ html[data-theme="light"] .project-showcase-index {
   color: var(--color-ink);
 }
 
+html[data-theme="light"] .text-faint {
+  color: var(--color-faint);
+}
+
+html[data-theme="light"] .text-muted {
+  color: var(--color-muted);
+}
+
 html[data-theme="light"] .diagram-surface .text-faint,
 html[data-theme="light"] .skill-orbit .text-faint,
-html[data-theme="light"] .project-showcase .text-faint {
+html[data-theme="light"] .project-showcase .text-faint,
+html[data-theme="light"] .panel-accent-rail .text-faint {
   color: var(--color-muted);
 }
 
 html[data-theme="light"] .profile-photo-caption-muted {
   color: var(--color-muted);
+}
+
+html[data-theme="light"] .type-hero-lede,
+html[data-theme="light"] .type-section-lede {
+  color: var(--color-muted);
+}
+
+html[data-theme="light"] .section-heading-meta {
+  color: var(--color-muted);
+}
+
+html[data-theme="light"] .section-heading-index {
+  color: rgb(var(--accent-rgb) / 0.75);
+}
+
+html[data-theme="light"] .pipeline-stage-active {
+  border-color: rgb(var(--theme-line) / 0.85) !important;
+  color: var(--color-ink) !important;
+  background: rgb(var(--theme-chrome-fill) / 0.05) !important;
+  box-shadow: 0 0 0 1px rgb(var(--theme-line) / 0.25);
+}
+
+html[data-theme="light"] .role-chip,
+html[data-theme="light"] .project-filter {
+  background: var(--theme-canvas-elevated);
+  border-color: rgb(var(--theme-line) / 0.7);
+  color: var(--color-muted);
+}
+
+html[data-theme="light"] .project-filter.is-active,
+html[data-theme="light"] .project-filter:hover {
+  color: var(--color-ink);
+}
+
+html[data-theme="light"] .contact-cta {
+  background: linear-gradient(135deg, rgb(var(--accent-emerald-rgb) / 0.08), var(--theme-panel-bg) 55%);
+  box-shadow: 0 16px 40px rgb(var(--theme-surface-shadow) / 0.06);
+}
+
+html[data-theme="light"] .arc-grid {
+  background: rgb(var(--theme-line) / 0.35);
+}
+
+html[data-theme="light"] .arc-cell.bg-canvas,
+html[data-theme="light"] .platform-tile.bg-canvas,
+html[data-theme="light"] .bg-canvas {
+  background-color: var(--color-canvas);
+}
+
+html[data-theme="light"] .grid-fade {
+  opacity: 0.28;
+}
+
+html[data-theme="light"] .ambient-orb {
+  opacity: 0.07;
+}
+
+html[data-theme="light"] .ai-flow-node,
+html[data-theme="light"] .system-flow-node {
+  background: var(--theme-canvas-elevated);
+  border-color: rgb(var(--theme-line) / 0.65);
+  color: var(--color-muted);
+}
+
+html[data-theme="light"] .ai-flow-node.is-active,
+html[data-theme="light"] .ai-flow-node:hover,
+html[data-theme="light"] .system-flow-node.is-active,
+html[data-theme="light"] .system-flow-node:hover {
+  color: var(--color-ink);
+}
+
+html[data-theme="light"] .stack-layer.is-active,
+html[data-theme="light"] .stack-layer:hover {
+  background: rgb(var(--accent-rgb) / 0.06);
+}
+
+html[data-theme="light"] .case-study-details {
+  border-top-color: rgb(var(--theme-line) / 0.65);
+}
+
+html[data-theme="light"] .case-study-details summary {
+  color: var(--color-muted);
+}
+
+html[data-theme="light"] .header-premium.is-scrolled,
+html[data-theme="light"] .header-shell.is-scrolled {
+  background: color-mix(in srgb, var(--theme-canvas-elevated) 94%, transparent);
+  border-color: rgb(var(--theme-line) / 0.85);
+}
+
+html[data-theme="light"] .grain-overlay {
+  opacity: 0.025;
+}
+
+.skill-orbit {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1343,15 +1469,8 @@ html[data-theme="light"] .profile-photo-caption-muted {
 html[data-theme="light"] .project-card:hover,
 html[data-theme="light"] .project-showcase:hover {
   box-shadow:
-    0 28px 56px rgb(var(--theme-surface-shadow) / 0.1),
-    0 0 0 1px rgb(var(--accent-rgb) / 0.22);
-}
-
-.skill-orbit {
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease,
-    transform 0.25s ease;
+    0 28px 56px rgb(var(--theme-surface-shadow) / 0.08),
+    0 0 0 1px rgb(var(--accent-rgb) / 0.2);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1514,49 +1633,6 @@ html[data-theme="light"] .project-showcase:hover {
 .contact-cta {
   background: linear-gradient(135deg, rgb(var(--accent-emerald-rgb) / 0.1), transparent 55%);
   box-shadow: 0 24px 60px rgb(var(--theme-surface-shadow) / 0.12);
-}
-
-html[data-theme="light"] .grid-fade {
-  opacity: 0.55;
-}
-
-html[data-theme="light"] .diagram-surface,
-html[data-theme="light"] .glass-panel {
-  background:
-    linear-gradient(
-      165deg,
-      color-mix(in srgb, var(--theme-canvas-elevated) 94%, rgb(var(--accent-blue-rgb) / 0.06)),
-      var(--theme-canvas-elevated)
-    );
-  border-color: rgb(var(--theme-line) / 0.65);
-  box-shadow:
-    0 1px 0 rgb(var(--theme-chrome-fill) / 0.08) inset,
-    0 12px 32px rgb(var(--theme-surface-shadow) / 0.06),
-    0 0 0 1px rgb(var(--theme-line) / 0.35);
-}
-
-html[data-theme="light"] .diagram-surface::before {
-  opacity: 0.45;
-}
-
-html[data-theme="light"] .role-chip,
-html[data-theme="light"] .project-filter {
-  background: color-mix(in srgb, var(--theme-canvas-elevated) 88%, rgb(var(--theme-chrome-fill) / 0.06));
-  border-color: rgb(var(--theme-line) / 0.75);
-}
-
-html[data-theme="light"] .header-premium.is-scrolled,
-html[data-theme="light"] .header-shell.is-scrolled {
-  background: color-mix(in srgb, var(--theme-canvas-elevated) 92%, transparent);
-  border-color: rgb(var(--theme-line) / 0.85);
-}
-
-html[data-theme="light"] .grain-overlay {
-  opacity: 0.025;
-}
-
-html[data-theme="light"] .ambient-orb {
-  opacity: 0.14;
 }
 
 .theme-toggle[aria-pressed="true"] {

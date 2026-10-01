@@ -25,7 +25,7 @@ export function InteractivePipeline({
             <button
               type="button"
               data-accent={stageAccent}
-              className={`pipeline-stage border bg-canvas px-2.5 py-1 font-mono text-[11px] tracking-wide ${isActive ? "pipeline-stage-active" : "text-muted"}`}
+              className={`pipeline-stage border border-line bg-canvas px-2.5 py-1 font-mono text-[11px] tracking-wide ${isActive ? "pipeline-stage-active" : "text-muted"}`}
               onClick={() => setActive(index)}
               aria-pressed={isActive}
             >
