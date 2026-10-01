@@ -41,6 +41,7 @@ const GRAVITY_RADIUS = 190;
 const LINK_DISTANCE = 92;
 const RIPPLE_SPEED = 520;
 const RIPPLE_LIFE = 1.25;
+const MAX_STAR_RADIUS = 1.9;
 
 const DARK: Palette = {
   light: false,
@@ -322,7 +323,10 @@ function createStars(W: number, H: number, count: number, palette: Palette): Sta
       z = 0.75 + rng() * 0.25;
     }
 
-    if (palette.light) a *= 0.55;
+    if (palette.light) {
+      a *= 0.55;
+      r *= 0.8;
+    }
 
     stars.push({
       x,
@@ -349,7 +353,7 @@ function createStars(W: number, H: number, count: number, palette: Palette): Sta
     .forEach(({ index }) => {
       const star = stars[index];
       star.flare = true;
-      star.r = Math.max(star.r, 1.5);
+      star.r = Math.max(star.r, palette.light ? 1.1 : 1.4);
       star.a = Math.min(1, star.a + 0.15);
     });
 
@@ -500,11 +504,11 @@ export function GalaxyCanvas() {
 
         const scint = motion ? 0.72 + 0.28 * Math.sin(star.tw) : 1;
         const alpha = Math.min(1, star.a * scint * (1 + boost * 1.7 + star.flash * 1.4));
-        const radius = star.r * (1 + boost * 0.65 + star.flash * 0.5);
+        const radius = Math.min(MAX_STAR_RADIUS, star.r * (1 + boost * 0.35 + star.flash * 0.25));
 
-        if ((star.flare || boost > 0.35 || star.flash > 0.3) && sprite) {
-          const glow = radius * (star.flare ? 9 : 6);
-          ctx.globalAlpha = alpha * (star.flare ? 0.55 : 0.4);
+        if (star.flare && sprite && !palette.light) {
+          const glow = radius * 4.5;
+          ctx.globalAlpha = alpha * 0.32;
           ctx.drawImage(sprite, x - glow / 2, y - glow / 2, glow, glow);
           ctx.globalAlpha = 1;
         }
@@ -551,15 +555,6 @@ export function GalaxyCanvas() {
             links += 1;
           }
         }
-      }
-
-      for (const ripple of ripples) {
-        const fade = 1 - ripple.age / RIPPLE_LIFE;
-        ctx.strokeStyle = rgba(palette.line, fade * fade * (palette.light ? 0.08 : 0.1));
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(ripple.x, ripple.y, ripple.age * RIPPLE_SPEED, 0, Math.PI * 2);
-        ctx.stroke();
       }
 
       if (motion) {

@@ -1,4 +1,3 @@
-import { HeroAmbientMesh } from "@/components/hero-ambient-mesh";
 import { site } from "@/lib/content";
 import { AvailabilityPill } from "@/components/availability-pill";
 import { HeroAgentViz } from "@/components/hero-agent-viz";
@@ -11,8 +10,6 @@ export function Hero() {
   return (
     <section id="top" className="hero-shell hero-cinema relative overflow-hidden" aria-labelledby="hero-heading">
       <div className="hero-cinema-vignette" aria-hidden="true" />
-      <HeroAmbientMesh />
-      <div className="hero-aurora" aria-hidden="true" />
       <div className="mx-auto w-full max-w-6xl px-5 pb-10 pt-16 sm:px-8 sm:pb-14 sm:pt-20 lg:pb-14 lg:pt-20">
         <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-12 xl:gap-14">
           <div className="lg:col-span-7">
@@ -86,7 +83,6 @@ export function Hero() {
 
           <div className="rise rise-delay-2 mt-14 lg:col-span-5 lg:mt-4 xl:mt-0">
             <div className="hero-portrait-wrap mx-auto max-w-[20rem] sm:max-w-xs lg:ml-auto lg:max-w-sm">
-              <div className="portrait-halo" aria-hidden="true" />
               <ProfilePhoto priority sizes="(max-width: 640px) 20rem, 22rem" />
             </div>
           </div>

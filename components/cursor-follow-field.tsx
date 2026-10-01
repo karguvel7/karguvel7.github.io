@@ -84,18 +84,6 @@ const FOLLOWERS: FollowerSpec[] = [
     size: 32,
   },
   {
-    id: "orbit-ring",
-    className: "cursor-object cursor-object-ring",
-    accent: "cyan",
-    mass: 1.45,
-    stiffness: 0.02,
-    damping: 0.908,
-    orbitRadius: 72,
-    orbitSpeed: -0.42,
-    phase: 3.6,
-    size: 34,
-  },
-  {
     id: "node-diamond",
     className: "cursor-object cursor-object-diamond",
     accent: "blue",
@@ -116,7 +104,7 @@ const DUST_SPECS = Array.from({ length: DUST_COUNT }, (_, index) => ({
   orbitRadius: 120 + index * 22,
   orbitSpeed: 0.35 + index * 0.04 * (index % 2 === 0 ? 1 : -1),
   phase: index * 0.85,
-  size: 2 + (index % 3),
+  size: 1.5 + (index % 2) * 0.5,
 }));
 
 export function CursorFollowField() {
