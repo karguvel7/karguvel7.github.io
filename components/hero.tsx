@@ -2,6 +2,7 @@ import { site } from "@/lib/content";
 import { AvailabilityPill } from "@/components/availability-pill";
 import { HeroAgentViz } from "@/components/hero-agent-viz";
 import { HeroArcInteractive } from "@/components/hero-arc-interactive";
+import { HeroWeather } from "@/components/hero-weather";
 import { MagneticLink } from "@/components/magnetic-link";
 import { ProfilePhoto } from "@/components/profile-photo";
 import { RoleRibbon } from "@/components/role-ribbon";
@@ -19,6 +20,7 @@ export function Hero() {
                 ·
               </span>
               {site.location}
+              <HeroWeather />
             </p>
 
             <RoleRibbon />

@@ -409,6 +409,12 @@ export function GalaxyCanvas() {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       palette = root.dataset.theme === "light" ? LIGHT : DARK;
+      if (palette.light) {
+        band = null;
+        sprite = null;
+        stars = [];
+        return;
+      }
       band = buildBand(W, H, palette, Math.min(dpr, 1.25));
       sprite = buildGlowSprite(palette);
       const density = coarseQuery.matches ? 1700 : 1100;
@@ -609,7 +615,7 @@ export function GalaxyCanvas() {
     };
 
     const start = () => {
-      if (running || document.hidden) return;
+      if (running || document.hidden || palette.light) return;
       if (!animated()) {
         draw(0);
         return;
@@ -663,8 +669,9 @@ export function GalaxyCanvas() {
     const themeObserver = new MutationObserver(() => {
       const next = root.dataset.theme === "light" ? LIGHT : DARK;
       if (next !== palette) {
+        stop();
         rebuild();
-        if (!running) draw(0);
+        start();
       }
     });
 

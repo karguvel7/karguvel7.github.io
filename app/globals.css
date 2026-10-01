@@ -118,7 +118,7 @@ html[data-theme="light"] {
   --cursor-field-active-opacity: 0.3;
   --cursor-field-idle-opacity: 0.16;
   --galaxy-deep-strength: 0.72;
-  --galaxy-veil-strength: 0.58;
+  --galaxy-veil-strength: 0.45;
   color-scheme: light;
 }
 
@@ -261,7 +261,7 @@ html[data-theme="light"] .galaxy-deep {
 }
 
 html[data-theme="light"] .galaxy-cinema-vignette {
-  opacity: 0.35;
+  opacity: 0;
   background:
     radial-gradient(ellipse 90% 75% at 50% 45%, transparent 50%, rgb(var(--theme-surface-shadow) / 0.08) 100%),
     linear-gradient(180deg, rgb(var(--theme-surface-shadow) / 0.04), transparent 30%, transparent 75%, rgb(var(--theme-surface-shadow) / 0.06));
@@ -272,6 +272,29 @@ html[data-theme="light"] .galaxy-cinema-vignette {
   inset: 0;
   display: block;
   pointer-events: none;
+}
+
+.daylight-canvas {
+  position: absolute;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+}
+
+html[data-theme="light"] .daylight-canvas {
+  display: block;
+}
+
+html[data-theme="light"] .galaxy-canvas {
+  display: none;
+}
+
+.hero-weather {
+  display: none;
+}
+
+html[data-theme="light"] .hero-weather {
+  display: inline;
 }
 
 .galaxy-content-veil {
