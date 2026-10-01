@@ -5,7 +5,7 @@
   "description": "Source for the Karguvel K portfolio, statically exported for GitHub Pages.",
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/generate-galaxy-assets.mjs && next build",
+    "build": "next build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },

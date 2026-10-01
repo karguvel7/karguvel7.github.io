@@ -125,7 +125,6 @@ export function CursorFollowField() {
   const dustRef = useRef<BodyState[]>([]);
   const targetRef = useRef({ x: 0, y: 0 });
   const activityRef = useRef(0);
-  const twinkleRef = useRef(0);
   const rafRef = useRef(0);
   const timeRef = useRef(0);
 
@@ -174,8 +173,6 @@ export function CursorFollowField() {
       activityRef.current *= field.dataset.active === "true" ? 0.978 : 0.9;
       if (activityRef.current < 0.02) activityRef.current = 0;
 
-      twinkleRef.current += dt * (0.12 + activityRef.current * 0.12);
-      const twinkle = 0.5 + Math.sin(twinkleRef.current) * 0.5;
       const activity = activityRef.current;
 
       const { x: tx, y: ty } = targetRef.current;
@@ -183,8 +180,6 @@ export function CursorFollowField() {
       root.style.setProperty("--pointer-x", `${tx}px`);
       root.style.setProperty("--pointer-y", `${ty}px`);
       root.style.setProperty("--cursor-activity", activity.toFixed(3));
-      root.style.setProperty("--cursor-star-twinkle", (activity * twinkle).toFixed(3));
-      root.style.setProperty("--dust-swirl-rotate", `${timeRef.current * 18}deg`);
 
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
@@ -192,12 +187,6 @@ export function CursorFollowField() {
       const py = ty - cy;
       root.style.setProperty("--grid-parallax-x", `${px * 0.005}px`);
       root.style.setProperty("--grid-parallax-y", `${py * 0.005}px`);
-      root.style.setProperty("--milky-parallax-x", `${px * 0.018}px`);
-      root.style.setProperty("--milky-parallax-y", `${py * 0.014}px`);
-      root.style.setProperty("--stars-parallax-x", `${px * 0.008}px`);
-      root.style.setProperty("--stars-parallax-y", `${py * 0.006}px`);
-      root.style.setProperty("--dust-parallax-x", `${px * 0.011}px`);
-      root.style.setProperty("--dust-parallax-y", `${py * 0.009}px`);
 
       const simulate = (
         spec: { mass: number; stiffness: number; damping: number; orbitRadius: number; orbitSpeed: number; phase: number; size: number },

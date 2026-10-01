@@ -135,11 +135,7 @@ export function InteractiveTopology({
     return () => window.clearInterval(timer);
   }, [edges.length, showPulse]);
 
-  useEffect(() => {
-    setPositions(Object.fromEntries(nodes.map((node) => [node.id, { x: node.x, y: node.y }])));
-  }, [nodes]);
-
-  const endDrag = useCallback((event: ReactPointerEvent | PointerEvent) => {
+  const endDrag = useCallback(() => {
     const svg = svgRef.current;
     if (svg && dragRef.current.pointerId >= 0) {
       try {
@@ -207,7 +203,7 @@ export function InteractiveTopology({
 
     if (drag.mode === "pan") {
       if (!drag.scrollLock && Math.abs(dy) > Math.abs(dx) * 1.2 && Math.abs(dy) > 8) {
-        endDrag(event);
+        endDrag();
         return;
       }
       drag.scrollLock = true;
