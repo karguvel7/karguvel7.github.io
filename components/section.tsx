@@ -20,7 +20,9 @@ export function Section({
       data-accent={accent}
       className="section-shell scroll-mt-20 border-t border-line/50 py-28 sm:py-36 lg:py-40"
     >
-      <RevealOnView className="mx-auto w-full max-w-6xl px-5 sm:px-8">{children}</RevealOnView>
+      <RevealOnView variant="blur-up" className="mx-auto w-full max-w-6xl px-5 sm:px-8">
+        {children}
+      </RevealOnView>
     </section>
   );
 }

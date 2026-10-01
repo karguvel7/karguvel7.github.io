@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { sectionAccent } from "@/lib/accents";
 import { skillGroups } from "@/lib/content";
+import { RevealStagger } from "@/components/reveal-stagger";
 import { Section, SectionHeading } from "@/components/section";
 
 export function SkillsEcosystem() {
@@ -20,7 +21,7 @@ export function SkillsEcosystem() {
         lede="Frontend through AI, cloud, DevOps, and architecture — grouped the way the work actually ships."
       />
 
-      <ul className="skills-grid mt-14 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-4">
+      <RevealStagger asGrid className="skills-grid mt-14 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-4">
         {skillGroups.map((group) => {
           const isActive = activeId === group.id;
           return (
@@ -45,7 +46,7 @@ export function SkillsEcosystem() {
             </li>
           );
         })}
-      </ul>
+      </RevealStagger>
     </Section>
   );
 }

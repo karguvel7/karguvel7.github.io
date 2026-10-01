@@ -7,10 +7,12 @@ export function RevealOnView({
   children,
   className = "",
   delayMs = 0,
+  variant = "fade-up",
 }: {
   children: ReactNode;
   className?: string;
   delayMs?: number;
+  variant?: "fade-up" | "blur-up";
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -31,7 +33,7 @@ export function RevealOnView({
           observer.disconnect();
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px -6% 0px" },
+      { threshold: 0.06, rootMargin: "0px 0px -4% 0px" },
     );
 
     observer.observe(node);
@@ -41,7 +43,7 @@ export function RevealOnView({
   return (
     <div
       ref={ref}
-      className={`reveal-on-view ${className}`.trim()}
+      className={`reveal-on-view ${variant === "blur-up" ? "reveal-blur-up" : ""} ${className}`.trim()}
       style={delayMs ? { transitionDelay: `${delayMs}ms` } : undefined}
     >
       {children}

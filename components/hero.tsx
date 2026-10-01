@@ -1,3 +1,4 @@
+import { HeroAmbientMesh } from "@/components/hero-ambient-mesh";
 import { site } from "@/lib/content";
 import { AvailabilityPill } from "@/components/availability-pill";
 import { HeroAgentViz } from "@/components/hero-agent-viz";
@@ -10,6 +11,7 @@ export function Hero() {
   return (
     <section id="top" className="hero-shell hero-cinema relative overflow-hidden" aria-labelledby="hero-heading">
       <div className="hero-cinema-vignette" aria-hidden="true" />
+      <HeroAmbientMesh />
       <div className="hero-aurora" aria-hidden="true" />
       <div className="mx-auto w-full max-w-6xl px-5 pb-24 pt-20 sm:px-8 sm:pb-32 sm:pt-28 lg:pt-32">
         <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-12 xl:gap-14">

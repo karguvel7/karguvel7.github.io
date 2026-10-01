@@ -25,17 +25,17 @@ export function HeroAgentViz() {
 
   useEffect(() => {
     if (document.documentElement.dataset.motion !== "on") return;
-    const timer = window.setInterval(() => setPulse((v) => (v + 1) % edges.length), 2000);
+    const timer = window.setInterval(() => setPulse((v) => (v + 1) % edges.length), 1200);
     return () => window.clearInterval(timer);
   }, []);
 
   return (
-    <div className="hero-agent-viz diagram-surface mt-10" aria-hidden="true">
+    <div className="hero-agent-viz hero-agent-viz-live diagram-surface mt-10" aria-hidden="true">
       <div className="diagram-surface-header">
         <span className="diagram-status" data-accent="emerald">
           Live topology
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Orchestration mesh</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Orchestration mesh</span>
       </div>
       <svg viewBox="0 0 100 76" className="diagram-canvas mt-2 h-40 w-full sm:h-44" role="presentation">
         <defs>
