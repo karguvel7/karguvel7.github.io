@@ -69,9 +69,10 @@ html {
   --galaxy-nebula-violet: var(--accent-violet-rgb);
   --galaxy-nebula-blue: var(--accent-blue-rgb);
   --galaxy-nebula-cyan: var(--accent-cyan-rgb);
-  --galaxy-star-opacity: 0.82;
-  --galaxy-nebula-opacity: 0.44;
+  --galaxy-star-opacity: 0.88;
+  --galaxy-nebula-opacity: 0.48;
   --galaxy-deep-strength: 1;
+  --galaxy-veil-strength: 0.42;
   scroll-padding-top: var(--site-scroll-offset);
   color-scheme: dark;
 }
@@ -125,9 +126,10 @@ html[data-theme="light"] {
   --galaxy-nebula-violet: 109 40 217;
   --galaxy-nebula-blue: 37 99 235;
   --galaxy-nebula-cyan: 2 132 199;
-  --galaxy-star-opacity: 0.52;
-  --galaxy-nebula-opacity: 0.26;
+  --galaxy-star-opacity: 0.56;
+  --galaxy-nebula-opacity: 0.28;
   --galaxy-deep-strength: 0.72;
+  --galaxy-veil-strength: 0.55;
   color-scheme: light;
 }
 
@@ -247,33 +249,45 @@ html[data-theme="light"] .galaxy-backdrop {
 
 .galaxy-starfield-a {
   background-image:
-    radial-gradient(circle, rgb(var(--galaxy-star) / 0.75) 0 0.55px, transparent 0.75px),
-    radial-gradient(circle, rgb(var(--galaxy-star) / 0.45) 0 0.4px, transparent 0.55px),
-    radial-gradient(circle, rgb(var(--galaxy-star) / 0.28) 0 0.35px, transparent 0.5px);
-  background-size: 120px 120px, 200px 200px, 320px 320px;
-  background-position: 0 0, 36px 48px, 80px 120px;
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.8) 0 0.55px, transparent 0.75px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.5) 0 0.4px, transparent 0.55px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.32) 0 0.35px, transparent 0.5px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.18) 0 0.3px, transparent 0.45px);
+  background-size: 96px 96px, 160px 160px, 260px 260px, 420px 420px;
+  background-position: 0 0, 28px 36px, 64px 96px, 120px 180px;
 }
 
 .galaxy-starfield-b {
-  opacity: calc(var(--galaxy-star-opacity) * 0.55);
+  opacity: calc(var(--galaxy-star-opacity) * 0.58);
   background-image:
-    radial-gradient(circle, rgb(var(--galaxy-star) / 0.35) 0 0.5px, transparent 0.65px),
-    radial-gradient(circle, rgb(var(--galaxy-star) / 0.2) 0 0.65px, transparent 0.85px);
-  background-size: 240px 240px, 380px 380px;
-  background-position: 12px 20px, 60px 90px;
-  filter: blur(0.15px);
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.38) 0 0.5px, transparent 0.65px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.22) 0 0.65px, transparent 0.85px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.12) 0 0.45px, transparent 0.6px);
+  background-size: 200px 200px, 320px 320px, 520px 520px;
+  background-position: 12px 20px, 60px 90px, 140px 40px;
+  filter: blur(0.12px);
 }
 
 .galaxy-starfield-c {
-  opacity: calc(var(--galaxy-star-opacity) * 0.35);
-  background-image: radial-gradient(circle, rgb(var(--galaxy-star) / 0.55) 0 0.85px, transparent 1.1px);
-  background-size: 480px 480px;
+  opacity: calc(var(--galaxy-star-opacity) * 0.38);
+  background-image:
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.58) 0 0.85px, transparent 1.1px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.3) 0 1px, transparent 1.25px);
+  background-size: 440px 440px, 680px 680px;
+  background-position: 0 0, 200px 120px;
   mix-blend-mode: screen;
 }
 
-html[data-theme="light"] .galaxy-starfield-c {
+.galaxy-starfield-d {
+  opacity: calc(var(--galaxy-star-opacity) * 0.22);
+  background-image: radial-gradient(circle, rgb(var(--galaxy-star) / 0.15) 0 0.35px, transparent 0.5px);
+  background-size: 64px 64px;
+  mix-blend-mode: screen;
+}
+
+html[data-theme="light"] .galaxy-starfield-c,
+html[data-theme="light"] .galaxy-starfield-d {
   mix-blend-mode: multiply;
-  opacity: calc(var(--galaxy-star-opacity) * 0.45);
 }
 
 .galaxy-nebula {
@@ -311,6 +325,144 @@ html[data-theme="light"] .galaxy-nebula {
   width: min(55vw, 620px);
   height: min(42vw, 460px);
   background: radial-gradient(circle, rgb(var(--galaxy-nebula-cyan) / 0.16), transparent 70%);
+}
+
+.galaxy-nebula-d {
+  top: 52%;
+  left: 42%;
+  width: min(70vw, 800px);
+  height: min(35vw, 380px);
+  opacity: calc(var(--galaxy-nebula-opacity) * 0.55);
+  filter: blur(96px);
+  background: radial-gradient(
+    ellipse,
+    rgb(var(--galaxy-nebula-violet) / 0.1),
+    rgb(var(--galaxy-nebula-blue) / 0.06) 45%,
+    transparent 72%
+  );
+}
+
+.galaxy-content-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 72% 58% at 50% 38%, rgb(var(--theme-canvas) / var(--galaxy-veil-strength)), transparent 72%),
+    linear-gradient(180deg, rgb(var(--theme-canvas) / 0.12) 0%, transparent 22%, transparent 78%, rgb(var(--theme-canvas) / 0.18) 100%);
+}
+
+html[data-theme="light"] .galaxy-content-veil {
+  background:
+    radial-gradient(ellipse 72% 58% at 50% 38%, rgb(var(--theme-canvas) / var(--galaxy-veil-strength)), transparent 74%),
+    linear-gradient(180deg, rgb(var(--theme-canvas) / 0.35) 0%, transparent 20%, transparent 80%, rgb(var(--theme-canvas) / 0.4) 100%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-motion="on"] .galaxy-starfield-a {
+    animation: galaxy-star-drift-a 200s ease-in-out infinite alternate;
+  }
+
+  html[data-motion="on"] .galaxy-starfield-b {
+    animation: galaxy-star-drift-b 260s ease-in-out infinite alternate;
+  }
+
+  html[data-motion="on"] .galaxy-starfield-c {
+    animation: galaxy-star-drift-c 320s linear infinite;
+  }
+
+  html[data-motion="on"] .galaxy-starfield-d {
+    animation: galaxy-star-drift-a 140s linear infinite reverse;
+  }
+
+  html[data-motion="on"] .galaxy-deep {
+    animation: galaxy-deep-breathe 90s ease-in-out infinite alternate;
+  }
+
+  html[data-motion="on"] .galaxy-nebula-a {
+    animation: galaxy-nebula-drift-a 110s ease-in-out infinite alternate;
+  }
+
+  html[data-motion="on"] .galaxy-nebula-b {
+    animation: galaxy-nebula-drift-b 130s ease-in-out infinite alternate;
+  }
+
+  html[data-motion="on"] .galaxy-nebula-c {
+    animation: galaxy-nebula-drift-c 150s ease-in-out infinite alternate;
+  }
+
+  html[data-motion="on"] .galaxy-nebula-d {
+    animation: galaxy-nebula-drift-a 180s ease-in-out infinite alternate-reverse;
+  }
+
+  @keyframes galaxy-star-drift-a {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(-2.5%, 1.8%, 0);
+    }
+  }
+
+  @keyframes galaxy-star-drift-b {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+      transform: translate3d(2%, -1.5%, 0) scale(1.02);
+    }
+  }
+
+  @keyframes galaxy-star-drift-c {
+    from {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    to {
+      transform: translate3d(-1.5%, -2%, 0) rotate(0.4deg);
+    }
+  }
+
+  @keyframes galaxy-deep-breathe {
+    from {
+      opacity: calc(0.88 + (var(--galaxy-deep-strength) - 0.72) * 0.12);
+    }
+
+    to {
+      opacity: calc(0.96 + (var(--galaxy-deep-strength) - 0.72) * 0.15);
+    }
+  }
+
+  @keyframes galaxy-nebula-drift-a {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(4%, -3%, 0);
+    }
+  }
+
+  @keyframes galaxy-nebula-drift-b {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+      transform: translate3d(-3.5%, 2.5%, 0) scale(1.06);
+    }
+  }
+
+  @keyframes galaxy-nebula-drift-c {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(2.5%, 3.5%, 0);
+    }
+  }
 }
 
 .galaxy-cursor-well {
@@ -1028,7 +1180,10 @@ html[data-motion="reduced"] .hero-aurora,
 html[data-motion="reduced"] .hero-mesh-orb,
 html[data-motion="reduced"] .hero-mesh-line,
 html[data-motion="reduced"] .ambient-orb,
-html[data-motion="reduced"] .grid-fade {
+html[data-motion="reduced"] .grid-fade,
+html[data-motion="reduced"] .galaxy-starfield,
+html[data-motion="reduced"] .galaxy-nebula,
+html[data-motion="reduced"] .galaxy-deep {
   animation: none !important;
 }
 

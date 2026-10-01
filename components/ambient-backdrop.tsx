@@ -5,10 +5,13 @@ export function AmbientBackdrop() {
       <div className="galaxy-starfield galaxy-starfield-a" />
       <div className="galaxy-starfield galaxy-starfield-b" />
       <div className="galaxy-starfield galaxy-starfield-c" />
+      <div className="galaxy-starfield galaxy-starfield-d" />
       <div className="galaxy-nebula galaxy-nebula-a" />
       <div className="galaxy-nebula galaxy-nebula-b" />
       <div className="galaxy-nebula galaxy-nebula-c" />
+      <div className="galaxy-nebula galaxy-nebula-d" />
       <div className="galaxy-cursor-well" />
+      <div className="galaxy-content-veil" />
       <div className="ambient-orb ambient-orb-a" />
       <div className="ambient-orb ambient-orb-b" />
       <div className="ambient-orb ambient-orb-c" />
