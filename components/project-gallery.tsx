@@ -108,7 +108,7 @@ function CaseStudyCard({
             </ul>
             <h3
               id={`${project.id}-title`}
-              className="mt-4 text-balance font-display text-2xl font-semibold tracking-[-0.035em] text-ink sm:text-[1.75rem]"
+              className="project-showcase-title mt-4 text-balance font-display text-2xl font-semibold tracking-[-0.035em] text-ink sm:text-[1.75rem]"
             >
               {project.title}
             </h3>
@@ -123,7 +123,7 @@ function CaseStudyCard({
       </div>
 
       <details className="case-study-details mt-8">
-        <summary>Full case study</summary>
+        <summary>Explore case study</summary>
         <dl className="grid gap-6 pb-2 pt-2 sm:grid-cols-2">
           {caseStudyFields.map((field) => (
             <div

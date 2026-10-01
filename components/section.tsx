@@ -56,8 +56,9 @@ export function SectionHeading({
         >
           {title}
         </h2>
+        <div className="section-title-accent mt-6" data-accent={accent} aria-hidden="true" />
         {lede ? (
-          <p className="type-section-lede mt-5 max-w-2xl">{lede}</p>
+          <p className="type-section-lede mt-6 max-w-2xl">{lede}</p>
         ) : null}
       </div>
     </div>

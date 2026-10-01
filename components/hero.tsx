@@ -8,7 +8,8 @@ import { RoleRibbon } from "@/components/role-ribbon";
 
 export function Hero() {
   return (
-    <section id="top" className="hero-shell relative overflow-hidden" aria-labelledby="hero-heading">
+    <section id="top" className="hero-shell hero-cinema relative overflow-hidden" aria-labelledby="hero-heading">
+      <div className="hero-cinema-vignette" aria-hidden="true" />
       <div className="hero-aurora" aria-hidden="true" />
       <div className="mx-auto w-full max-w-6xl px-5 pb-24 pt-20 sm:px-8 sm:pb-32 sm:pt-28 lg:pt-32">
         <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-12 xl:gap-14">
@@ -23,11 +24,11 @@ export function Hero() {
 
             <RoleRibbon />
 
-            <h1 id="hero-heading" className="rise rise-delay-2 type-display mt-8 max-w-4xl text-balance text-ink">
+            <h1 id="hero-heading" className="rise rise-delay-2 type-display hero-headline mt-10 max-w-4xl text-balance text-ink">
               {site.headline}
             </h1>
 
-            <p className="rise rise-delay-3 type-hero-lede mt-6 max-w-2xl">
+            <p className="rise rise-delay-3 type-hero-lede mt-7 max-w-2xl">
               {site.heroSupport}
             </p>
 
@@ -35,13 +36,14 @@ export function Hero() {
               <AvailabilityPill />
             </div>
 
-            <div className="rise rise-delay-4 hero-cta-row mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="rise rise-delay-4 hero-cta-row mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <MagneticLink
                 href="#projects"
-                className="btn-primary btn-primary-accent btn-lift inline-flex h-12 items-center justify-center px-6 text-sm font-medium"
+                className="btn-primary btn-primary-accent btn-lift inline-flex h-12 min-w-[11rem] items-center justify-center px-6 text-sm font-medium"
               >
                 View projects
               </MagneticLink>
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-2">
               <MagneticLink
                 href={site.github}
                 className="btn-secondary btn-secondary-accent btn-lift inline-flex h-12 items-center justify-center border px-5 text-sm text-ink"
@@ -64,17 +66,20 @@ export function Hero() {
               >
                 Contact
               </MagneticLink>
+              </div>
             </div>
 
-            <p className="rise rise-delay-4 mt-6 text-sm text-muted">
+            <p className="rise rise-delay-4 mt-7 text-sm text-muted">
               {site.jobTitle} at {site.employer}
-              <span className="px-2 text-faint" aria-hidden="true">
+              <span className="px-2 text-muted/70" aria-hidden="true">
                 ·
               </span>
               since February 2017
             </p>
 
-            <HeroAgentViz />
+            <div className="hidden md:block">
+              <HeroAgentViz />
+            </div>
           </div>
 
           <div className="rise rise-delay-2 mt-14 lg:col-span-5 lg:mt-4 xl:mt-0">
@@ -87,7 +92,7 @@ export function Hero() {
 
         <div className="mt-16 lg:mt-20">
           <div className="mb-4 flex items-end justify-between gap-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-faint">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
               How the work is shaped
             </p>
             <span className="diagram-status hidden sm:inline-flex" data-accent="cyan">
