@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const NODE_SELECTOR =
-  ".diagram-surface, .panel-accent-rail, .lab-card, .platform-tile, .timeline-item, .project-showcase";
+  ".diagram-surface, .panel-accent-rail, .lab-card, .platform-tile, .timeline-item, .project-showcase, .skill-card";
 const MAX_DEPTH = 4;
-const SETTLE_MS = 1500;
+const NODE_SETTLE_MS = 2100;
+const SCENE_SETTLE_MS = 2600;
+const HEADING_LEAD_MS = 560;
+const STAGGER_MS = 110;
 
 type TraceKind = "node" | "type";
 
@@ -21,14 +24,18 @@ function collectTargets(el: Element, depth: number, out: Array<[HTMLElement, Tra
 }
 
 /**
- * Drives the "signal trace" scroll system: sections get a beam + heading focus pull
- * when their heading arrives, inner surfaces open like shutters in reading order, and
- * a gutter rail tracks scroll progress through each section via `--scene-p`.
+ * Drives the "signal trace" scroll system. Sections get a beam + scanner-lit heading when
+ * they arrive, inner surfaces open between two shutter blades and spring into their frame,
+ * and a gutter rail tracks scroll progress. Blades and scanners live in a separate overlay
+ * layer so the effects are transform/opacity only and never sit inside interactive content.
  */
 export function ScrollChoreographer() {
+  const layerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const root = document.documentElement;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const layer = layerRef.current;
+    if (!layer || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
     if (sections.length === 0) return;
@@ -43,10 +50,12 @@ export function ScrollChoreographer() {
       timers.add(id);
     };
 
+    const accentOf = new WeakMap<HTMLElement, string>();
     const sectionStart = new WeakMap<HTMLElement, number>();
     const traced: HTMLElement[] = [];
 
     for (const section of sections) {
+      accentOf.set(section, getComputedStyle(section).getPropertyValue("--accent-rgb").trim());
       const body = section.querySelector<HTMLElement>(".scene-body");
       const heading = body?.querySelector<HTMLElement>(".section-heading");
       const visibleNow = section.getBoundingClientRect().top < vh() * 0.92;
@@ -69,6 +78,28 @@ export function ScrollChoreographer() {
 
     root.dataset.scenes = "on";
 
+    const spawn = (
+      className: string,
+      rect: DOMRect,
+      accent: string,
+      delayMs: number,
+      lifeMs: number,
+      extra?: Record<string, string>,
+    ) => {
+      const origin = layer.getBoundingClientRect();
+      const fx = document.createElement("span");
+      fx.className = className;
+      fx.style.cssText =
+        `left:${(rect.left - origin.left).toFixed(1)}px;top:${(rect.top - origin.top).toFixed(1)}px;` +
+        `width:${rect.width.toFixed(1)}px;height:${rect.height.toFixed(1)}px;` +
+        `--fx-delay:${delayMs}ms;--fx-h:${rect.height.toFixed(1)}px;` +
+        (accent ? `--accent-rgb:${accent};` : "");
+      if (extra) for (const [key, value] of Object.entries(extra)) fx.style.setProperty(key, value);
+      fx.innerHTML = "<i></i><i></i>";
+      layer.appendChild(fx);
+      later(() => fx.remove(), delayMs + lifeMs);
+    };
+
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -76,14 +107,16 @@ export function ScrollChoreographer() {
           const section = entry.target as HTMLElement;
           sectionObserver.unobserve(section);
           if (section.dataset.scene !== "wait") continue;
+          const title = section.querySelector<HTMLElement>(".type-section-title");
+          if (title) spawn("trace-fx-scan", title.getBoundingClientRect(), accentOf.get(section) ?? "", 140, 1500);
           section.dataset.scene = "in";
           sectionStart.set(section, performance.now());
           later(() => {
             section.dataset.scene = "done";
-          }, 1900);
+          }, SCENE_SETTLE_MS);
         }
       },
-      { rootMargin: "0px 0px -22% 0px", threshold: 0 },
+      { rootMargin: "0px 0px -20% 0px", threshold: 0 },
     );
 
     const traceObserver = new IntersectionObserver(
@@ -94,14 +127,21 @@ export function ScrollChoreographer() {
           .sort((a, b) => a.rect.top - b.rect.top || a.rect.left - b.rect.left);
 
         const width = window.innerWidth || 1;
+        const now = performance.now();
         arriving.forEach(({ el, rect }, order) => {
           traceObserver.unobserve(el);
           const section = el.closest<HTMLElement>("[data-scene]");
-          const sinceHeading = section ? performance.now() - (sectionStart.get(section) ?? 0) : 9999;
-          const headingLead = sinceHeading < 450 ? 300 : 0;
+          const sinceHeading = section ? now - (sectionStart.get(section) ?? 0) : Infinity;
+          const headingLead = Math.max(0, HEADING_LEAD_MS - sinceHeading);
           const dx = Math.min(1, Math.max(0, (rect.left + rect.width / 2) / width));
-          const delay = Math.round(headingLead + Math.min(order, 7) * 85 + dx * 160);
+          const delay = Math.round(headingLead + Math.min(order, 6) * STAGGER_MS + dx * 140);
 
+          // Measure before switching state: the "in" keyframes start offset, the blades must not.
+          if (el.dataset.traceKind === "node" && section) {
+            spawn("trace-fx-blades", el.getBoundingClientRect(), accentOf.get(section) ?? "", delay, 1300, {
+              "--fx-radius": getComputedStyle(el).borderRadius,
+            });
+          }
           el.style.setProperty("--trace-delay", `${delay}ms`);
           el.style.setProperty("--trace-swing", (dx - 0.5).toFixed(3));
           el.dataset.trace = "in";
@@ -109,10 +149,10 @@ export function ScrollChoreographer() {
             el.dataset.trace = "done";
             el.style.removeProperty("--trace-delay");
             el.style.removeProperty("--trace-swing");
-          }, delay + SETTLE_MS);
+          }, delay + NODE_SETTLE_MS);
         });
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.01 },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.01 },
     );
 
     for (const section of sections) {
@@ -122,8 +162,15 @@ export function ScrollChoreographer() {
       if (el.dataset.trace === "wait") traceObserver.observe(el);
     }
 
+    // Progress is written only on the rail and heading so a scroll frame never restyles a
+    // whole section subtree.
+    const progressTargets = sections.map((section) =>
+      [section.querySelector<HTMLElement>(".scene-rail"), section.querySelector<HTMLElement>(".section-heading")].filter(
+        (el): el is HTMLElement => el !== null,
+      ),
+    );
+    const lastProgress = new Array<number>(sections.length).fill(-1);
     let frame = 0;
-    const lastProgress = new WeakMap<HTMLElement, number>();
     const measure = () => {
       frame = 0;
       const height = vh();
@@ -131,10 +178,10 @@ export function ScrollChoreographer() {
       rects.forEach((rect, index) => {
         if (rect.bottom < -height * 0.25 || rect.top > height * 1.25) return;
         const progress = Math.min(1, Math.max(0, (height * 0.82 - rect.top) / (rect.height + height * 0.32)));
-        const section = sections[index];
-        if (Math.abs((lastProgress.get(section) ?? -1) - progress) < 0.003) return;
-        lastProgress.set(section, progress);
-        section.style.setProperty("--scene-p", progress.toFixed(3));
+        if (Math.abs(lastProgress[index] - progress) < 0.002) return;
+        lastProgress[index] = progress;
+        const value = progress.toFixed(4);
+        for (const el of progressTargets[index]) el.style.setProperty("--scene-p", value);
       });
     };
     const schedule = () => {
@@ -152,11 +199,10 @@ export function ScrollChoreographer() {
       window.removeEventListener("resize", schedule);
       if (frame) window.cancelAnimationFrame(frame);
       timers.forEach((id) => window.clearTimeout(id));
+      layer.replaceChildren();
       delete root.dataset.scenes;
-      for (const section of sections) {
-        delete section.dataset.scene;
-        section.style.removeProperty("--scene-p");
-      }
+      for (const section of sections) delete section.dataset.scene;
+      for (const targets of progressTargets) for (const el of targets) el.style.removeProperty("--scene-p");
       for (const el of traced) {
         delete el.dataset.trace;
         delete el.dataset.traceKind;
@@ -164,5 +210,5 @@ export function ScrollChoreographer() {
     };
   }, []);
 
-  return null;
+  return <div ref={layerRef} className="trace-fx-layer" aria-hidden="true" />;
 }
