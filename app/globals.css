@@ -69,6 +69,9 @@ html {
   --galaxy-nebula-violet: var(--accent-violet-rgb);
   --galaxy-nebula-blue: var(--accent-blue-rgb);
   --galaxy-nebula-cyan: var(--accent-cyan-rgb);
+  --galaxy-star-opacity: 0.82;
+  --galaxy-nebula-opacity: 0.44;
+  --galaxy-deep-strength: 1;
   scroll-padding-top: var(--site-scroll-offset);
   color-scheme: dark;
 }
@@ -122,6 +125,9 @@ html[data-theme="light"] {
   --galaxy-nebula-violet: 109 40 217;
   --galaxy-nebula-blue: 37 99 235;
   --galaxy-nebula-cyan: 2 132 199;
+  --galaxy-star-opacity: 0.52;
+  --galaxy-nebula-opacity: 0.26;
+  --galaxy-deep-strength: 0.72;
   color-scheme: light;
 }
 
@@ -136,14 +142,18 @@ html[data-theme="dark"] {
 }
 
 body {
-  background:
-    radial-gradient(ellipse 90% 55% at 50% -18%, rgb(var(--accent-blue-rgb) / 0.07), transparent 58%),
-    radial-gradient(ellipse 70% 45% at 100% 20%, rgb(var(--accent-violet-rgb) / 0.04), transparent 50%),
-    var(--color-canvas);
+  background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+html[data-theme="light"] body {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -18%, rgb(var(--accent-blue-rgb) / 0.06), transparent 58%),
+    radial-gradient(ellipse 70% 45% at 100% 20%, rgb(var(--accent-violet-rgb) / 0.035), transparent 50%),
+    var(--color-canvas);
 }
 
 body.theme-craft-v2 {
@@ -197,93 +207,110 @@ main [id] {
   pointer-events: none;
   transform: translate3d(var(--grid-parallax-x, 0), var(--grid-parallax-y, 0), 0);
   transition: transform 0.2s linear;
-  opacity: 0.45;
+  opacity: 0.32;
   background:
-    linear-gradient(to right, rgb(var(--accent-blue-rgb) / 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(var(--accent-blue-rgb) / 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgb(var(--accent-blue-rgb) / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--accent-blue-rgb) / 0.028) 1px, transparent 1px);
   background-size: 72px 72px, 72px 72px;
-  mask-image: radial-gradient(ellipse 95% 62% at 50% -6%, #000 10%, transparent 76%);
+  mask-image: radial-gradient(ellipse 95% 70% at 50% 20%, #000 15%, transparent 78%);
 }
 
 html[data-theme="light"] .grid-fade {
-  opacity: 0.35;
+  opacity: 0.28;
 }
 
-.ambient-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
+.galaxy-backdrop {
+  background: radial-gradient(ellipse 130% 90% at 50% 110%, rgb(4 8 18 / 0.85), transparent 58%);
+}
+
+html[data-theme="light"] .galaxy-backdrop {
+  background: radial-gradient(ellipse 120% 80% at 50% 100%, rgb(var(--theme-surface-shadow) / 0.04), transparent 55%);
 }
 
 .galaxy-deep {
   position: absolute;
   inset: 0;
+  opacity: calc(0.92 + (var(--galaxy-deep-strength) - 0.72) * 0.15);
   background:
-    radial-gradient(ellipse 120% 80% at 50% -30%, rgb(var(--galaxy-nebula-blue) / 0.08), transparent 55%),
-    radial-gradient(ellipse 90% 60% at 100% 40%, rgb(var(--galaxy-nebula-violet) / 0.06), transparent 50%),
-    radial-gradient(ellipse 100% 70% at 0% 80%, rgb(var(--galaxy-nebula-cyan) / 0.04), transparent 52%);
+    radial-gradient(ellipse 130% 85% at 50% -25%, rgb(var(--galaxy-nebula-blue) / 0.16), transparent 58%),
+    radial-gradient(ellipse 95% 65% at 100% 35%, rgb(var(--galaxy-nebula-violet) / 0.13), transparent 52%),
+    radial-gradient(ellipse 105% 75% at -5% 75%, rgb(var(--galaxy-nebula-cyan) / 0.09), transparent 54%),
+    radial-gradient(ellipse 80% 50% at 50% 55%, rgb(var(--galaxy-nebula-violet) / 0.05), transparent 62%);
 }
 
 .galaxy-starfield {
   position: absolute;
   inset: 0;
-  opacity: 0.55;
+  opacity: var(--galaxy-star-opacity);
   background-repeat: repeat;
 }
 
 .galaxy-starfield-a {
   background-image:
-    radial-gradient(circle, rgb(var(--galaxy-star) / 0.55) 0 0.45px, transparent 0.6px),
-    radial-gradient(circle, rgb(var(--galaxy-star) / 0.35) 0 0.35px, transparent 0.5px);
-  background-size: 140px 140px, 220px 220px;
-  background-position: 0 0, 40px 60px;
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.75) 0 0.55px, transparent 0.75px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.45) 0 0.4px, transparent 0.55px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.28) 0 0.35px, transparent 0.5px);
+  background-size: 120px 120px, 200px 200px, 320px 320px;
+  background-position: 0 0, 36px 48px, 80px 120px;
 }
 
 .galaxy-starfield-b {
-  opacity: 0.35;
-  background-image: radial-gradient(circle, rgb(var(--galaxy-star) / 0.25) 0 0.5px, transparent 0.7px);
-  background-size: 280px 280px;
-  filter: blur(0.2px);
+  opacity: calc(var(--galaxy-star-opacity) * 0.55);
+  background-image:
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.35) 0 0.5px, transparent 0.65px),
+    radial-gradient(circle, rgb(var(--galaxy-star) / 0.2) 0 0.65px, transparent 0.85px);
+  background-size: 240px 240px, 380px 380px;
+  background-position: 12px 20px, 60px 90px;
+  filter: blur(0.15px);
+}
+
+.galaxy-starfield-c {
+  opacity: calc(var(--galaxy-star-opacity) * 0.35);
+  background-image: radial-gradient(circle, rgb(var(--galaxy-star) / 0.55) 0 0.85px, transparent 1.1px);
+  background-size: 480px 480px;
+  mix-blend-mode: screen;
+}
+
+html[data-theme="light"] .galaxy-starfield-c {
+  mix-blend-mode: multiply;
+  opacity: calc(var(--galaxy-star-opacity) * 0.45);
 }
 
 .galaxy-nebula {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(72px);
-  opacity: 0.28;
+  filter: blur(68px);
+  opacity: var(--galaxy-nebula-opacity);
   mix-blend-mode: screen;
 }
 
 html[data-theme="light"] .galaxy-nebula {
   mix-blend-mode: multiply;
-  opacity: 0.18;
-  filter: blur(90px);
+  filter: blur(88px);
 }
 
 .galaxy-nebula-a {
-  top: -18%;
-  left: 10%;
-  width: min(55vw, 640px);
-  height: min(40vw, 420px);
-  background: radial-gradient(circle, rgb(var(--galaxy-nebula-violet) / 0.14), transparent 68%);
+  top: -20%;
+  left: 5%;
+  width: min(62vw, 720px);
+  height: min(45vw, 480px);
+  background: radial-gradient(circle, rgb(var(--galaxy-nebula-violet) / 0.22), transparent 66%);
 }
 
 .galaxy-nebula-b {
-  top: 32%;
-  right: -12%;
-  width: min(48vw, 520px);
-  height: min(48vw, 520px);
-  background: radial-gradient(circle, rgb(var(--galaxy-nebula-blue) / 0.12), transparent 70%);
+  top: 28%;
+  right: -15%;
+  width: min(52vw, 580px);
+  height: min(52vw, 580px);
+  background: radial-gradient(circle, rgb(var(--galaxy-nebula-blue) / 0.2), transparent 68%);
 }
 
 .galaxy-nebula-c {
-  bottom: -15%;
-  left: 22%;
-  width: min(50vw, 560px);
-  height: min(38vw, 400px);
-  background: radial-gradient(circle, rgb(var(--galaxy-nebula-cyan) / 0.1), transparent 72%);
+  bottom: -18%;
+  left: 18%;
+  width: min(55vw, 620px);
+  height: min(42vw, 460px);
+  background: radial-gradient(circle, rgb(var(--galaxy-nebula-cyan) / 0.16), transparent 70%);
 }
 
 .galaxy-cursor-well {
@@ -325,17 +352,19 @@ html[data-motion="reduced"] .galaxy-cursor-well {
 }
 
 html[data-theme="light"] .galaxy-starfield-a {
-  opacity: 0.4;
+  opacity: var(--galaxy-star-opacity);
 }
 
 html[data-theme="light"] .galaxy-starfield-b {
-  opacity: 0.22;
+  opacity: calc(var(--galaxy-star-opacity) * 0.62);
 }
 
 html[data-theme="light"] .galaxy-deep {
+  opacity: var(--galaxy-deep-strength);
   background:
-    radial-gradient(ellipse 120% 80% at 50% -30%, rgb(var(--galaxy-nebula-blue) / 0.05), transparent 55%),
-    radial-gradient(ellipse 90% 60% at 100% 40%, rgb(var(--galaxy-nebula-violet) / 0.04), transparent 50%);
+    radial-gradient(ellipse 130% 85% at 50% -25%, rgb(var(--galaxy-nebula-blue) / 0.09), transparent 58%),
+    radial-gradient(ellipse 95% 65% at 100% 35%, rgb(var(--galaxy-nebula-violet) / 0.07), transparent 52%),
+    radial-gradient(ellipse 105% 75% at -5% 75%, rgb(var(--galaxy-nebula-cyan) / 0.05), transparent 54%);
 }
 
 .galaxy-grain {
@@ -346,11 +375,19 @@ html[data-theme="light"] .galaxy-grain {
   opacity: 0.022;
 }
 
+.ambient-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
 .ambient-orb {
   position: absolute;
   border-radius: 9999px;
   filter: blur(100px);
-  opacity: 0.14;
+  opacity: 0.2;
 }
 
 .ambient-orb-a {
@@ -396,7 +433,13 @@ html[data-theme="light"] .galaxy-grain {
 .ambient-grid-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgb(var(--theme-chrome-fill) / 0.06), transparent 60%);
+  opacity: 0.85;
+  background: radial-gradient(ellipse 85% 55% at 50% -15%, rgb(var(--theme-chrome-fill) / 0.08), transparent 62%);
+}
+
+html[data-theme="light"] .ambient-grid-glow {
+  opacity: 0.55;
+  background: radial-gradient(ellipse 85% 55% at 50% -15%, rgb(var(--theme-surface-shadow) / 0.04), transparent 62%);
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -4,6 +4,7 @@ export function AmbientBackdrop() {
       <div className="galaxy-deep" />
       <div className="galaxy-starfield galaxy-starfield-a" />
       <div className="galaxy-starfield galaxy-starfield-b" />
+      <div className="galaxy-starfield galaxy-starfield-c" />
       <div className="galaxy-nebula galaxy-nebula-a" />
       <div className="galaxy-nebula galaxy-nebula-b" />
       <div className="galaxy-nebula galaxy-nebula-c" />
