@@ -52,7 +52,10 @@ html {
   --theme-glass-ring-opacity: 0.85;
   --theme-panel-bg: rgb(var(--theme-chrome-fill) / 0.04);
   --theme-panel-border: rgb(var(--theme-chrome-border) / 0.12);
-  scroll-padding-top: 5rem;
+  --site-header-height: 4rem;
+  --site-scroll-gap: 0.75rem;
+  --site-scroll-offset: calc(var(--site-header-height) + var(--site-scroll-gap));
+  scroll-padding-top: var(--site-scroll-offset);
   color-scheme: dark;
 }
 
@@ -117,6 +120,17 @@ body {
 
 body.theme-craft-v2 {
   --surface-blur: 16px;
+}
+
+/* Anchor targets: one offset via html scroll-padding (avoid stacking scroll-margin). */
+#top,
+section[id],
+main [id] {
+  scroll-margin-top: 0;
+}
+
+.page-shell {
+  position: relative;
 }
 
 ::selection {
@@ -1588,7 +1602,7 @@ html[data-theme="light"] .section-title-accent {
 
 @media (min-width: 1024px) {
   .hero-cinema {
-    min-height: min(88vh, 920px);
+    min-height: min(82vh, 860px);
   }
 }
 

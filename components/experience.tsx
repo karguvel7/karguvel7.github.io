@@ -72,7 +72,7 @@ export function Experience() {
         </div>
       </article>
 
-      <div id="education" className="mt-10 scroll-mt-24">
+      <div id="education" className="mt-10">
         <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Education</h3>
         <dl className="mt-4 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2">
           {experience.education.map((item) => (

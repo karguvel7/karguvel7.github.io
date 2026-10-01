@@ -93,7 +93,7 @@ function CaseStudyCard({
       id={project.id}
       data-accent={project.accent}
       aria-labelledby={`${project.id}-title`}
-      className="project-card project-showcase diagram-surface scroll-mt-24 p-6 sm:p-10"
+      className="project-card project-showcase diagram-surface p-6 sm:p-10"
     >
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 flex-1 gap-5 sm:gap-8">

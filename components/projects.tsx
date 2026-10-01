@@ -31,7 +31,7 @@ function CaseStudyArticle({ project, index }: { project: CaseStudy; index: numbe
       id={project.id}
       aria-labelledby={`${project.id}-title`}
       data-accent={project.accent}
-      className="interactive-panel scroll-mt-24 py-12"
+      className="interactive-panel py-12"
     >
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
