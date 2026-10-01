@@ -1444,6 +1444,20 @@ html[data-theme="light"] .header-shell.is-scrolled {
   border-color: rgb(var(--theme-line) / 0.85);
 }
 
+html[data-theme="light"] .tag-chip {
+  border-color: rgb(var(--accent-rgb) / 0.28);
+  background: rgb(var(--accent-rgb) / 0.08);
+  color: rgb(var(--accent-rgb) / 0.88);
+}
+
+html[data-theme="light"] .case-study-details summary::after {
+  color: var(--color-muted);
+}
+
+html[data-theme="light"] .pipeline-arrow.text-faint {
+  color: var(--color-muted);
+}
+
 html[data-theme="light"] .grain-overlay {
   opacity: 0.025;
 }
