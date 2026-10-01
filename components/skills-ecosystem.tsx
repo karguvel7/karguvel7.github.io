@@ -28,7 +28,7 @@ export function SkillsEcosystem() {
               <button
                 type="button"
                 data-accent={group.accent}
-                className={`skill-orbit glass-panel w-full p-4 text-left ${isActive ? "is-active" : ""}`}
+                className={`skill-orbit diagram-surface w-full p-5 text-left ${isActive ? "is-active" : ""}`}
                 onClick={() => setActiveId(isActive ? null : group.id)}
                 aria-expanded={isActive}
               >

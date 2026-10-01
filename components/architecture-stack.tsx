@@ -21,7 +21,7 @@ export function ArchitectureStack() {
       />
 
       <div className="mt-12 grid gap-8 lg:grid-cols-12">
-        <ol className="stack-layers glass-panel lg:col-span-5">
+        <ol className="stack-layers diagram-surface lg:col-span-5">
           {architectureLayers.map((layer, index) => {
             const isActive = index === active;
             return (

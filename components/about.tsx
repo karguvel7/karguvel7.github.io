@@ -17,7 +17,7 @@ export function About() {
 
       <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {about.highlights.map((item) => (
-          <li key={item.label} data-accent={accent} className="stat-card glass-panel p-4">
+          <li key={item.label} data-accent={accent} className="stat-card diagram-surface p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">{item.label}</p>
             <p className="mt-2 text-lg font-medium text-ink">{item.value}</p>
             <p className="mt-2 text-xs leading-relaxed text-muted">{item.detail}</p>

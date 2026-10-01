@@ -32,16 +32,26 @@ export function ProjectGallery() {
         lede="Multi-agent orchestration, enterprise copilots, observability, and AI-native delivery. Filter by layer — outcomes stay with what each case study describes."
       />
 
-      <div className="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Project categories">
+      <div className="mt-10 flex flex-wrap gap-2.5" role="tablist" aria-label="Project categories">
         {projectCategories.map((category) => {
           const selected = filter === category;
+          const accent =
+            category === "All"
+              ? "neutral"
+              : category === "AI" || category === "Automation"
+                ? "violet"
+                : category === "DevOps"
+                  ? "amber"
+                  : category === "Cloud"
+                    ? "cyan"
+                    : "emerald";
           return (
             <button
               key={category}
               type="button"
               role="tab"
               aria-selected={selected}
-              data-accent={category === "All" ? "neutral" : category === "AI" ? "violet" : "cyan"}
+              data-accent={accent}
               className={`project-filter ${selected ? "is-active" : ""}`}
               onClick={() => setFilter(category)}
             >
@@ -51,7 +61,7 @@ export function ProjectGallery() {
         })}
       </div>
 
-      <div className="mt-10 space-y-6">
+      <div className="projects-stage mt-10 space-y-8">
         {filtered.map((project, index) => (
           <CaseStudyCard key={project.id} project={project} index={index} />
         ))}
@@ -69,7 +79,7 @@ function CaseStudyCard({ project, index }: { project: CaseStudy; index: number }
       id={project.id}
       data-accent={project.accent}
       aria-labelledby={`${project.id}-title`}
-      className="project-card glass-panel scroll-mt-24 p-5 sm:p-8"
+      className="project-card diagram-surface scroll-mt-24 p-6 sm:p-9"
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>

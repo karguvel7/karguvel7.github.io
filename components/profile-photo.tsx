@@ -45,7 +45,7 @@ export function ProfilePhoto({
         onPointerMove={onMove}
         onPointerLeave={onLeave}
       >
-        <div className="profile-photo-frame">
+        <div className="profile-photo-frame portrait-premium">
           <div className="profile-photo-scan" aria-hidden="true" />
           <div className="profile-photo-ring" aria-hidden="true" />
           <Image

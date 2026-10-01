@@ -4,7 +4,9 @@ export function AmbientBackdrop() {
       <div className="ambient-orb ambient-orb-a" />
       <div className="ambient-orb ambient-orb-b" />
       <div className="ambient-orb ambient-orb-c" />
+      <div className="ambient-orb ambient-orb-d" />
       <div className="ambient-grid-glow" />
+      <div className="grain-overlay" />
     </div>
   );
 }

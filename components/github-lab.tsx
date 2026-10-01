@@ -53,7 +53,7 @@ export function GithubLab() {
         lede="Case studies above are the narrative. GitHub is the lab — recent public repositories when the API is available, otherwise the profile link."
       />
 
-      <div className="glass-panel mt-10 p-5 sm:p-6">
+      <div className="diagram-surface mt-10 p-6 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Profile</p>

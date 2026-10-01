@@ -18,7 +18,7 @@ export function Section({
       id={id}
       aria-labelledby={labelledBy}
       data-accent={accent}
-      className="section-shell scroll-mt-20 border-t border-line py-20 sm:py-28"
+      className="section-shell scroll-mt-20 border-t border-line/80 py-24 sm:py-32"
     >
       <RevealOnView className="mx-auto w-full max-w-6xl px-5 sm:px-8">{children}</RevealOnView>
     </section>
@@ -52,12 +52,12 @@ export function SectionHeading({
       <div className="lg:col-span-9">
         <h2
           id={id}
-          className="max-w-3xl text-3xl font-medium tracking-[-0.03em] text-balance text-ink sm:text-4xl"
+          className="type-section-title max-w-3xl text-balance text-ink"
         >
           {title}
         </h2>
         {lede ? (
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">{lede}</p>
+          <p className="type-section-lede mt-5 max-w-2xl">{lede}</p>
         ) : null}
       </div>
     </div>

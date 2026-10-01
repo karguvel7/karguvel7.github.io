@@ -63,7 +63,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`header-shell sticky top-0 z-40 border-b border-line bg-canvas/85 backdrop-blur-md ${scrolled ? "is-scrolled" : ""}`}
+      className={`header-shell header-premium sticky top-0 z-40 border-b border-line/70 bg-canvas/70 backdrop-blur-xl ${scrolled ? "is-scrolled" : ""}`}
     >
       <a href="#main" className="skip-link">
         Skip to content

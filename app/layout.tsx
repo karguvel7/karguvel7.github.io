@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0b0c0e",
+  themeColor: "#07080a",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -100,7 +100,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="relative min-h-full">
+      <body className="relative min-h-full theme-craft-v2">
         <MotionShell>
           <AmbientBackdrop />
           <div className="grid-fade" aria-hidden="true" />

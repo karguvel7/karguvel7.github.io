@@ -18,7 +18,7 @@ export function EngineeringLab() {
       <ul className="mt-10 grid gap-4 sm:grid-cols-2">
         {engineeringLab.items.map((item) => (
           <li key={item.title}>
-            <a href={item.href} data-accent="violet" className="lab-card glass-panel block p-5 sm:p-6">
+            <a href={item.href} data-accent="violet" className="lab-card diagram-surface block p-6 sm:p-7">
               <div className="flex flex-wrap gap-2">
                 {item.tags.map((tag) => (
                   <span key={tag} data-accent="violet" className="tag-chip">
