@@ -196,6 +196,8 @@ export function CursorFollowField() {
       root.style.setProperty("--milky-parallax-y", `${py * 0.014}px`);
       root.style.setProperty("--stars-parallax-x", `${px * 0.008}px`);
       root.style.setProperty("--stars-parallax-y", `${py * 0.006}px`);
+      root.style.setProperty("--dust-parallax-x", `${px * 0.011}px`);
+      root.style.setProperty("--dust-parallax-y", `${py * 0.009}px`);
 
       const simulate = (
         spec: { mass: number; stiffness: number; damping: number; orbitRadius: number; orbitSpeed: number; phase: number; size: number },

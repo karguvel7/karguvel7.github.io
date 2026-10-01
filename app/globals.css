@@ -71,16 +71,18 @@ html {
   --milky-parallax-y: 0px;
   --stars-parallax-x: 0px;
   --stars-parallax-y: 0px;
+  --dust-parallax-x: 0px;
+  --dust-parallax-y: 0px;
   --dust-swirl-rotate: 0deg;
   --galaxy-star: 248 250 252;
   --galaxy-nebula-violet: var(--accent-violet-rgb);
   --galaxy-nebula-blue: var(--accent-blue-rgb);
   --galaxy-nebula-cyan: var(--accent-cyan-rgb);
-  --galaxy-star-opacity: 0.88;
+  --galaxy-star-opacity: 0.92;
   --galaxy-nebula-opacity: 0.5;
   --galaxy-deep-strength: 1;
-  --galaxy-veil-strength: 0.46;
-  --galaxy-milky-opacity: 0.62;
+  --galaxy-veil-strength: 0.52;
+  --galaxy-milky-opacity: 0.78;
   scroll-padding-top: var(--site-scroll-offset);
   color-scheme: dark;
 }
@@ -231,16 +233,11 @@ html[data-theme="light"] .grid-fade {
 }
 
 .galaxy-backdrop {
-  background:
-    radial-gradient(ellipse 140% 95% at 50% 115%, rgb(2 4 12 / 0.95), transparent 60%),
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgb(8 14 28 / 0.65), transparent 55%),
-    #050810;
+  background: #030508;
 }
 
 html[data-theme="light"] .galaxy-backdrop {
-  background:
-    radial-gradient(ellipse 120% 80% at 50% 100%, rgb(var(--theme-surface-shadow) / 0.05), transparent 55%),
-    var(--theme-canvas);
+  background: var(--theme-canvas);
 }
 
 .galaxy-photo-stack {
@@ -264,8 +261,29 @@ html[data-theme="light"] .galaxy-backdrop {
 .galaxy-photo-stars {
   opacity: 0;
   mix-blend-mode: screen;
+  filter: brightness(calc(1 + var(--cursor-star-twinkle, 0) * 0.22))
+    contrast(calc(1 + var(--cursor-star-twinkle, 0) * 0.03));
+}
+
+.galaxy-photo-stars-deep {
+  transform: translate3d(
+    calc(var(--stars-parallax-x, 0) * 0.42),
+    calc(var(--stars-parallax-y, 0) * 0.42),
+    0
+  );
+}
+
+.galaxy-photo-stars-mid {
   transform: translate3d(var(--stars-parallax-x, 0), var(--stars-parallax-y, 0), 0);
-  filter: brightness(calc(1 + var(--cursor-star-twinkle, 0) * 0.26))
+}
+
+.galaxy-photo-stars-near {
+  transform: translate3d(
+    calc(var(--stars-parallax-x, 0) * 1.28),
+    calc(var(--stars-parallax-y, 0) * 1.15),
+    0
+  );
+  filter: brightness(calc(1 + var(--cursor-star-twinkle, 0) * 0.32))
     contrast(calc(1 + var(--cursor-star-twinkle, 0) * 0.04));
 }
 
@@ -273,7 +291,13 @@ html[data-theme="light"] .galaxy-backdrop {
   opacity: 0;
   mix-blend-mode: screen;
   transform: translate3d(var(--milky-parallax-x, 0), var(--milky-parallax-y, 0), 0)
-    scale(calc(1 + var(--cursor-activity, 0) * 0.006));
+    scale(calc(1 + var(--cursor-activity, 0) * 0.004));
+}
+
+.galaxy-photo-dust {
+  opacity: 0;
+  mix-blend-mode: multiply;
+  transform: translate3d(var(--dust-parallax-x, 0), var(--dust-parallax-y, 0), 0);
 }
 
 .galaxy-pointer-interaction {
@@ -301,17 +325,21 @@ html[data-theme="light"] .galaxy-backdrop {
     rgb(0 0 0 / 0.58) 36%,
     transparent 74%
   );
-  background:
-    radial-gradient(circle 200px at var(--pointer-x, 50%) var(--pointer-y, 40%), rgb(var(--galaxy-star) / 0.16), transparent 70%),
-    radial-gradient(circle 340px at var(--pointer-x, 50%) var(--pointer-y, 40%), rgb(var(--galaxy-nebula-blue) / 0.07), transparent 75%);
-  opacity: calc(var(--cursor-star-twinkle, 0) * 1);
+  background: radial-gradient(
+    circle 220px at var(--pointer-x, 50%) var(--pointer-y, 40%),
+    rgb(var(--galaxy-star) / 0.14),
+    transparent 72%
+  );
+  opacity: calc(var(--cursor-star-twinkle, 0) * 0.95);
 }
 
 html[data-theme="light"] .galaxy-pointer-starlift {
   mix-blend-mode: multiply;
-  background:
-    radial-gradient(circle 180px at var(--pointer-x, 50%) var(--pointer-y, 40%), rgb(var(--galaxy-star) / 0.08), transparent 70%),
-    radial-gradient(circle 300px at var(--pointer-x, 50%) var(--pointer-y, 40%), rgb(var(--galaxy-nebula-violet) / 0.05), transparent 75%);
+  background: radial-gradient(
+    circle 200px at var(--pointer-x, 50%) var(--pointer-y, 40%),
+    rgb(var(--galaxy-star) / 0.07),
+    transparent 72%
+  );
 }
 
 html:not([data-theme="light"]) .galaxy-pointer-starlift.galaxy-theme-dark {
@@ -338,24 +366,22 @@ html[data-theme="light"] .galaxy-pointer-starlift.galaxy-theme-dark {
   height: min(52vw, 420px);
   transform: translate(-50%, -50%) rotate(var(--dust-swirl-rotate, 0deg));
   pointer-events: none;
-  opacity: calc(var(--cursor-activity, 0) * 0.48);
+  opacity: calc(var(--cursor-activity, 0) * 0.22);
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    rgb(var(--galaxy-nebula-blue) / 0.05) 40deg,
-    transparent 80deg,
-    rgb(var(--galaxy-nebula-violet) / 0.04) 140deg,
-    transparent 200deg,
-    rgb(var(--galaxy-nebula-cyan) / 0.035) 260deg,
-    transparent 320deg
+    rgb(220 228 240 / 0.04) 50deg,
+    transparent 100deg,
+    rgb(255 255 255 / 0.025) 180deg,
+    transparent 260deg
   );
-  filter: blur(28px);
-  mix-blend-mode: screen;
+  filter: blur(32px);
+  mix-blend-mode: soft-light;
 }
 
 html[data-theme="light"] .galaxy-pointer-dust-swirl {
   mix-blend-mode: multiply;
-  opacity: calc(var(--cursor-activity, 0) * 0.28);
+  opacity: calc(var(--cursor-activity, 0) * 0.14);
 }
 
 html[data-pointer="coarse"] .galaxy-pointer-interaction,
@@ -381,21 +407,48 @@ html[data-theme="light"] .cursor-dust-mote {
   opacity: calc(0.28 + var(--cursor-activity, 0) * 0.42);
 }
 
-html:not([data-theme="light"]) .galaxy-theme-dark.galaxy-photo-stars {
+html:not([data-theme="light"]) .galaxy-theme-dark.galaxy-photo-stars-deep {
+  opacity: 0.62;
+}
+
+html:not([data-theme="light"]) .galaxy-theme-dark.galaxy-photo-stars-mid {
+  opacity: 0.82;
+}
+
+html:not([data-theme="light"]) .galaxy-theme-dark.galaxy-photo-stars-near {
   opacity: 0.92;
 }
 
 html:not([data-theme="light"]) .galaxy-theme-dark.galaxy-photo-milky {
-  opacity: 0.72;
+  opacity: var(--galaxy-milky-opacity);
 }
 
-html[data-theme="light"] .galaxy-theme-light.galaxy-photo-stars {
-  opacity: 0.48;
+html:not([data-theme="light"]) .galaxy-theme-dark.galaxy-photo-dust {
+  opacity: 0.55;
+}
+
+html[data-theme="light"] .galaxy-theme-light.galaxy-photo-stars-deep {
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+}
+
+html[data-theme="light"] .galaxy-theme-light.galaxy-photo-stars-mid {
+  opacity: 0.44;
+  mix-blend-mode: multiply;
+}
+
+html[data-theme="light"] .galaxy-theme-light.galaxy-photo-stars-near {
+  opacity: 0.38;
   mix-blend-mode: multiply;
 }
 
 html[data-theme="light"] .galaxy-theme-light.galaxy-photo-milky {
-  opacity: 0.42;
+  opacity: 0.36;
+  mix-blend-mode: multiply;
+}
+
+html[data-theme="light"] .galaxy-theme-light.galaxy-photo-dust {
+  opacity: 0.28;
   mix-blend-mode: multiply;
 }
 
@@ -512,12 +565,35 @@ html[data-theme="light"] .galaxy-star-twinkle {
 .galaxy-deep {
   position: absolute;
   inset: 0;
-  opacity: calc(0.92 + (var(--galaxy-deep-strength) - 0.72) * 0.15);
+  opacity: 1;
   background:
-    radial-gradient(ellipse 130% 85% at 50% -25%, rgb(var(--galaxy-nebula-blue) / 0.16), transparent 58%),
-    radial-gradient(ellipse 95% 65% at 100% 35%, rgb(var(--galaxy-nebula-violet) / 0.13), transparent 52%),
-    radial-gradient(ellipse 105% 75% at -5% 75%, rgb(var(--galaxy-nebula-cyan) / 0.09), transparent 54%),
-    radial-gradient(ellipse 80% 50% at 50% 55%, rgb(var(--galaxy-nebula-violet) / 0.05), transparent 62%);
+    radial-gradient(ellipse 130% 90% at 50% 105%, rgb(0 0 0 / 0.65), transparent 58%),
+    radial-gradient(ellipse 70% 45% at 50% -8%, rgb(14 20 36 / 0.45), transparent 52%),
+    linear-gradient(165deg, rgb(2 4 10) 0%, rgb(4 7 16) 38%, rgb(3 5 12) 62%, rgb(1 2 8) 100%);
+}
+
+html[data-theme="light"] .galaxy-deep {
+  opacity: var(--galaxy-deep-strength);
+  background:
+    radial-gradient(ellipse 100% 70% at 50% 100%, rgb(var(--theme-surface-shadow) / 0.06), transparent 55%),
+    linear-gradient(180deg, rgb(var(--theme-canvas)) 0%, color-mix(in srgb, var(--theme-canvas) 94%, rgb(71 85 105 / 0.04)) 100%);
+}
+
+.galaxy-cinema-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 88% 72% at 50% 42%, transparent 42%, rgb(0 0 0 / 0.42) 100%),
+    linear-gradient(180deg, rgb(0 0 0 / 0.35), transparent 22%, transparent 68%, rgb(0 0 0 / 0.5));
+  opacity: 0.85;
+}
+
+html[data-theme="light"] .galaxy-cinema-vignette {
+  opacity: 0.35;
+  background:
+    radial-gradient(ellipse 90% 75% at 50% 45%, transparent 50%, rgb(var(--theme-surface-shadow) / 0.08) 100%),
+    linear-gradient(180deg, rgb(var(--theme-surface-shadow) / 0.04), transparent 30%, transparent 75%, rgb(var(--theme-surface-shadow) / 0.06));
 }
 
 .galaxy-starfield {
@@ -638,137 +714,88 @@ html[data-theme="light"] .galaxy-content-veil {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html[data-motion="on"] .galaxy-photo-stars {
-    animation: galaxy-photo-drift 280s ease-in-out infinite alternate;
+  html[data-motion="on"] .galaxy-photo-stars-deep {
+    animation: galaxy-drift-deep 360s ease-in-out infinite alternate;
+  }
+
+  html[data-motion="on"] .galaxy-photo-stars-mid {
+    animation: galaxy-drift-mid 300s ease-in-out infinite alternate;
+  }
+
+  html[data-motion="on"] .galaxy-photo-stars-near {
+    animation: galaxy-drift-near 240s ease-in-out infinite alternate;
   }
 
   html[data-motion="on"] .galaxy-photo-milky {
-    animation: galaxy-milky-photo-drift 220s ease-in-out infinite alternate;
+    animation: galaxy-milky-photo-drift 260s ease-in-out infinite alternate;
   }
 
-  html[data-motion="on"] .galaxy-deep {
-    animation: galaxy-deep-breathe 90s ease-in-out infinite alternate;
+  html[data-motion="on"] .galaxy-photo-dust {
+    animation: galaxy-drift-dust 320s ease-in-out infinite alternate-reverse;
   }
 
-  html[data-motion="on"] .galaxy-nebula-a {
-    animation: galaxy-nebula-drift-a 110s ease-in-out infinite alternate;
-  }
-
-  html[data-motion="on"] .galaxy-nebula-b {
-    animation: galaxy-nebula-drift-b 130s ease-in-out infinite alternate;
-  }
-
-  html[data-motion="on"] .galaxy-nebula-c {
-    animation: galaxy-nebula-drift-c 150s ease-in-out infinite alternate;
-  }
-
-  html[data-motion="on"] .galaxy-nebula-d {
-    animation: galaxy-nebula-drift-a 180s ease-in-out infinite alternate-reverse;
-  }
-
-  html[data-motion="on"] .galaxy-nebula-band-far {
-    animation: galaxy-band-drift-far 200s ease-in-out infinite alternate;
-  }
-
-  html[data-motion="on"] .galaxy-nebula-band-mid {
-    animation: galaxy-band-drift-mid 160s ease-in-out infinite alternate-reverse;
-  }
-
-  html[data-motion="on"] .galaxy-nebula-band-near {
-    animation: galaxy-band-drift-near 120s ease-in-out infinite alternate;
-  }
-
-  @keyframes galaxy-photo-drift {
+  @keyframes galaxy-drift-deep {
     from {
-      transform: scale(1.02) translate3d(0, 0, 0);
+      transform: translate3d(calc(var(--stars-parallax-x, 0) * 0.42), calc(var(--stars-parallax-y, 0) * 0.42), 0)
+        scale(1.02);
     }
 
     to {
-      transform: scale(1.045) translate3d(-1.2%, 0.8%, 0);
+      transform: translate3d(calc(var(--stars-parallax-x, 0) * 0.42 - 0.8%), calc(var(--stars-parallax-y, 0) * 0.42 + 0.5%), 0)
+        scale(1.035);
+    }
+  }
+
+  @keyframes galaxy-drift-mid {
+    from {
+      transform: translate3d(var(--stars-parallax-x, 0), var(--stars-parallax-y, 0), 0) scale(1.015);
+    }
+
+    to {
+      transform: translate3d(calc(var(--stars-parallax-x, 0) - 1%), calc(var(--stars-parallax-y, 0) + 0.6%), 0)
+        scale(1.03);
+    }
+  }
+
+  @keyframes galaxy-drift-near {
+    from {
+      transform: translate3d(calc(var(--stars-parallax-x, 0) * 1.28), calc(var(--stars-parallax-y, 0) * 1.15), 0);
+    }
+
+    to {
+      transform: translate3d(calc(var(--stars-parallax-x, 0) * 1.28 + 1.2%), calc(var(--stars-parallax-y, 0) * 1.15 - 0.8%), 0);
     }
   }
 
   @keyframes galaxy-milky-photo-drift {
     from {
-      transform: translate3d(0, 0, 0);
+      transform: translate3d(var(--milky-parallax-x, 0), var(--milky-parallax-y, 0), 0)
+        scale(calc(1 + var(--cursor-activity, 0) * 0.004));
     }
 
     to {
-      transform: translate3d(1.5%, -1%, 0);
+      transform: translate3d(calc(var(--milky-parallax-x, 0) + 1.2%), calc(var(--milky-parallax-y, 0) - 0.7%), 0)
+        scale(calc(1.008 + var(--cursor-activity, 0) * 0.004));
     }
   }
 
-  @keyframes galaxy-band-drift-far {
+  @keyframes galaxy-drift-dust {
     from {
-      transform: rotate(-24deg) translate3d(var(--grid-parallax-x, 0), var(--grid-parallax-y, 0), 0);
+      transform: translate3d(var(--dust-parallax-x, 0), var(--dust-parallax-y, 0), 0);
     }
 
     to {
-      transform: rotate(-24deg) translate3d(calc(var(--grid-parallax-x, 0) + 3%), calc(var(--grid-parallax-y, 0) - 2%), 0);
+      transform: translate3d(calc(var(--dust-parallax-x, 0) + 0.9%), calc(var(--dust-parallax-y, 0) + 0.5%), 0);
     }
   }
+}
 
-  @keyframes galaxy-band-drift-mid {
-    from {
-      transform: rotate(-22deg) translate3d(calc(var(--grid-parallax-x, 0) * 1.6), calc(var(--grid-parallax-y, 0) * 1.6), 0);
-    }
+html[data-theme="light"] .galaxy-starfield-a {
+  opacity: var(--galaxy-star-opacity);
+}
 
-    to {
-      transform: rotate(-22deg)
-        translate3d(calc(var(--grid-parallax-x, 0) * 1.6 + 4%), calc(var(--grid-parallax-y, 0) * 1.6 + 2%), 0);
-    }
-  }
-
-  @keyframes galaxy-band-drift-near {
-    from {
-      transform: rotate(-20deg) translate3d(calc(var(--grid-parallax-x, 0) * 2.4), calc(var(--grid-parallax-y, 0) * 2.4), 0);
-    }
-
-    to {
-      transform: rotate(-20deg)
-        translate3d(calc(var(--grid-parallax-x, 0) * 2.4 - 2%), calc(var(--grid-parallax-y, 0) * 2.4 + 3%), 0);
-    }
-  }
-
-  @keyframes galaxy-deep-breathe {
-    from {
-      opacity: calc(0.88 + (var(--galaxy-deep-strength) - 0.72) * 0.12);
-    }
-
-    to {
-      opacity: calc(0.96 + (var(--galaxy-deep-strength) - 0.72) * 0.15);
-    }
-  }
-
-  @keyframes galaxy-nebula-drift-a {
-    from {
-      transform: translate3d(0, 0, 0);
-    }
-
-    to {
-      transform: translate3d(4%, -3%, 0);
-    }
-  }
-
-  @keyframes galaxy-nebula-drift-b {
-    from {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-
-    to {
-      transform: translate3d(-3.5%, 2.5%, 0) scale(1.06);
-    }
-  }
-
-  @keyframes galaxy-nebula-drift-c {
-    from {
-      transform: translate3d(0, 0, 0);
-    }
-
-    to {
-      transform: translate3d(2.5%, 3.5%, 0);
-    }
-  }
+html[data-theme="light"] .galaxy-starfield-b {
+  opacity: calc(var(--galaxy-star-opacity) * 0.62);
 }
 
 .galaxy-cursor-well {
@@ -792,7 +819,7 @@ html[data-theme="light"] .galaxy-content-veil {
 }
 
 html[data-motion="on"][data-pointer="fine"] .galaxy-cursor-well {
-  opacity: calc(0.35 + var(--cursor-activity, 0) * 0.65);
+  opacity: 0 !important;
 }
 
 html[data-theme="light"] .galaxy-cursor-well {
@@ -807,22 +834,6 @@ html[data-theme="light"] .galaxy-cursor-well {
 html[data-pointer="coarse"] .galaxy-cursor-well,
 html[data-motion="reduced"] .galaxy-cursor-well {
   opacity: 0 !important;
-}
-
-html[data-theme="light"] .galaxy-starfield-a {
-  opacity: var(--galaxy-star-opacity);
-}
-
-html[data-theme="light"] .galaxy-starfield-b {
-  opacity: calc(var(--galaxy-star-opacity) * 0.62);
-}
-
-html[data-theme="light"] .galaxy-deep {
-  opacity: var(--galaxy-deep-strength);
-  background:
-    radial-gradient(ellipse 130% 85% at 50% -25%, rgb(var(--galaxy-nebula-blue) / 0.09), transparent 58%),
-    radial-gradient(ellipse 95% 65% at 100% 35%, rgb(var(--galaxy-nebula-violet) / 0.07), transparent 52%),
-    radial-gradient(ellipse 105% 75% at -5% 75%, rgb(var(--galaxy-nebula-cyan) / 0.05), transparent 54%);
 }
 
 .galaxy-grain {
@@ -2433,11 +2444,9 @@ html[data-theme="light"] .hero-cinema-vignette {
   inset: -24% -12% auto;
   height: min(75vh, 560px);
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 50% 42% at 18% 35%, rgb(var(--accent-blue-rgb) / 0.11), transparent 62%),
-    radial-gradient(ellipse 45% 38% at 78% 22%, rgb(var(--accent-violet-rgb) / 0.06), transparent 58%);
-  filter: blur(3px);
-  opacity: 0.95;
+  background: radial-gradient(ellipse 55% 40% at 50% 20%, rgb(255 255 255 / 0.025), transparent 62%);
+  filter: blur(4px);
+  opacity: 0.5;
 }
 
 html[data-theme="light"] .hero-aurora {
