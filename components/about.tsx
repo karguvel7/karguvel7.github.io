@@ -1,5 +1,6 @@
 import { sectionAccent } from "@/lib/accents";
 import { about } from "@/lib/content";
+import { RevealStagger } from "@/components/reveal-stagger";
 import { Section, SectionHeading } from "@/components/section";
 
 export function About() {
@@ -15,17 +16,32 @@ export function About() {
         lede={about.lede}
       />
 
-      <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        {about.highlights.map((item) => (
-          <li key={item.label} data-accent={accent} className="stat-card diagram-surface p-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{item.label}</p>
-            <p className="mt-2 text-lg font-medium text-ink">{item.value}</p>
-            <p className="mt-2 text-xs leading-relaxed text-muted">{item.detail}</p>
+      <RevealStagger
+        asGrid
+        className="about-highlights mt-10 grid auto-rows-fr grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-5 lg:gap-4"
+      >
+        {about.highlights.map((item, index) => (
+          <li key={item.label} className="h-full">
+            <article
+              data-accent={accent}
+              className="about-stat stat-card diagram-surface flex h-full min-h-[9.5rem] flex-col p-0"
+            >
+              <div className="about-stat-head flex items-start justify-between gap-2 border-b border-line/50 px-5 py-3.5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{item.label}</p>
+                <span className="about-stat-seq font-mono text-[11px] tabular-nums text-faint" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="flex flex-1 flex-col px-5 py-4">
+                <p className="text-lg font-medium tracking-tight text-ink">{item.value}</p>
+                <p className="mt-2 text-xs leading-relaxed text-muted">{item.detail}</p>
+              </div>
+            </article>
           </li>
         ))}
-      </ul>
+      </RevealStagger>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-8">
+      <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:gap-10">
         <div className="space-y-5 lg:col-span-7">
           {about.paragraphs.map((paragraph) => (
             <p key={paragraph} className="max-w-2xl text-base leading-relaxed text-muted">
@@ -35,16 +51,15 @@ export function About() {
           <p className="max-w-2xl text-base leading-relaxed text-muted">{about.applicationStack}</p>
         </div>
 
-        <dl
-          data-accent={accent}
-          className="panel-accent-rail border-t border-line lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-8"
-        >
+        <dl data-accent={accent} className="about-facts diagram-surface flex flex-col p-0 lg:col-span-5">
+          <div className="border-b border-line/50 px-5 py-4">
+            <dt className="sr-only">Profile facts</dt>
+            <dd className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">At a glance</dd>
+          </div>
           {about.facts.map((fact) => (
-            <div key={fact.label} className="border-b border-line py-4">
-              <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
-                {fact.label}
-              </dt>
-              <dd className="mt-2 text-sm text-ink">{fact.value}</dd>
+            <div key={fact.label} className="about-fact-row border-b border-line/45 px-5 py-4 last:border-b-0">
+              <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">{fact.label}</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-ink">{fact.value}</dd>
             </div>
           ))}
         </dl>

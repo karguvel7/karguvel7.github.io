@@ -337,117 +337,189 @@ main [id] {
   transition-delay: 560ms;
 }
 
-.pointer-spotlight {
+/* Orbiting cursor objects (desktop fine pointer) — replaces full-screen spotlight wash */
+.cursor-follow-field {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
+  overflow: hidden;
   opacity: 0;
-  background: radial-gradient(
-    640px circle at var(--pointer-x, 50%) var(--pointer-y, 20%),
-    rgb(var(--accent-blue-rgb) / 0.14),
-    rgb(var(--accent-violet-rgb) / 0.04) 38%,
-    transparent 52%
-  );
-  mix-blend-mode: soft-light;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.45s ease;
 }
 
-html[data-motion="on"][data-pointer="fine"] .pointer-spotlight {
+html[data-motion="on"][data-pointer="fine"] .cursor-follow-field {
   opacity: 1;
 }
 
-html[data-pointer="coarse"] .pointer-spotlight {
-  opacity: 0;
-}
-
-html[data-theme="light"][data-motion="on"][data-pointer="fine"] .pointer-spotlight {
-  background: radial-gradient(
-    480px circle at var(--pointer-x, 50%) var(--pointer-y, 20%),
-    rgb(var(--accent-blue-rgb) / 0.06),
-    transparent 45%
-  );
-  mix-blend-mode: multiply;
-  opacity: 0.85;
-}
-
-.pointer-aurora {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  background:
-    radial-gradient(
-      520px circle at var(--aurora-x, 50%) var(--aurora-y, 30%),
-      rgb(var(--accent-violet-rgb) / 0.09),
-      transparent 55%
-    ),
-    radial-gradient(
-      380px circle at calc(var(--aurora-x, 50%) + 6vw) calc(var(--aurora-y, 30%) - 4vh),
-      rgb(var(--accent-cyan-rgb) / 0.06),
-      transparent 50%
-    );
-  mix-blend-mode: soft-light;
-  filter: blur(2px);
-}
-
-html[data-motion="on"][data-pointer="fine"] .pointer-aurora {
+html[data-motion="on"][data-pointer="fine"] .cursor-follow-field[data-active="true"] {
   opacity: 1;
 }
 
-html[data-theme="light"][data-motion="on"][data-pointer="fine"] .pointer-aurora {
-  opacity: 0.55;
-  mix-blend-mode: multiply;
-  background:
-    radial-gradient(
-      440px circle at var(--aurora-x, 50%) var(--aurora-y, 30%),
-      rgb(var(--accent-violet-rgb) / 0.05),
-      transparent 52%
-    ),
-    radial-gradient(
-      320px circle at calc(var(--aurora-x, 50%) + 5vw) calc(var(--aurora-y, 30%) - 3vh),
-      rgb(var(--accent-blue-rgb) / 0.04),
-      transparent 48%
-    );
-}
-
-.cursor-parallax-dust {
-  position: fixed;
-  inset: -8%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate3d(var(--dust-parallax-x, 0), var(--dust-parallax-y, 0), 0);
-  background-image:
-    radial-gradient(circle at 18% 24%, rgb(var(--accent-blue-rgb) / 0.22) 0 1px, transparent 2px),
-    radial-gradient(circle at 72% 18%, rgb(var(--accent-violet-rgb) / 0.18) 0 1px, transparent 2px),
-    radial-gradient(circle at 44% 68%, rgb(var(--accent-cyan-rgb) / 0.16) 0 1px, transparent 2px),
-    radial-gradient(circle at 86% 52%, rgb(var(--accent-blue-rgb) / 0.14) 0 1px, transparent 2px);
-  background-size: 240px 240px, 280px 280px, 220px 220px, 260px 260px;
-  mask-image: radial-gradient(ellipse 90% 75% at var(--pointer-x, 50%) var(--pointer-y, 35%), #000 0%, transparent 72%);
-}
-
-html[data-motion="on"][data-pointer="fine"] .cursor-parallax-dust {
+html[data-motion="on"][data-pointer="fine"] .cursor-follow-field[data-active="idle"] {
   opacity: 0.35;
 }
 
-html[data-theme="light"][data-motion="on"][data-pointer="fine"] .cursor-parallax-dust {
-  opacity: 0.22;
+html[data-pointer="coarse"] .cursor-follow-field,
+html[data-motion="reduced"] .cursor-follow-field {
+  display: none;
 }
 
-html[data-pointer="coarse"] .pointer-spotlight,
-html[data-pointer="coarse"] .pointer-aurora,
-html[data-pointer="coarse"] .cursor-parallax-dust {
-  opacity: 0 !important;
+.cursor-object {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  pointer-events: none;
 }
 
-html[data-motion="on"][data-pointer="fine"] .ambient-grid-glow {
+.cursor-object[data-accent="blue"] {
+  --cursor-accent-rgb: var(--accent-blue-rgb);
+}
+
+.cursor-object[data-accent="violet"] {
+  --cursor-accent-rgb: var(--accent-violet-rgb);
+}
+
+.cursor-object[data-accent="cyan"] {
+  --cursor-accent-rgb: var(--accent-cyan-rgb);
+}
+
+.cursor-object-node-core {
+  border-radius: 9999px;
   background: radial-gradient(
-    ellipse 55% 40% at var(--pointer-x, 50%) var(--pointer-y, 22%),
-    rgb(var(--accent-blue-rgb) / 0.07),
-    transparent 62%
+    circle at 35% 30%,
+    rgb(var(--cursor-accent-rgb) / 0.55),
+    rgb(var(--cursor-accent-rgb) / 0.12) 58%,
+    transparent 72%
   );
+  box-shadow:
+    0 0 24px rgb(var(--cursor-accent-rgb) / 0.35),
+    0 0 48px rgb(var(--cursor-accent-rgb) / 0.12);
+  filter: blur(0.5px);
+}
+
+.cursor-object-node-trail {
+  border-radius: 9999px;
+  background: rgb(var(--cursor-accent-rgb) / 0.22);
+  box-shadow: 0 0 16px rgb(var(--cursor-accent-rgb) / 0.28);
+  filter: blur(1px);
+}
+
+.cursor-object-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.45rem;
+  border: 1px solid rgb(var(--cursor-accent-rgb) / 0.42);
+  background: color-mix(in srgb, var(--theme-canvas-elevated) 88%, rgb(var(--cursor-accent-rgb) / 0.12));
+  box-shadow:
+    0 1px 0 rgb(var(--theme-chrome-fill) / 0.08) inset,
+    0 8px 24px rgb(var(--theme-surface-shadow) / 0.35),
+    0 0 20px rgb(var(--cursor-accent-rgb) / 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.cursor-object-chip-ghost {
+  border-style: dashed;
+  border-color: rgb(var(--cursor-accent-rgb) / 0.32);
+  background: rgb(var(--cursor-accent-rgb) / 0.06);
+}
+
+.cursor-object-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(var(--cursor-accent-rgb) / 0.92);
+  user-select: none;
+}
+
+.cursor-object-ring {
+  border-radius: 9999px;
+  border: 1px solid rgb(var(--cursor-accent-rgb) / 0.35);
+  background: transparent;
+  box-shadow:
+    0 0 0 1px rgb(var(--cursor-accent-rgb) / 0.08) inset,
+    0 0 28px rgb(var(--cursor-accent-rgb) / 0.1);
+}
+
+.cursor-object-diamond {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  border-radius: 0;
+  background: linear-gradient(
+    135deg,
+    rgb(var(--cursor-accent-rgb) / 0.75),
+    rgb(var(--cursor-accent-rgb) / 0.2)
+  );
+  box-shadow: 0 0 14px rgb(var(--cursor-accent-rgb) / 0.35);
+}
+
+html[data-theme="light"] .cursor-object-chip {
+  background: color-mix(in srgb, var(--theme-canvas-elevated) 96%, rgb(var(--cursor-accent-rgb) / 0.08));
+  box-shadow:
+    0 1px 0 rgb(var(--theme-chrome-fill) / 0.05) inset,
+    0 6px 18px rgb(var(--theme-surface-shadow) / 0.08),
+    0 0 16px rgb(var(--cursor-accent-rgb) / 0.1);
+}
+
+.about-stat {
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-stat::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--accent-rgb) / 0.7),
+    rgb(var(--accent-rgb) / 0.1) 55%,
+    transparent
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.about-stat-seq {
+  font-family: var(--font-display), var(--font-sans);
+  letter-spacing: -0.04em;
+  color: rgb(var(--accent-rgb) / 0.26);
+}
+
+html[data-theme="light"] .about-stat-seq {
+  color: rgb(var(--accent-rgb) / 0.36);
+}
+
+.about-facts {
+  border-radius: 0.875rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .about-stat:hover {
+    transform: translateY(-3px);
+    border-color: rgb(var(--accent-rgb) / 0.35);
+    box-shadow:
+      0 0 28px rgb(var(--accent-rgb) / 0.1),
+      0 16px 36px rgb(var(--theme-surface-shadow) / 0.12);
+  }
+
+  .about-stat:hover::after {
+    opacity: 1;
+  }
+}
+
+.pointer-spotlight,
+.pointer-aurora,
+.cursor-parallax-dust {
+  display: none !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -729,9 +801,7 @@ html[data-theme="light"] .hero-mesh-dust {
   }
 }
 
-html[data-motion="reduced"] .pointer-spotlight,
-html[data-motion="reduced"] .pointer-aurora,
-html[data-motion="reduced"] .cursor-parallax-dust,
+html[data-motion="reduced"] .cursor-follow-field,
 html[data-motion="reduced"] .hero-ambient-mesh,
 html[data-motion="reduced"] .hero-mesh-dust,
 html[data-motion="reduced"] .projects-stage,
@@ -1859,6 +1929,57 @@ html[data-theme="light"] .project-showcase[data-accent] .project-showcase-title:
   border-radius: 0.875rem;
 }
 
+.skill-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--accent-rgb) / 0.75),
+    rgb(var(--accent-rgb) / 0.12) 55%,
+    transparent
+  );
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.skill-card.is-active::after,
+.skill-card:hover::after,
+.skill-card:focus-visible::after {
+  opacity: 1;
+}
+
+.skill-card-seq {
+  font-family: var(--font-display), var(--font-sans);
+  letter-spacing: -0.04em;
+  color: rgb(var(--accent-rgb) / 0.28);
+}
+
+html[data-theme="light"] .skill-card-seq {
+  color: rgb(var(--accent-rgb) / 0.38);
+}
+
+.skill-card-item {
+  line-height: 1.45;
+}
+
+.skill-card-more {
+  letter-spacing: 0.14em;
+}
+
 html[data-theme="dark"] .skill-orbit.diagram-surface,
 html:not([data-theme="light"]) .skill-orbit.diagram-surface {
   background: color-mix(in srgb, var(--theme-canvas-elevated) 96%, rgb(var(--accent-rgb) / 0.04));
@@ -2082,7 +2203,9 @@ html[data-theme="light"] .project-showcase:hover {
 
 @media (prefers-reduced-motion: no-preference) {
   .skill-orbit.is-active,
-  .skill-orbit:hover {
+  .skill-orbit:hover,
+  .skill-card.is-active,
+  .skill-card:hover {
     transform: translateY(-3px);
     border-color: rgb(var(--accent-rgb) / 0.4);
     box-shadow:
@@ -2200,7 +2323,8 @@ html[data-theme="light"] .project-showcase:hover {
 
 .project-card,
 .stat-card,
-.lab-card {
+.lab-card,
+.skill-card {
   transition:
     border-color 0.3s ease,
     box-shadow 0.3s ease,
