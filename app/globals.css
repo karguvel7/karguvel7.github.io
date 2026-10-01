@@ -319,6 +319,11 @@ html[data-theme="light"] .galaxy-cursor-well {
   );
 }
 
+html[data-pointer="coarse"] .galaxy-cursor-well,
+html[data-motion="reduced"] .galaxy-cursor-well {
+  opacity: 0 !important;
+}
+
 html[data-theme="light"] .galaxy-starfield-a {
   opacity: 0.4;
 }
