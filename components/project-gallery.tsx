@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { sectionAccent } from "@/lib/accents";
 import {
-  caseStudyFields,
   projectCategories,
   projects,
   type CaseStudy,
@@ -11,6 +10,19 @@ import {
 } from "@/lib/content";
 import { InteractivePipeline } from "@/components/interactive-pipeline";
 import { Section, SectionHeading } from "@/components/section";
+
+const CASE_STORY = [
+  { key: "problem", label: "Problem" },
+  { key: "architecture", label: "System" },
+  { key: "outcome", label: "Outcome" },
+] as const satisfies readonly { key: keyof CaseStudy; label: string }[];
+
+const CASE_NOTES = [
+  { key: "contribution", label: "Contribution" },
+  { key: "challenges", label: "Engineering challenge" },
+  { key: "solution", label: "Solution" },
+  { key: "technologies", label: "Technologies" },
+] as const satisfies readonly { key: keyof CaseStudy; label: string }[];
 
 export function ProjectGallery() {
   const accent = sectionAccent.projects;
@@ -118,22 +130,30 @@ function CaseStudyCard({
 
       <p className="project-showcase-summary mt-6 max-w-3xl text-muted">{project.summary}</p>
 
+      <ol className="case-story mt-8" aria-label={`${project.title}: problem, system, outcome`}>
+        {CASE_STORY.map((step, index) => (
+          <li key={step.key} className="case-story-step">
+            <p className="case-story-label font-mono text-[11px] uppercase tracking-[0.14em]">
+              <span className="case-story-index" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              {step.label}
+            </p>
+            <p className="mt-2.5 text-sm leading-relaxed text-ink/90">{project[step.key]}</p>
+          </li>
+        ))}
+      </ol>
+
       <div className="mt-8">
-        <InteractivePipeline stages={project.pipeline} accent={project.accent} />
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">System flow</p>
+        <InteractivePipeline stages={project.pipeline} accent={project.accent} label={`${project.title} system flow`} />
       </div>
 
       <details className="case-study-details mt-8">
-        <summary>Explore case study</summary>
+        <summary>Engineering notes</summary>
         <dl className="grid gap-6 pb-2 pt-2 sm:grid-cols-2">
-          {caseStudyFields.map((field) => (
-            <div
-              key={field.key}
-              className={
-                field.key === "outcome"
-                  ? "sm:col-span-2 border-t border-line/80 pt-5"
-                  : "border-t border-line/80 pt-5"
-              }
-            >
+          {CASE_NOTES.map((field) => (
+            <div key={field.key} className="border-t border-line/80 pt-5">
               <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{field.label}</dt>
               <dd className="mt-2.5 text-sm leading-relaxed text-muted">{project[field.key]}</dd>
             </div>
