@@ -114,6 +114,8 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <link rel="preconnect" href="https://api.open-meteo.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://api.github.com" crossOrigin="anonymous" />
       </head>
       <body className="relative min-h-full min-w-0 overflow-x-clip theme-craft-v2">
         <ThemeBootstrap />

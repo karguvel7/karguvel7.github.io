@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
 import { site } from "@/lib/content";
 
@@ -48,13 +47,18 @@ export function ProfilePhoto({
         <div className="profile-photo-frame portrait-premium">
           <div className="profile-photo-scan" aria-hidden="true" />
           <div className="profile-photo-ring" aria-hidden="true" />
-          <Image
-            src={site.profileImage}
+          {/* Static export ships images unoptimized, so the WebP srcset is hand-built. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={site.profileImageWebp[1].src}
+            srcSet={site.profileImageWebp.map((v) => `${v.src} ${v.width}w`).join(", ")}
+            sizes={sizes}
             alt={site.profileImageAlt}
             width={968}
             height={1162}
-            priority={priority}
-            sizes={sizes}
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
+            decoding="async"
             className="profile-photo-image"
           />
         </div>

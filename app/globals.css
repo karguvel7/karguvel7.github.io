@@ -20,7 +20,7 @@ html {
   --theme-canvas-elevated: #101824;
   --theme-ink: #f8fafc;
   --theme-muted: #94a3b8;
-  --theme-faint: #64748b;
+  --theme-faint: #7b889c;
   --theme-line: #1e293b;
   --theme-accent-blue: #3b82f6;
   --theme-accent-cyan: #38bdf8;
@@ -272,6 +272,8 @@ html[data-theme="light"] .galaxy-cinema-vignette {
   inset: 0;
   display: block;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease-out;
 }
 
 .daylight-canvas {
@@ -279,6 +281,13 @@ html[data-theme="light"] .galaxy-cinema-vignette {
   inset: 0;
   display: none;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease-out;
+}
+
+.galaxy-canvas[data-ready],
+.daylight-canvas[data-ready] {
+  opacity: 1;
 }
 
 html[data-theme="light"] .daylight-canvas {
@@ -294,7 +303,19 @@ html[data-theme="light"] .galaxy-canvas {
 }
 
 html[data-theme="light"] .hero-weather {
-  display: inline;
+  display: inline-block;
+}
+
+@media (max-width: 639px) {
+  html[data-theme="light"] .hero-weather {
+    display: block;
+    min-height: 1lh;
+    margin-top: 0.15rem;
+  }
+
+  html[data-theme="light"] .hero-weather-sep {
+    display: none;
+  }
 }
 
 .galaxy-content-veil {
@@ -907,8 +928,9 @@ html[data-motion="reduced"] .galaxy-deep {
   }
 
   @keyframes rise {
+    /* Not 0: Chrome skips opacity-0 text as an LCP candidate until the animation ends. */
     from {
-      opacity: 0;
+      opacity: 0.01;
       transform: translateY(22px) scale(0.98);
       filter: blur(12px);
     }
@@ -1638,28 +1660,6 @@ html[data-theme="light"] .profile-photo figcaption {
   }
 }
 
-.topology-canvas-skills {
-  height: auto;
-  aspect-ratio: 120 / 100;
-  max-height: 34rem;
-}
-
-.topology-pan-surface {
-  fill: transparent;
-  cursor: grab;
-}
-
-.topology-canvas.is-dragging .topology-pan-surface {
-  cursor: grabbing;
-}
-
-.topology-edge.is-highlight {
-  stroke: rgb(var(--accent-cyan-rgb) / 0.55);
-  stroke-width: 0.58;
-}
-
-.topology-node-group {
-  cursor: grab;
 .topology-node-group.is-grabbed .topology-node-ring {
   stroke: rgb(var(--accent-cyan-rgb) / 0.85);
   stroke-width: 0.6;
@@ -1703,6 +1703,28 @@ html[data-theme="light"] .profile-photo figcaption {
   background: rgb(var(--accent-rgb) / 0.16);
 }
 
+.topology-canvas-skills {
+  height: auto;
+  aspect-ratio: 120 / 100;
+  max-height: 34rem;
+}
+
+.topology-pan-surface {
+  fill: transparent;
+  cursor: grab;
+}
+
+.topology-canvas.is-dragging .topology-pan-surface {
+  cursor: grabbing;
+}
+
+.topology-edge.is-highlight {
+  stroke: rgb(var(--accent-cyan-rgb) / 0.55);
+  stroke-width: 0.58;
+}
+
+.topology-node-group {
+  cursor: grab;
   outline: none;
   touch-action: none;
   transition: opacity 0.3s ease;
@@ -2124,28 +2146,6 @@ html[data-theme="light"] .project-showcase-index {
   color: rgb(var(--accent-rgb) / 0.32);
 }
 
-.case-study-details {
-  border-top: 1px solid rgb(var(--theme-chrome-border) / 0.12);
-  padding-top: 0.25rem;
-}
-
-.case-study-details summary {
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  transition: color 0.2s ease;
-}
-
-.case-study-details summary::-webkit-details-marker {
 .case-story {
   display: grid;
   gap: 1.25rem;
@@ -2212,6 +2212,28 @@ html[data-theme="light"] .case-story-index {
   color: var(--color-ink);
 }
 
+.case-study-details {
+  border-top: 1px solid rgb(var(--theme-chrome-border) / 0.12);
+  padding-top: 0.25rem;
+}
+
+.case-study-details summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition: color 0.2s ease;
+}
+
+.case-study-details summary::-webkit-details-marker {
   display: none;
 }
 

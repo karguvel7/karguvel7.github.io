@@ -5,14 +5,18 @@ import { getWeatherSnapshot, subscribeWeather, weatherLabel } from "@/lib/weathe
 
 export function HeroWeather() {
   const snapshot = useSyncExternalStore(subscribeWeather, getWeatherSnapshot, () => null);
-  if (!snapshot) return null;
 
+  // The empty span reserves the slot so the label arriving later never shifts the hero.
   return (
-    <span className="hero-weather" data-source={snapshot.source}>
-      <span className="px-2" aria-hidden="true">
-        ·
-      </span>
-      {weatherLabel(snapshot)}
+    <span className="hero-weather" data-source={snapshot?.source}>
+      {snapshot ? (
+        <>
+          <span className="hero-weather-sep px-2" aria-hidden="true">
+            ·
+          </span>
+          {weatherLabel(snapshot)}
+        </>
+      ) : null}
     </span>
   );
 }

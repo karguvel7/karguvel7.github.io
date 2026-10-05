@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { afterLoadIdle } from "@/lib/idle";
 
 type Rgb = readonly [number, number, number];
 
@@ -394,6 +395,7 @@ export function GalaxyCanvas() {
     let raf = 0;
     let last = performance.now();
     let running = false;
+    let ready = false;
 
     const animated = () => !reducedQuery.matches;
     const interactive = () => animated() && !coarseQuery.matches;
@@ -615,7 +617,7 @@ export function GalaxyCanvas() {
     };
 
     const start = () => {
-      if (running || document.hidden || palette.light) return;
+      if (!ready || running || document.hidden || palette.light) return;
       if (!animated()) {
         draw(0);
         return;
@@ -634,6 +636,7 @@ export function GalaxyCanvas() {
     const onResize = () => {
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
+        if (!ready) return;
         rebuild();
         if (!running) draw(0);
       }, 140);
@@ -668,15 +671,20 @@ export function GalaxyCanvas() {
 
     const themeObserver = new MutationObserver(() => {
       const next = root.dataset.theme === "light" ? LIGHT : DARK;
-      if (next !== palette) {
+      if (ready && next !== palette) {
         stop();
         rebuild();
         start();
       }
     });
 
-    rebuild();
-    start();
+    // Star field + band are CPU-heavy; build them off the critical path so the hero paints first.
+    const cancelInit = afterLoadIdle(() => {
+      ready = true;
+      rebuild();
+      start();
+      canvas.dataset.ready = "true";
+    });
 
     window.addEventListener("resize", onResize);
     window.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -687,6 +695,7 @@ export function GalaxyCanvas() {
     themeObserver.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
 
     return () => {
+      cancelInit();
       stop();
       window.clearTimeout(resizeTimer);
       window.removeEventListener("resize", onResize);

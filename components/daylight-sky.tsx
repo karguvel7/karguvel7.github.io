@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { afterLoadIdle } from "@/lib/idle";
 import {
   FALLBACK_WEATHER,
   loadChennaiWeather,
@@ -180,6 +181,7 @@ export function DaylightSky() {
     let raf = 0;
     let last = performance.now();
     let running = false;
+    let ready = false;
 
     const isLight = () => root.dataset.theme === "light";
     const animated = () => !reducedQuery.matches;
@@ -507,7 +509,7 @@ export function DaylightSky() {
     };
 
     const start = () => {
-      if (running || document.hidden) return;
+      if (!ready || running || document.hidden) return;
       if (!isLight()) {
         clear();
         return;
@@ -535,12 +537,14 @@ export function DaylightSky() {
     const onResize = () => {
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
+        if (!ready) return;
         resize();
         if (!running && isLight()) draw(0);
       }, 140);
     };
 
     const onWeather = () => {
+      if (!ready) return;
       populate();
       if (!running && isLight()) draw(0);
     };
@@ -586,8 +590,13 @@ export function DaylightSky() {
 
     const themeObserver = new MutationObserver(restart);
 
-    resize();
-    start();
+    // Cloud sprites are CPU-heavy; build them off the critical path so the hero paints first.
+    const cancelInit = afterLoadIdle(() => {
+      ready = true;
+      resize();
+      start();
+      canvas.dataset.ready = "true";
+    });
 
     window.addEventListener("resize", onResize);
     window.addEventListener("kk-weather", onWeather);
@@ -599,6 +608,7 @@ export function DaylightSky() {
     themeObserver.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
 
     return () => {
+      cancelInit();
       stop();
       window.clearTimeout(resizeTimer);
       window.removeEventListener("resize", onResize);

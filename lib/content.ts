@@ -26,6 +26,10 @@ export const site = {
   github: "https://github.com/karguvel7",
   linkedin: "https://www.linkedin.com/in/karguvel-k-967975b8",
   profileImage: "/karguvel-k-portrait-v2.jpg",
+  profileImageWebp: [
+    { src: "/karguvel-k-portrait-v2-400.webp", width: 400 },
+    { src: "/karguvel-k-portrait-v2-720.webp", width: 720 },
+  ],
   profileImageAlt:
     "Professional portrait of Karguvel K, AI Architect specializing in AI systems and cloud platforms",
   headline:
