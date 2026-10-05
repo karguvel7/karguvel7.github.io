@@ -78,9 +78,7 @@ export function Hero() {
               with the company since February 2017
             </p>
 
-            <div className="hidden md:block">
-              <HeroAgentViz />
-            </div>
+            <HeroAgentViz />
           </div>
 
           <div className="rise rise-delay-2 mt-14 lg:col-span-5 lg:mt-4 xl:mt-0">

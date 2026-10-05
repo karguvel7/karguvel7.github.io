@@ -87,7 +87,7 @@ export function InteractiveTopology({
   nodes,
   edges,
   ariaLabel,
-  hint = "Drag nodes or pan the canvas. Arrow keys move focus; Enter selects.",
+  hint = "Drag nodes · pan empty space · tap a node for details",
   selectedId: selectedIdProp,
   onSelect,
   externalHoverId = null,
@@ -253,7 +253,31 @@ export function InteractiveTopology({
     nodeRefs.current.get(next.id)?.focus();
   };
 
+  const nudgeNode = (nodeId: string, dx: number, dy: number) => {
+    const margin = 7;
+    setPositions((prev) => {
+      const current = prev[nodeId];
+      if (!current) return prev;
+      return {
+        ...prev,
+        [nodeId]: {
+          x: clamp(current.x + dx, vb.minX + margin - pan.x, vb.minX + vb.width - margin - pan.x),
+          y: clamp(current.y + dy, vb.minY + margin - pan.y, vb.minY + vb.height - margin * 1.6 - pan.y),
+        },
+      };
+    });
+  };
+
   const onKeyDown = (event: KeyboardEvent<SVGGElement>, nodeId: string, index: number) => {
+    if (event.shiftKey && event.key.startsWith("Arrow")) {
+      event.preventDefault();
+      const step = 3;
+      if (event.key === "ArrowLeft") nudgeNode(nodeId, -step, 0);
+      if (event.key === "ArrowRight") nudgeNode(nodeId, step, 0);
+      if (event.key === "ArrowUp") nudgeNode(nodeId, 0, -step);
+      if (event.key === "ArrowDown") nudgeNode(nodeId, 0, step);
+      return;
+    }
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       setSelected(selectedId === nodeId ? null : nodeId);
@@ -303,7 +327,10 @@ export function InteractiveTopology({
         onLostPointerCapture={endDrag}
       >
         <title id={titleId}>{ariaLabel}</title>
-        <desc id={descId}>{hint}</desc>
+        <desc id={descId}>
+          {hint}. Keyboard: arrow keys move between nodes, Shift+arrow moves the focused node, Enter or Space
+          selects, Escape clears.
+        </desc>
         <defs>
           <linearGradient id={edgeGradId} x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="rgb(var(--accent-cyan-rgb))" stopOpacity="0.2" />

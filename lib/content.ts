@@ -204,16 +204,16 @@ export function skillGroupLayerDetail(groupId: (typeof skillGroups)[number]["id"
 }
 
 const heroFlowLayout = [
-  { id: "user", x: 10, y: 40 },
-  { id: "agent", x: 30, y: 22 },
-  { id: "tools", x: 52, y: 18 },
-  { id: "apis", x: 72, y: 34 },
-  { id: "data", x: 62, y: 58 },
-  { id: "services", x: 28, y: 58 },
+  { id: "user", x: 14, y: 30 },
+  { id: "agent", x: 48, y: 13 },
+  { id: "tools", x: 88, y: 12 },
+  { id: "apis", x: 128, y: 28 },
+  { id: "data", x: 104, y: 50 },
+  { id: "services", x: 54, y: 50 },
 ] as const;
 
 export const heroAgentTopology = {
-  viewBox: "0 0 100 76",
+  viewBox: "0 0 144 64",
   nodes: aiFlowStages.map((stage) => {
     const layout = heroFlowLayout.find((slot) => slot.id === stage.id);
     const accentById: Record<(typeof aiFlowStages)[number]["id"], Accent> = {

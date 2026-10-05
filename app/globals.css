@@ -1627,12 +1627,14 @@ html[data-theme="light"] .profile-photo figcaption {
 }
 
 .topology-canvas-hero {
-  height: 10rem;
+  height: auto;
+  aspect-ratio: 144 / 64;
 }
 
-@media (min-width: 640px) {
-  .topology-canvas-hero {
-    height: 11rem;
+@media (max-width: 639px) {
+  .topology-canvas-hero .topology-label {
+    font-size: 4.4px;
+    letter-spacing: 0.04em;
   }
 }
 
@@ -1658,6 +1660,49 @@ html[data-theme="light"] .profile-photo figcaption {
 
 .topology-node-group {
   cursor: grab;
+.topology-node-group.is-grabbed .topology-node-ring {
+  stroke: rgb(var(--accent-cyan-rgb) / 0.85);
+  stroke-width: 0.6;
+  stroke-dasharray: 1.4 1;
+}
+
+.topology-detail-slot {
+  min-height: 4.75rem;
+}
+
+.topology-detail-close {
+  border: 0;
+  background: transparent;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.topology-detail-close:hover,
+.topology-detail-close:focus-visible {
+  color: var(--color-ink);
+}
+
+.topology-link-chip {
+  border: 1px solid rgb(var(--accent-rgb) / 0.35);
+  background: rgb(var(--accent-rgb) / 0.08);
+  color: var(--color-ink);
+  padding: 0.2rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.topology-link-chip:hover,
+.topology-link-chip:focus-visible {
+  border-color: rgb(var(--accent-rgb) / 0.7);
+  background: rgb(var(--accent-rgb) / 0.16);
+}
+
   outline: none;
   touch-action: none;
   transition: opacity 0.3s ease;
