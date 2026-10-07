@@ -8,11 +8,11 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: "http://127.0.0.1:4173/talking-portfolio",
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npx serve out -l 4173",
+    command: "node scripts/serve-basepath.mjs",
     port: 4173,
     reuseExistingServer: !process.env.CI,
   },

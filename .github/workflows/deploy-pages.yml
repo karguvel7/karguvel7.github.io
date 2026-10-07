@@ -1,5 +1,5 @@
-# Build-only check for the talking-video portfolio branch.
-# Does NOT deploy to gh-pages — the live site stays on the gh-pages branch.
+# Build-only on karguvel7.github.io — never deploy to gh-pages.
+# Production deploy: repo karguvel7/talking-portfolio uses deploy-talking-portfolio-pages.yml on main.
 
 name: Build talking portfolio
 

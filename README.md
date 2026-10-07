@@ -55,7 +55,9 @@ Brand marks under `public/logos/` are from [Simple Icons](https://simpleicons.or
 
 To preview locally: `npm run build` then `npx serve out`.
 
-To publish the talking portfolio later, use a separate hosting target or a dedicated branch — not `gh-pages`.
+**Live preview (project site):** https://karguvel7.github.io/talking-portfolio/ — built from repo [karguvel7/talking-portfolio](https://github.com/karguvel7/talking-portfolio) (`main`). Uses `basePath` `/talking-portfolio`.
+
+The default site at https://karguvel7.github.io/ remains the `gh-pages` branch in this repo and is not modified by this project.
 
 ### Screenshots (CI / local)
 
