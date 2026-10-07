@@ -46,24 +46,16 @@ Add `public/resume.pdf` to show the Résumé button (hidden until the file exist
 
 Brand marks under `public/logos/` are from [Simple Icons](https://simpleicons.org/) (MIT). See `public/logos/LICENSE`.
 
-## Deploy (GitHub Pages)
+## Deploy
 
 | Branch | Role |
 | --- | --- |
-| **`main`** | Application source (this repo). Push here to ship changes. |
-| **`gh-pages`** | Generated static site only (`out/`). Do not edit by hand. |
+| **`gh-pages`** | **Live** portfolio (default branch). Do not overwrite from this project. |
+| **`talking-video-portfolio`** | Next.js talking-video source. CI builds `out/` and uploads a workflow artifact only. |
 
-On every push to **`main`**, [Deploy to GitHub Pages](.github/workflows/deploy-pages.yml) runs `npm run build` and replaces `gh-pages` with the contents of `out/`.
+To preview locally: `npm run build` then `npx serve out`.
 
-### After you merge the portfolio PR
-
-1. **Merge into `main`** (not into `gh-pages`). The PR should target `main`.
-2. Wait for the **Deploy to GitHub Pages** workflow on `main` to finish (about one minute).
-3. In the repo **Settings → Pages**, set **Build and deployment** to **Deploy from a branch**, branch **`gh-pages`**, folder **`/ (root)`**. (If it already points at `gh-pages`, leave it.)
-
-No local build is required. Merging to `main` is the only step.
-
-If source is ever pushed to `gh-pages` by mistake, the same workflow runs (when `package.json` is present), rebuilds, and restores the static site.
+To publish the talking portfolio later, use a separate hosting target or a dedicated branch — not `gh-pages`.
 
 ### Screenshots (CI / local)
 
