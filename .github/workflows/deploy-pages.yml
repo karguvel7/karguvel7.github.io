@@ -1,9 +1,18 @@
+# Builds the Next.js static export and publishes ONLY `out/` to `gh-pages`.
+#
+# Source of truth: `main` (package.json + src/).
+# Live site: `gh-pages` branch (orphan static files — no package.json).
+#
+# Triggers on push to `main`, or push to `gh-pages` when it still contains
+# source (e.g. right after a merge) so the site self-heals instead of staying broken.
+
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
+      - gh-pages
   workflow_dispatch:
 
 permissions:
@@ -15,11 +24,14 @@ concurrency:
 
 jobs:
   deploy:
+    if: hashFiles('package.json') != ''
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
@@ -31,7 +43,6 @@ jobs:
         run: npm run build
 
       - name: Publish out/ to gh-pages
-        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -39,4 +50,4 @@ jobs:
           publish_branch: gh-pages
           force_orphan: true
           enable_jekyll: false
-          commit_message: "Deploy talking portfolio"
+          commit_message: "Deploy static site from ${{ github.sha }}"
