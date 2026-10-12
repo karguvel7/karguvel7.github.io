@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { mobileNav, primaryNav, site } from "@/lib/content";
+import { mobileNav, primaryNav, site, talkingPortfolio } from "@/lib/content";
 
 const sectionIds = ["#top", ...primaryNav.map((item) => item.href)];
 
@@ -85,6 +85,12 @@ export function SiteHeader() {
               {item.label}
             </a>
           ))}
+          <a
+            href={talkingPortfolio.href}
+            className="nav-link nav-link-external text-sm text-muted hover:text-ink"
+          >
+            {talkingPortfolio.navLabel}
+          </a>
           <ThemeToggle />
           <a
             href={`mailto:${site.email}`}
@@ -121,6 +127,13 @@ export function SiteHeader() {
               {item.label}
             </a>
           ))}
+          <a
+            href={talkingPortfolio.href}
+            className="rounded-sm px-2 py-2.5 text-sm text-muted transition-colors hover:text-ink"
+            onClick={() => setOpen(false)}
+          >
+            {talkingPortfolio.navLabel}
+          </a>
           <a
             href={`mailto:${site.email}`}
             className="btn-secondary mt-2 w-full max-w-full border border-line px-3 py-2.5 text-sm text-ink sm:w-fit"

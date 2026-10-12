@@ -83,6 +83,17 @@ export const arc = [
   },
 ] as const;
 
+/** Same-domain companion site (karguvel7/talking-portfolio) with an introduction video. */
+export const talkingPortfolio = {
+  href: "/talking-portfolio/",
+  navLabel: "Video intro",
+  eyebrow: "Talking portfolio",
+  title: "Introduction video",
+  /** Matches the intro video `aria-label` on the talking portfolio. */
+  lede: "Introduction video of Karguvel K.",
+  cta: "Talking portfolio",
+} as const;
+
 export const primaryNav = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },

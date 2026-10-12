@@ -1,6 +1,7 @@
 import { sectionAccent } from "@/lib/accents";
 import { about } from "@/lib/content";
 import { Section, SectionHeading } from "@/components/section";
+import { TalkingPortfolioCta } from "@/components/talking-portfolio-cta";
 
 export function About() {
   const accent = sectionAccent.about;
@@ -62,6 +63,8 @@ export function About() {
           ))}
         </dl>
       </div>
+
+      <TalkingPortfolioCta />
     </Section>
   );
 }

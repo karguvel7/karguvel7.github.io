@@ -528,6 +528,37 @@ html[data-theme="light"] .about-stat-seq {
   border-radius: 0.875rem;
 }
 
+.talking-portfolio-cta {
+  position: relative;
+  overflow: hidden;
+}
+
+.talking-portfolio-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    rgb(var(--accent-violet-rgb) / 0.85),
+    rgb(var(--accent-violet-rgb) / 0.2)
+  );
+  pointer-events: none;
+}
+
+.talking-portfolio-cta-icon {
+  color: rgb(var(--accent-violet-rgb) / 0.95);
+}
+
+.talking-portfolio-cta-link:focus-visible {
+  outline: 2px solid rgb(var(--accent-blue-rgb) / 0.9);
+  outline-offset: 2px;
+}
+
+html[data-theme="light"] .talking-portfolio-cta-icon {
+  background: rgb(255 255 255 / 0.72);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .about-stat:hover {
     transform: translateY(-3px);
