@@ -1,5 +1,4 @@
 import { site } from "@/lib/content";
-import { AvailabilityPill } from "@/components/availability-pill";
 import { HeroAgentViz } from "@/components/hero-agent-viz";
 import { HeroArcInteractive } from "@/components/hero-arc-interactive";
 import { HeroWeather } from "@/components/hero-weather";
@@ -32,10 +31,6 @@ export function Hero() {
             <p className="rise rise-delay-3 type-hero-lede mt-7 max-w-2xl">
               {site.heroSupport}
             </p>
-
-            <div className="rise rise-delay-4 mt-8">
-              <AvailabilityPill />
-            </div>
 
             <div className="rise rise-delay-4 hero-cta-row mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <MagneticLink
