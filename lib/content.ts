@@ -142,9 +142,16 @@ export const skillGroups = [
   },
   {
     id: "backend",
-    title: "Backend",
+    title: "Full Stack",
     accent: "cyan" as const,
-    items: ["Node.js", "TypeScript", "Python", "REST & streaming APIs"],
+    items: [
+      "Node.js",
+      "TypeScript",
+      "Python",
+      "REST & streaming APIs",
+      "MongoDB",
+      "MEAN stack (Express, Angular, Node.js)",
+    ],
   },
   {
     id: "ai",
@@ -196,7 +203,11 @@ export const aiFlowStages = [
 export const architectureLayers = [
   { layer: "Frontend", detail: "Angular, React, agentic UI", accent: "emerald" as const },
   { layer: "API gateway", detail: "REST, OpenAPI, OAuth 2.0, streaming APIs", accent: "cyan" as const },
-  { layer: "Backend services", detail: "Node.js, TypeScript, event-driven microservices", accent: "cyan" as const },
+  {
+    layer: "Backend services",
+    detail: "Node.js, TypeScript, MEAN, MongoDB, event-driven microservices",
+    accent: "cyan" as const,
+  },
   { layer: "AI / agent layer", detail: "LLMs, agents, tool calling, RAG", accent: "violet" as const },
   { layer: "Data & integrations", detail: "MongoDB, PostgreSQL, Neo4j, external APIs", accent: "amber" as const },
   { layer: "Cloud platform", detail: "AWS, Azure, Docker, Kubernetes", accent: "cyan" as const },
@@ -675,8 +686,8 @@ export const stack = [
     technologies: "LLMs, Agentic AI, RAG, AI Agents, Tool Calling, Streaming",
   },
   {
-    area: "Backend",
-    technologies: "Node.js, TypeScript, Python, MEAN",
+    area: "Full Stack",
+    technologies: "Node.js, TypeScript, Python, MEAN, MongoDB",
   },
   {
     area: "Frontend",

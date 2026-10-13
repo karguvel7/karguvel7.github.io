@@ -56,7 +56,7 @@ export const workflowStepAccents: Accent[] = ["violet", "violet", "cyan", "emera
 
 export const stackRowAccent: Record<string, Accent> = {
   AI: "violet",
-  Backend: "cyan",
+  "Full Stack": "cyan",
   Frontend: "emerald",
   Cloud: "cyan",
   DevOps: "cyan",
