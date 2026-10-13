@@ -21,8 +21,6 @@ export const site = {
   email: "karguvel7@gmail.com",
   emailSubject: "Hello from your portfolio",
   location: "Chennai, India",
-  availability: "Open to remote",
-  rolesNote: "Open to AI and platform roles",
   github: "https://github.com/karguvel7",
   linkedin: "https://www.linkedin.com/in/karguvel-k-967975b8",
   profileImage: "/karguvel-k-portrait-v2.jpg",
@@ -40,7 +38,6 @@ export const site = {
     "Agentic systems, enterprise copilots, and the cloud infrastructure and observability around them — from LLM orchestration to production operations.",
   description:
     "AI Architect at Innoart Technologies. Building production AI systems, scalable applications, and modern cloud infrastructure.",
-  availabilityLabel: "Open to remote · AI & platform roles",
 } as const;
 
 export const roles = [
@@ -120,7 +117,7 @@ export const about = {
     { label: "Role", value: "AI Architect" },
     { label: "Employer", value: "Innoart Technologies Private Limited" },
     { label: "Tenure", value: "February 2017 — present · 9+ years" },
-    { label: "Based", value: "Chennai, India · open to remote" },
+    { label: "Based", value: "Chennai, India" },
   ],
   applicationStack:
     "Scalable applications with Node.js, Angular, React, AWS, Azure, Docker, CI/CD, microservices, and modern LLM and agent frameworks.",

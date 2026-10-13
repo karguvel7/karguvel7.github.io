@@ -27,13 +27,7 @@ export function Contact() {
           >
             {site.email}
           </a>
-          <p className="mt-4 text-sm text-muted">
-            {site.location}
-            <span className="px-2" aria-hidden="true">
-              ·
-            </span>
-            {site.availability}
-          </p>
+          <p className="mt-4 text-sm text-muted">{site.location}</p>
         </div>
         <ul className="space-y-4 text-sm lg:col-span-5">
           <li>
