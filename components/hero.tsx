@@ -44,6 +44,13 @@ export function Hero() {
               >
                 View projects
               </MagneticLink>
+              <MagneticLink
+                href={site.resumePdf}
+                download
+                className="btn-secondary btn-secondary-accent btn-lift inline-flex h-12 min-w-[11rem] items-center justify-center border px-6 text-sm text-ink"
+              >
+                Download resume
+              </MagneticLink>
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-2">
               <MagneticLink
                 href={site.github}

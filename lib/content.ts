@@ -35,20 +35,29 @@ export const site = {
   headline:
     "AI Architect building intelligent, scalable systems.",
   heroSupport:
-    "Full-stack engineer specializing in production AI applications, distributed systems, cloud platforms, and developer automation — from agent orchestration to observability.",
+    "AI Architect specializing in production AI applications, distributed systems, cloud platforms, and developer automation — from agent orchestration to observability.",
   summary:
     "Agentic systems, enterprise copilots, and the cloud infrastructure and observability around them — from LLM orchestration to production operations.",
   description:
-    "AI Architect at Innoart Technologies. Building production AI systems, scalable applications, and modern cloud infrastructure.",
+    "AI Architect at Innoart Technologies Private Limited since September 2026, with Innoart continuously since February 2017. Production AI systems, cloud platforms, and enterprise software.",
   availabilityLabel: "Open to remote · AI & platform roles",
+  ogImage: "/og.jpg",
+  resumePdf: "/Karguvel-K-Resume.pdf",
 } as const;
 
+/** Capability chips under the hero — current title leads; not alternate job titles. */
 export const roles = [
+  "AI Architect",
   "AI Engineer",
-  "DevOps Engineer",
-  "Full-Stack Engineer",
   "Software Architect",
+  "DevOps Engineer",
 ] as const;
+
+export const contactForm = {
+  /** FormSubmit.co — first successful POST sends a confirmation email to activate. */
+  endpoint: `https://formsubmit.co/ajax/${site.email}`,
+  subject: "Portfolio contact form",
+} as const;
 
 export const arc = [
   {

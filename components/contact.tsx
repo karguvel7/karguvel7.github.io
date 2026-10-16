@@ -1,5 +1,7 @@
 import { sectionAccent } from "@/lib/accents";
+import { ContactForm } from "@/components/contact-form";
 import { contactCta, mailtoHref, site } from "@/lib/content";
+import { MagneticLink } from "@/components/magnetic-link";
 import { Section, SectionHeading } from "@/components/section";
 
 export function Contact() {
@@ -34,6 +36,13 @@ export function Contact() {
             </span>
             {site.availability}
           </p>
+          <MagneticLink
+            href={site.resumePdf}
+            download
+            className="btn-secondary btn-secondary-accent mt-6 inline-flex h-11 items-center justify-center border border-line px-5 text-sm text-ink"
+          >
+            Download resume
+          </MagneticLink>
         </div>
         <ul className="space-y-4 text-sm lg:col-span-5">
           <li>
@@ -58,6 +67,8 @@ export function Contact() {
           </li>
         </ul>
       </div>
+
+      <ContactForm />
     </Section>
   );
 }

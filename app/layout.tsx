@@ -35,70 +35,78 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const seoTitle = "Karguvel K · AI Architect";
+const seoDescription = site.description;
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Karguvel K · AI Architect · AI Systems",
+    default: seoTitle,
     template: "%s · Karguvel K",
   },
-  description: site.description,
-  applicationName: "Karguvel K",
-  authors: [{ name: site.name, url: site.github }],
-  creator: site.name,
-  alternates: { canonical: "/" },
+  description: seoDescription,
+  applicationName: site.name,
+  authors: [{ name: site.fullName, url: site.github }],
+  creator: site.fullName,
+  alternates: { canonical: site.url },
   openGraph: {
-    title: "Karguvel K · AI Architect · AI Systems",
-    description: site.summary,
+    title: seoTitle,
+    description: seoDescription,
     url: site.url,
     siteName: site.name,
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: site.profileImage,
-        width: 968,
-        height: 1162,
-        alt: site.profileImageAlt,
+        url: site.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${site.fullName} — ${site.jobTitle}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Karguvel K · AI Architect · AI Systems",
-    description: site.summary,
-    images: [site.profileImage],
+    title: seoTitle,
+    description: seoDescription,
+    images: [site.ogImage],
   },
   robots: { index: true, follow: true },
 };
 
-const jsonLd = {
+const personJsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfilePage",
+  "@type": "Person",
+  name: site.fullName,
+  alternateName: [site.name, site.handle],
   url: site.url,
-  mainEntity: {
-    "@type": "Person",
-    name: site.fullName,
-    alternateName: [site.name, site.handle],
-    url: site.url,
-    email: site.email,
-    jobTitle: site.jobTitle,
-    description: site.description,
-    worksFor: {
-      "@type": "Organization",
-      name: site.employer,
-    },
-    alumniOf: experience.education.map((item) => ({
-      "@type": "CollegeOrUniversity",
-      name: item.school,
-    })),
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Chennai",
-      addressCountry: "IN",
-    },
-    image: `${site.url}${site.profileImage}`,
-    sameAs: [site.github, site.linkedin],
+  email: site.email,
+  jobTitle: site.jobTitle,
+  description: site.description,
+  worksFor: {
+    "@type": "Organization",
+    name: site.employer,
   },
+  alumniOf: experience.education.map((item) => ({
+    "@type": "CollegeOrUniversity",
+    name: item.school,
+  })),
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Chennai",
+    addressCountry: "IN",
+  },
+  image: `${site.url}${site.ogImage}`,
+  sameAs: [site.github, site.linkedin],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  url: site.url,
+  description: site.description,
+  author: { "@type": "Person", name: site.fullName },
 };
 
 export default function RootLayout({
@@ -124,7 +132,11 @@ export default function RootLayout({
           <div className="grid-fade" aria-hidden="true" />
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
           />
           {children}
         </MotionShell>

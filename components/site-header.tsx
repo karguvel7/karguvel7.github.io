@@ -135,6 +135,14 @@ export function SiteHeader() {
             {talkingPortfolio.navLabel}
           </a>
           <a
+            href={site.resumePdf}
+            download
+            className="rounded-sm px-2 py-2.5 text-sm text-muted transition-colors hover:text-ink"
+            onClick={() => setOpen(false)}
+          >
+            Download resume
+          </a>
+          <a
             href={`mailto:${site.email}`}
             className="btn-secondary mt-2 w-full max-w-full border border-line px-3 py-2.5 text-sm text-ink sm:w-fit"
             onClick={() => setOpen(false)}
