@@ -674,6 +674,29 @@ export const projects: readonly CaseStudy[] = [
       "Operational visibility for a distributed system: service and entity tracking, audit events, and alerts.",
   },
   {
+    id: "specguard",
+    title: "SpecGuard",
+    summary:
+      "TypeScript OpenAPI 3.0/3.1 breaking-change detector — library, CLI, CI action, and Dockerfile with Vitest coverage.",
+    pipeline: ["OpenAPI documents", "Compatibility diff", "CLI reports", "CI integration"],
+    tags: ["TypeScript", "OpenAPI", "Vitest", "CI/CD", "Docker"],
+    categories: ["Full-Stack", "Automation"],
+    accent: "emerald",
+    problem:
+      "API teams need to catch breaking contract changes between OpenAPI revisions before clients and integrators fail in production.",
+    architecture:
+      "A TypeScript library diffs two OpenAPI 3.0/3.1 documents with client-compatibility rules. A CLI emits text and JSON reports with configurable fail-on severity. CI integration and a Docker image package the same checks for pipelines — no hosted service.",
+    technologies: "TypeScript, OpenAPI 3.0/3.1, Vitest, CI/CD, Docker.",
+    contribution:
+      "Built the library, CLI, CI integration, and Docker packaging with Vitest coverage — diffs, reporting, and pipeline-ready enforcement.",
+    challenges:
+      "Encoding breaking-change rules teams can trust across OpenAPI 3.0 and 3.1, with clear CLI output and severity thresholds for automation.",
+    solution:
+      "SpecGuard combines document diffing, structured reports, and CI-ready packaging so breaking changes surface before release.",
+    outcome:
+      "MIT-licensed OpenAPI breaking-change detection for local workflows and automated pipelines.",
+  },
+  {
     id: "ai-developer-productivity",
     title: "AI Developer Productivity",
     summary:

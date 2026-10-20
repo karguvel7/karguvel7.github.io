@@ -28,8 +28,10 @@ export function GithubLab() {
           { headers: { Accept: "application/vnd.github+json" } },
         );
         if (!response.ok) throw new Error(`GitHub API ${response.status}`);
-        const data = (await response.json()) as Repo[];
-        if (!cancelled) setRepos(data);
+        const data = ((await response.json()) as Repo[]).filter(
+          (repo) => repo.name.toLowerCase() !== "specguard",
+        );
+        if (!cancelled) setRepos(data.slice(0, 6));
       } catch {
         if (!cancelled) setError("Could not load repositories right now.");
       } finally {
