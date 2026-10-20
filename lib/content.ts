@@ -21,8 +21,6 @@ export const site = {
   email: "karguvel7@gmail.com",
   emailSubject: "Hello from your portfolio",
   location: "Chennai, India",
-  availability: "Open to remote",
-  rolesNote: "Open to AI and platform roles",
   github: "https://github.com/karguvel7",
   linkedin: "https://www.linkedin.com/in/karguvel-k-967975b8",
   profileImage: "/karguvel-k-portrait-v2.jpg",
@@ -40,7 +38,6 @@ export const site = {
     "Agentic systems, enterprise copilots, and the cloud infrastructure and observability around them — from LLM orchestration to production operations.",
   description:
     "AI Architect at Innoart Technologies Private Limited since September 2026, with Innoart continuously since February 2017. Production AI systems, cloud platforms, and enterprise software.",
-  availabilityLabel: "Open to remote · AI & platform roles",
   ogImage: "/og.jpg",
   resumePdf: "/Karguvel-K-Resume.pdf",
 } as const;
@@ -129,7 +126,7 @@ export const about = {
     { label: "Role", value: "AI Architect" },
     { label: "Employer", value: "Innoart Technologies Private Limited" },
     { label: "Tenure", value: "February 2017 — present · 9+ years" },
-    { label: "Based", value: "Chennai, India · open to remote" },
+    { label: "Based", value: "Chennai, India" },
   ],
   applicationStack:
     "Scalable applications with Node.js, Angular, React, AWS, Azure, Docker, CI/CD, microservices, and modern LLM and agent frameworks.",
@@ -166,7 +163,15 @@ export const skillGroups = [
     id: "ai",
     title: "AI / LLM",
     accent: "violet" as const,
-    items: ["LLMs", "Agentic AI", "RAG", "Tool calling", "Multi-agent orchestration"],
+    items: [
+      "LLMs",
+      "Agentic AI",
+      "AWS Bedrock",
+      "Prompt engineering",
+      "RAG",
+      "Tool calling",
+      "Multi-agent orchestration",
+    ],
   },
   {
     id: "cloud",
@@ -393,11 +398,15 @@ export const experience = {
   education: [
     {
       credential: "Master of Computer Application",
+      campus: "Anand Institute",
       school: "Anna University",
+      year: 2015,
     },
     {
       credential: "BSc Computer Science",
+      campus: "Syed Hameedha",
       school: "Alagappa University",
+      year: 2013,
     },
   ],
 } as const;
@@ -692,7 +701,7 @@ export const projects: readonly CaseStudy[] = [
 export const stack = [
   {
     area: "AI",
-    technologies: "LLMs, Agentic AI, RAG, AI Agents, Tool Calling, Streaming",
+    technologies: "LLMs, Agentic AI, AWS Bedrock, Prompt engineering, RAG, AI Agents, Tool Calling, Streaming",
   },
   {
     area: "Full Stack",

@@ -97,7 +97,9 @@ export function Experience() {
           {experience.education.map((item) => (
             <div key={item.credential} className="bg-canvas p-5">
               <dt className="text-sm font-medium text-ink">{item.credential}</dt>
-              <dd className="mt-1 text-sm text-muted">{item.school}</dd>
+              <dd className="mt-1 text-sm text-muted">
+                {item.campus} ({item.school}) · {item.year}
+              </dd>
             </div>
           ))}
         </dl>

@@ -34,7 +34,7 @@ export function Contact() {
             <span className="px-2" aria-hidden="true">
               ·
             </span>
-            {site.availability}
+            {site.location}
           </p>
           <MagneticLink
             href={site.resumePdf}

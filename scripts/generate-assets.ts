@@ -79,7 +79,7 @@ function writePdf(): Promise<void> {
 
     h1("Education");
     for (const ed of experience.education) {
-      body(`${ed.credential} — ${ed.school}`);
+      body(`${ed.credential} — ${ed.campus} (${ed.school}), ${ed.year}`);
     }
 
     h1("Technical skills");
