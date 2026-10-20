@@ -130,20 +130,6 @@ function CaseStudyCard({
 
       <p className="project-showcase-summary mt-6 max-w-3xl text-muted">{project.summary}</p>
 
-      {project.id === "specguard" ? (
-        <div
-          className="mt-8 overflow-hidden rounded-sm border border-line bg-[color-mix(in_srgb,var(--color-ink)_3%,transparent)] p-4 sm:p-5"
-          aria-hidden="true"
-        >
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-            Illustrative CLI
-          </p>
-          <pre className="mt-3 overflow-x-auto font-mono text-xs leading-relaxed text-ink/90 sm:text-sm">
-            {`$ specguard diff openapi/v1.yaml openapi/v2.yaml\n✖ breaking: removed GET /users/:id`}
-          </pre>
-        </div>
-      ) : null}
-
       <ol className="case-story mt-8" aria-label={`${project.title}: problem, system, outcome`}>
         {CASE_STORY.map((step, index) => (
           <li key={step.key} className="case-story-step">

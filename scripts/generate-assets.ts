@@ -88,11 +88,7 @@ function writePdf(): Promise<void> {
     }
 
     h1("Selected systems");
-    const resumeProjects = [
-      ...projects.filter((p) => p.id === "specguard"),
-      ...projects.filter((p) => p.id !== "specguard").slice(0, 5),
-    ];
-    for (const project of resumeProjects) {
+    for (const project of projects.slice(0, 5)) {
       h2(project.title);
       body(project.summary);
       body(`Outcome: ${project.outcome}`);
