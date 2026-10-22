@@ -13,7 +13,7 @@ import {
 const cycle: ThemePreference[] = ["system", "light", "dark"];
 
 function readPreferenceFromDom(): ThemePreference {
-  if (typeof document === "undefined") return "system";
+  if (typeof document === "undefined") return "dark";
   const fromDom = document.documentElement.dataset.themePreference;
   if (fromDom === "light" || fromDom === "dark" || fromDom === "system") return fromDom;
   return readStoredPreference();
@@ -42,7 +42,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 
   const onToggle = useCallback(() => {
     const index = cycle.indexOf(preference);
-    const next = cycle[(index + 1) % cycle.length] ?? "system";
+    const next = cycle[(index + 1) % cycle.length] ?? "dark";
     localStorage.setItem(THEME_STORAGE_KEY, next);
     applyTheme(next);
     setPreference(next);

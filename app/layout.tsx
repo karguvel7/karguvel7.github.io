@@ -118,6 +118,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      data-theme="dark"
+      data-theme-preference="dark"
+      style={{ colorScheme: "dark" }}
       suppressHydrationWarning
     >
       <head>

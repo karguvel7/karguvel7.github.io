@@ -2,6 +2,9 @@ export const THEME_STORAGE_KEY = "portfolio-theme-preference";
 
 export type ThemePreference = "system" | "light" | "dark";
 
+/** First-time visitors (no saved preference) start in dark mode. */
+export const DEFAULT_THEME_PREFERENCE: ThemePreference = "dark";
+
 export type ResolvedTheme = "light" | "dark";
 
 export function resolveTheme(preference: ThemePreference): ResolvedTheme {
@@ -20,11 +23,11 @@ export function applyTheme(preference: ThemePreference) {
 }
 
 export function readStoredPreference(): ThemePreference {
-  if (typeof window === "undefined") return "system";
+  if (typeof window === "undefined") return DEFAULT_THEME_PREFERENCE;
   const stored = localStorage.getItem(THEME_STORAGE_KEY);
   if (stored === "light" || stored === "dark" || stored === "system") return stored;
-  return "system";
+  return DEFAULT_THEME_PREFERENCE;
 }
 
 /** Inline boot script — must run before first paint (static export safe). */
-export const themeInitScript = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};function apply(){var p=localStorage.getItem(k)||"system";var d=p==="dark"||(p==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var r=document.documentElement;r.dataset.themePreference=p;r.dataset.theme=d?"dark":"light";r.style.colorScheme=d?"dark":"light";}apply();document.addEventListener("DOMContentLoaded",apply);if(typeof requestAnimationFrame==="function"){requestAnimationFrame(function(){apply();requestAnimationFrame(apply);});}}catch(e){document.documentElement.dataset.theme="dark";}})();`;
+export const themeInitScript = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var def=${JSON.stringify(DEFAULT_THEME_PREFERENCE)};function apply(){var p=localStorage.getItem(k)||def;var d=p==="dark"||(p==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var r=document.documentElement;r.dataset.themePreference=p;r.dataset.theme=d?"dark":"light";r.style.colorScheme=d?"dark":"light";}apply();document.addEventListener("DOMContentLoaded",apply);if(typeof requestAnimationFrame==="function"){requestAnimationFrame(function(){apply();requestAnimationFrame(apply);});}}catch(e){document.documentElement.dataset.theme="dark";document.documentElement.dataset.themePreference="dark";document.documentElement.style.colorScheme="dark";}})();`;
